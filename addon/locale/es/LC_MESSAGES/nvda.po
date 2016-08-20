@@ -1,0 +1,124 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-19 22:32+0200\n"
+"PO-Revision-Date: 2016-08-19 22:34+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: suma:29
+msgid "Copied to clipboard"
+msgstr "Copiado al portapapeles"
+
+#: suma:40
+#, python-format
+msgid "Status bar: %s"
+msgstr "Barra de estado: %s "
+
+#: suma:42
+msgid "Status bar not found"
+msgstr "No se encontró la barra de estado"
+
+#: suma:47
+msgid "Reads the status bar. If pressed twice quickly, copies it to clipboard."
+msgstr ""
+"Lee la barra de estado. Si se pulsa dos veces rápidamente, la copia al "
+"portapapeles. "
+
+#: suma:59
+#, python-format
+msgid "Page address is: %s (%s)"
+msgstr "La dirección de la página es: %s (%s) "
+
+#: suma:61
+msgid "Address not found"
+msgstr "Dirección no encontrada"
+
+#: suma:66
+msgid ""
+"Reads the page address. If pressed twice quickly, copies it to clipboard."
+msgstr ""
+"Lee la dirección de la página. Si se pulsa dos veces rápidamente, la copia "
+"al portapapeles. "
+
+#: suma:82
+msgid ""
+"Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool "
+"bar."
+msgstr ""
+"Muestra una lista de pestañas abiertas. Si se pulsa dos veces rápidamente, "
+"muestra los botones de la barra de herramientas. "
+
+#: suma:93
+msgid "Opened tabs"
+msgstr "Pestañas abiertas"
+
+#: suma:100
+msgid "Tool Bar Buttons"
+msgstr "Botones de la barra de herramientas"
+
+#: suma:118
+msgid "&Go"
+msgstr "&Ir"
+
+#: suma:122
+msgid "&Options"
+msgstr "&Opciones"
+
+#: suma:125
+msgid "Close"
+msgstr "Cerrar"
+
+#: suma:195
+msgid ""
+"Reads the sender and recipients of the message. If pressed twice quickly, "
+"opens the options menu."
+msgstr ""
+"Lee el remitente y los destinatarios del mensaje. Si se pulsa dos veces "
+"rápidamente, abre el menú de opciones. "
+
+#: suma:203 suma:215 suma:234
+msgid "Not found"
+msgstr "No encontrado"
+
+#: suma:205 suma:217 suma:242
+msgid "you are not in a message window"
+msgstr "No estás en una ventana de mensaje "
+
+#: suma:207
+msgid "Reads the subject of the message."
+msgstr "Lee el asunto del mensaje. "
+
+#: suma:219
+msgid "Reads date of the message."
+msgstr "Lee la fecha del mensaje. "
+
+#: suma:259
+msgid "Property page not found"
+msgstr "No se encontró la página de propiedades"
+
+#~ msgid ""
+#~ "Reads the sender of the message. If pressed twice quickly, opens the "
+#~ "options menu."
+#~ msgstr ""
+#~ "Lee el remitente del mensaje. Si se pulsa dos veces rápidamente, abre el "
+#~ "menú de opciones. "
+
+#~ msgid ""
+#~ "Reads the recipient of the message. If pressed twice quickly, opens the "
+#~ "options menu."
+#~ msgstr ""
+#~ "Lee el destinatario del mensaje. Si se pulsa dos veces rápidamente, abre "
+#~ "el menú de opciones. "
