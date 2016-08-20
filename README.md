@@ -2,12 +2,8 @@
  
  add-on that provides NVDA scripts for Mozilla   
  
-<<<<<<< HEAD
 ## Firefox
-=======
- ## Firefox
->>>>>>> bf03e5db9fb0c0300d88ce47fd5eebf35ea1ff6c
- 
+
 * NVDA+A Reads the page address. If pressed twice quickly, copies it to clipboard.
 * NVDA+Numpad3 or NVDA+End Reads the status bar. If pressed twice quickly, copies it to clipboard.
 * NVDA+F8 Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool bar.
