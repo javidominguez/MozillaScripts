@@ -23,7 +23,11 @@ addon_info = {
 	# Author(s)
 	"addon_author" : u"Javi Dominguez <fjavids@gmail.com>",
 	# URL for the add-on documentation support
-	"addon_url" : 'https://github.com/javidominguez/MozillaScripts',
+<<<<<<< HEAD
+	"addon_url" : '',
+=======
+	"addon_url" : '',
+>>>>>>> bf03e5db9fb0c0300d88ce47fd5eebf35ea1ff6c
 	# File name for the add-on help file.
 	"addon_docFileName" : "readme.html"
 }
