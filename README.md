@@ -11,6 +11,7 @@
 ## Thunderbird
  
 In a message window:
+
 * Control+Shift+(1-4) Reads the sender and recipients of the message. If pressed twice quickly, opens the options menu.
 * Control+Shift+5 Reads the subject of the message.
 * Control+Shift+6 Reads date of the message.

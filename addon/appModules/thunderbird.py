@@ -93,7 +93,8 @@ class AppModule(appModuleHandler.AppModule):
 			propertyPages = filter(lambda o: o.role == controlTypes.ROLE_PROPERTYPAGE, filter(lambda o: o.role == controlTypes.ROLE_GROUPING, fg.children)[0].children)
 			return(propertyPages[0])
 		except IndexError:
-			ui.message (_("Property page not found"))
+			# When message is opened in a new window there are not a property page. Address fields hang directly from foreground.
+			return(fg)
 
 	__gestures = {
 		"kb:Control+Shift+1": "readAddressField",

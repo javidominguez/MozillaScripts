@@ -1,0 +1,131 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 'Mozilla' '1.0'\n"
+"Report-Msgid-Bugs-To: 'nvda-translations@freelists.org'\n"
+"POT-Creation-Date: 2016-08-20 17:51+0400\n"
+"PO-Revision-Date: 2016-08-20 18:38+0400\n"
+"Last-Translator: Ruslan Kolodyazhni <eye0@rambler.ru>\n"
+"Language-Team: Translators\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.10\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: ru\n"
+
+#: addon\appModules\firefox.py:29
+msgid "Copied to clipboard"
+msgstr "Скопировано в буфер"
+
+#: addon\appModules\firefox.py:40
+#, python-format
+msgid "Status bar: %s"
+msgstr "Строка состояния: %s"
+
+#: addon\appModules\firefox.py:42
+msgid "Status bar not found"
+msgstr "Строка состояния не найдена"
+
+#. Translators: Message presented in input help mode.
+#: addon\appModules\firefox.py:47
+msgid "Reads the status bar. If pressed twice quickly, copies it to clipboard."
+msgstr ""
+"Читает строку состояния. Если нажать быстро дважды, копирует её в буфер "
+"обмена."
+
+#: addon\appModules\firefox.py:59
+#, python-format
+msgid "Page address is: %s (%s)"
+msgstr "Адрес страницы: %s (%s)"
+
+#: addon\appModules\firefox.py:61
+msgid "Address not found"
+msgstr "Адрес не найден"
+
+#. Translators: Message presented in input help mode.
+#: addon\appModules\firefox.py:66
+msgid ""
+"Reads the page address. If pressed twice quickly, copies it to clipboard."
+msgstr ""
+"Читает Адрес страницы. Если нажать быстро дважды, копирует его в буфер."
+
+#. Translators: Message presented in input help mode.
+#: addon\appModules\firefox.py:82
+msgid ""
+"Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool "
+"bar."
+msgstr ""
+"Показывает список открытых вкладок. Если нажать быстро дважды, показывает "
+"кнопки панели инструментов."
+
+#: addon\appModules\firefox.py:93
+msgid "Opened tabs"
+msgstr "Открытые вкладки"
+
+#: addon\appModules\firefox.py:100
+msgid "Tool Bar Buttons"
+msgstr "Кнопки панели инструментов"
+
+#: addon\appModules\firefox.py:118
+msgid "&Go"
+msgstr "&Перейти"
+
+#: addon\appModules\firefox.py:122
+msgid "&Options"
+msgstr "&Настройки"
+
+#: addon\appModules\firefox.py:125
+msgid "Close"
+msgstr "Закрыть"
+
+#. Translators: Message presented in input help mode.
+#: addon\appModules\thunderbird.py:32
+msgid ""
+"Reads the sender and recipients of the message. If pressed twice quickly, "
+"opens the options menu."
+msgstr ""
+"Читает отправителя и получателей сообщения. Если нажать быстро дважды, "
+"открывает меню настроек."
+
+#: addon\appModules\thunderbird.py:40 addon\appModules\thunderbird.py:52
+#: addon\appModules\thunderbird.py:71
+msgid "Not found"
+msgstr "Не найдено"
+
+#: addon\appModules\thunderbird.py:42 addon\appModules\thunderbird.py:54
+#: addon\appModules\thunderbird.py:79
+msgid "you are not in a message window"
+msgstr "Вы не в окне сообщения"
+
+#. Translators: Message presented in input help mode.
+#: addon\appModules\thunderbird.py:44
+msgid "Reads the subject of the message."
+msgstr "Читает тему сообщения."
+
+#. Translators: Message presented in input help mode.
+#: addon\appModules\thunderbird.py:56
+msgid "Reads date of the message."
+msgstr "Читает дату сообщения."
+
+#: addon\appModules\thunderbird.py:96
+msgid "Property page not found"
+msgstr "Страница свойств не найдена"
+
+#. Add-on summary, usually the user visible name of the addon.
+#. Translators: Summary for this add-on to be shown on installation and add-on information.
+#: buildVars.py:17
+msgid "Mozilla Scripts"
+msgstr "Mozilla Scripts"
+
+#. Add-on description
+#. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
+#: buildVars.py:20
+msgid "Provides NVDA scripts for Mozilla Firefox and Thunderbird"
+msgstr ""
+"Предоставляет сценарии программы NVDA для Mozilla Firefox и Thunderbird"

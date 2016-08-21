@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-# Mozilla Firefox Scripts version 1.0dev (august 2016)
+# Mozilla Firefox Scripts version 1.0.1dev (august 2016)
 # Author Javi Dominguez <fjavids@gmail.com>
 
 from nvdaBuiltin.appModules.firefox import *
@@ -10,8 +10,6 @@ import scriptHandler
 import controlTypes
 import api
 import ui
-from time import sleep
-import win32clipboard
 import winUser
 import gui
 import wx
@@ -20,13 +18,6 @@ addonHandler.initTranslation()
 
 class AppModule(appModuleHandler.AppModule):
 	tbDialog = None
-
-	def copyToClipboard(self, text):
-		win32clipboard.OpenClipboard()
-		win32clipboard.EmptyClipboard()
-		win32clipboard.SetClipboardText(text)
-		win32clipboard.CloseClipboard()
-		ui.message(_("Copied to clipboard"))
 
 	def script_status(self, gesture):
 		fg = api.getForegroundObject()
@@ -42,7 +33,8 @@ class AppModule(appModuleHandler.AppModule):
 			ui.message (_("Status bar not found"))
 		else:
 			if scriptHandler.getLastScriptRepeatCount() == 1:
-				self.copyToClipboard(obj.name)
+				if api.copyToClip(obj.name):
+					ui.message(_("Copied to clipboard"))
 	# Translators: Message presented in input help mode.
 	script_status.__doc__ = _("Reads the status bar. If pressed twice quickly, copies it to clipboard.")
 
@@ -61,23 +53,25 @@ class AppModule(appModuleHandler.AppModule):
 			ui.message (_("Address not found"))
 		else:
 			if scriptHandler.getLastScriptRepeatCount() == 1:
-				self.copyToClipboard(url)
+				if api.copyToClip(url):
+					ui.message(_("Copied to clipboard"))
 	# Translators: Message presented in input help mode.
 	script_url.__doc__ = _("Reads the page address. If pressed twice quickly, copies it to clipboard.")
 
 	def script_toolsBar(self, gesture):
 		if not self.tbDialog:
 			self.tbDialog = toolsBarDialog(gui.mainFrame)
+		if scriptHandler.getLastScriptRepeatCount() == 0:
+			items, title = self.getTabsDialog()
+			title = "%d %s" % (len(items), title)
+		elif scriptHandler.getLastScriptRepeatCount() == 1: 
+			items, title = self.getButtonsDialog()
+		self.tbDialog.update(items, title)
 		if not self.tbDialog.IsShown():
 			gui.mainFrame.prePopup()
 			self.tbDialog.Show()
 			self.tbDialog.Centre()
 			gui.mainFrame.postPopup()
-		if scriptHandler.getLastScriptRepeatCount() == 0:
-			items, title, options = self.getTabsDialog()
-		elif scriptHandler.getLastScriptRepeatCount() == 1: 
-			items, title, options = self.getButtonsDialog()
-		self.tbDialog.update(items, title, options)
 	# Translators: Message presented in input help mode.
 	script_toolsBar.__doc__ = _("Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool bar.")
 
@@ -90,20 +84,35 @@ class AppModule(appModuleHandler.AppModule):
 				pass
 			else:
 				tabs = filter(lambda o: o.role == controlTypes.ROLE_TAB, tabControl.children)
-		return(tabs, _("Opened tabs"), True)
+				allTabsCount = len(tabs)
+				tabs = filter(lambda o: controlTypes.STATE_OFFSCREEN not in o.states, tabs)
+				# Tabs in end left and end right are excluded when they are partially hidden
+				if tabs[0].location[0] < 0:
+					tabs = tabs[1:]
+				try:
+					if tabs[-1].location[0]+tabs[-1].location[2] > tabControl.parent.children[1].location[0]:
+						tabs = tabs[:-1]
+				except IndexError:
+					pass
+				showedTabsCount = len(tabs)
+				# Add button Show all tabs to list when there are tabs offscreen
+				if allTabsCount > showedTabsCount:
+					tabs.append(tabControl.parent.children[2])
+		return(tabs, _("Opened tabs"))
 
 	def getButtonsDialog(self):
 		fg = api.getForegroundObject()
 		buttons = []
 		for toolBar in filter(lambda o: o.role == controlTypes.ROLE_TOOLBAR, fg.children):
 			buttons = buttons + filter(lambda o: o.role == controlTypes.ROLE_BUTTON, toolBar.children)
-		return(buttons, _("Tool Bar Buttons"), False)
+		return(buttons, _("Tool Bar Buttons"))
 
 	__gestures = {
 		"kb:NVDA+numpad3": "status",
 		"kb:NVDA+End": "status",
 		"kb:NVDA+F8": "toolsBar",
-		"kb:NVDA+A": "url"
+		"kb(desktop):NVDA+A": "url",
+		"kb(laptop):NVDA+Control+A": "url"
 	}
 
 class toolsBarDialog(wx.Dialog):
@@ -113,6 +122,7 @@ class toolsBarDialog(wx.Dialog):
 		mainSizer = wx.BoxSizer(wx.VERTICAL)
 		self.listBox = wx.ListBox(self, wx.NewId(), style=wx.LB_SINGLE, size=(300, 150))
 		mainSizer.Add(self.listBox)
+		self.Bind(wx.EVT_LISTBOX, self.onListBox, self.listBox)
 		buttonsSizer = wx.BoxSizer(wx.HORIZONTAL)
 		goButtonID = wx.NewId()
 		self.goButton = wx.Button(self, goButtonID, _("&Go"))
@@ -129,10 +139,9 @@ class toolsBarDialog(wx.Dialog):
 		self.SetSizer(mainSizer)
 		self.goButton.SetDefault()
 
-	def update(self, items, title, options):
+	def update(self, items, title):
 		self.items = items
 		self.SetTitle(title)
-		self.optionsButton.Enabled = options
 		self.listBox.SetItems([item.name for item in self.items])
 		self.listBox.SetFocus()
 
@@ -141,6 +150,12 @@ class toolsBarDialog(wx.Dialog):
 		if index is not None:
 			obj = self.items[index[0]]
 			return(obj)
+
+	def onListBox(self, event):
+		if self.getObjectFromList().role == controlTypes.ROLE_BUTTON:
+			self.optionsButton.Enabled = False
+		else:
+			self.optionsButton.Enabled = True
 
 	def onGoButton(self, event):
 		self.Hide()
