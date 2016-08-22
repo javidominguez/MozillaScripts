@@ -63,7 +63,6 @@ class AppModule(appModuleHandler.AppModule):
 			self.tbDialog = toolsBarDialog(gui.mainFrame)
 		if scriptHandler.getLastScriptRepeatCount() == 0:
 			items, title = self.getTabsDialog()
-			title = "%d %s" % (len(items), title)
 		elif scriptHandler.getLastScriptRepeatCount() == 1: 
 			items, title = self.getButtonsDialog()
 		self.tbDialog.update(items, title)
@@ -84,21 +83,7 @@ class AppModule(appModuleHandler.AppModule):
 				pass
 			else:
 				tabs = filter(lambda o: o.role == controlTypes.ROLE_TAB, tabControl.children)
-				allTabsCount = len(tabs)
-				tabs = filter(lambda o: controlTypes.STATE_OFFSCREEN not in o.states, tabs)
-				# Tabs in end left and end right are excluded when they are partially hidden
-				if tabs[0].location[0] < 0:
-					tabs = tabs[1:]
-				try:
-					if tabs[-1].location[0]+tabs[-1].location[2] > tabControl.parent.children[1].location[0]:
-						tabs = tabs[:-1]
-				except IndexError:
-					pass
-				showedTabsCount = len(tabs)
-				# Add button Show all tabs to list when there are tabs offscreen
-				if allTabsCount > showedTabsCount:
-					tabs.append(tabControl.parent.children[2])
-		return(tabs, _("Opened tabs"))
+		return(tabs, "%d %s" % (len(tabs), _("Opened tabs")))
 
 	def getButtonsDialog(self):
 		fg = api.getForegroundObject()
@@ -172,6 +157,7 @@ class toolsBarDialog(wx.Dialog):
 	def moveMouseToObj(self):
 		obj = self.getObjectFromList()
 		if obj:
+			obj.scrollIntoView()
 			api.moveMouseToNVDAObject(obj)
 			api.setMouseObject(obj)
 			return (True)
