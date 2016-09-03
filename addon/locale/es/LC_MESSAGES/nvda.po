@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 22:32+0200\n"
-"PO-Revision-Date: 2016-08-19 22:34+0200\n"
+"POT-Creation-Date: 2016-09-03 12:38+0200\n"
+"PO-Revision-Date: 2016-09-03 12:39+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -18,18 +18,26 @@ msgstr ""
 "X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: suma:29
-msgid "Copied to clipboard"
-msgstr "Copiado al portapapeles"
+#: suma:22
+msgid "mozilla Firefox"
+msgstr "Mozilla Firefox"
 
-#: suma:40
+#: suma:26 suma:51 suma:69 suma:91 suma:111
+msgid "Not available here"
+msgstr "No disponible aquí"
+
+#: suma:37
 #, python-format
 msgid "Status bar: %s"
 msgstr "Barra de estado: %s "
 
-#: suma:42
+#: suma:39 suma:45
 msgid "Status bar not found"
 msgstr "No se encontró la barra de estado"
+
+#: suma:43 suma:61
+msgid "Copied to clipboard"
+msgstr "Copiado al portapapeles"
 
 #: suma:47
 msgid "Reads the status bar. If pressed twice quickly, copies it to clipboard."
@@ -37,23 +45,27 @@ msgstr ""
 "Lee la barra de estado. Si se pulsa dos veces rápidamente, la copia al "
 "portapapeles. "
 
-#: suma:59
+#: suma:58
 #, python-format
 msgid "Page address is: %s (%s)"
 msgstr "La dirección de la página es: %s (%s) "
 
-#: suma:61
+#: suma:63
 msgid "Address not found"
 msgstr "Dirección no encontrada"
 
-#: suma:66
+#: suma:65
 msgid ""
 "Reads the page address. If pressed twice quickly, copies it to clipboard."
 msgstr ""
 "Lee la dirección de la página. Si se pulsa dos veces rápidamente, la copia "
 "al portapapeles. "
 
-#: suma:82
+#: suma:85
+msgid "Tool bar not found"
+msgstr "No se encuentra la barra de herramientas"
+
+#: suma:87
 msgid ""
 "Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool "
 "bar."
@@ -61,27 +73,39 @@ msgstr ""
 "Muestra una lista de pestañas abiertas. Si se pulsa dos veces rápidamente, "
 "muestra los botones de la barra de herramientas. "
 
-#: suma:93
+#: suma:105
+msgid "There is no notification"
+msgstr "No hay ninguna notificación"
+
+#: suma:107
+msgid "If there is any notification opens"
+msgstr "Abre la notificación si la hay"
+
+#: suma:131
+msgid "Brings the focus to the document"
+msgstr "Lleva el foco al documento"
+
+#: suma:143
 msgid "Opened tabs"
 msgstr "Pestañas abiertas"
 
-#: suma:100
+#: suma:150
 msgid "Tool Bar Buttons"
 msgstr "Botones de la barra de herramientas"
 
-#: suma:118
+#: suma:203
 msgid "&Go"
 msgstr "&Ir"
 
-#: suma:122
+#: suma:207
 msgid "&Options"
 msgstr "&Opciones"
 
-#: suma:125
+#: suma:210
 msgid "Close"
 msgstr "Cerrar"
 
-#: suma:195
+#: suma:290
 msgid ""
 "Reads the sender and recipients of the message. If pressed twice quickly, "
 "opens the options menu."
@@ -89,25 +113,24 @@ msgstr ""
 "Lee el remitente y los destinatarios del mensaje. Si se pulsa dos veces "
 "rápidamente, abre el menú de opciones. "
 
-#: suma:203 suma:215 suma:234
+#: suma:298 suma:310 suma:329
 msgid "Not found"
 msgstr "No encontrado"
 
-#: suma:205 suma:217 suma:242
+#: suma:300 suma:312 suma:337
 msgid "you are not in a message window"
 msgstr "No estás en una ventana de mensaje "
 
-#: suma:207
+#: suma:302
 msgid "Reads the subject of the message."
 msgstr "Lee el asunto del mensaje. "
 
-#: suma:219
+#: suma:314
 msgid "Reads date of the message."
 msgstr "Lee la fecha del mensaje. "
 
-#: suma:259
-msgid "Property page not found"
-msgstr "No se encontró la página de propiedades"
+#~ msgid "Property page not found"
+#~ msgstr "No se encontró la página de propiedades"
 
 #~ msgid ""
 #~ "Reads the sender of the message. If pressed twice quickly, opens the "

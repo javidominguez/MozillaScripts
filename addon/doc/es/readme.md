@@ -5,6 +5,8 @@
 * NVDA+A Lee la dirección de la página. Si se pulsa dos veces rápidamente, la copia al portapapeles. 
 * NVDA+Numpad3 or NVDA+End Lee la barra de estado. Si se pulsa dos veces rápidamente, la copia al portapapeles. 
 * NVDA+F8 Muestra una lista de pestañas abiertas. Si se pulsa dos veces rápidamente, muestra los botones de la barra de herramientas. 
+* NVDA+Control+N Muestra la notificación si la hay.
+* NVDA+F6 Lleva el foco al documento.
  
 ## Thunderbird  
  

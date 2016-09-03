@@ -1,7 +1,6 @@
-# -*- coding: UTF-8 -*-
-
-# Mozilla Thunderbird Scripts version 1.0dev (august 2016)
+# Mozilla Thunderbird Scripts version 1.0.2 (Sept 2016)
 # Author Javi Dominguez <fjavids@gmail.com>
+# License GNU GPL
 
 from nvdaBuiltin.appModules.thunderbird import *
 from speech import pauseSpeech
