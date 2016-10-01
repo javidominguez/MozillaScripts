@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-03 12:38+0200\n"
-"PO-Revision-Date: 2016-09-03 12:39+0200\n"
+"POT-Creation-Date: 2016-10-01 17:43+0200\n"
+"PO-Revision-Date: 2016-10-01 17:46+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -18,54 +18,54 @@ msgstr ""
 "X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: suma:22
+#: mensajes:22
 msgid "mozilla Firefox"
 msgstr "Mozilla Firefox"
 
-#: suma:26 suma:51 suma:69 suma:91 suma:111
+#: mensajes:26 mensajes:51 mensajes:69 mensajes:91 mensajes:111
 msgid "Not available here"
 msgstr "No disponible aquí"
 
-#: suma:37
+#: mensajes:37
 #, python-format
 msgid "Status bar: %s"
 msgstr "Barra de estado: %s "
 
-#: suma:39 suma:45
+#: mensajes:39 mensajes:45
 msgid "Status bar not found"
 msgstr "No se encontró la barra de estado"
 
-#: suma:43 suma:61
+#: mensajes:43 mensajes:61
 msgid "Copied to clipboard"
 msgstr "Copiado al portapapeles"
 
-#: suma:47
+#: mensajes:47
 msgid "Reads the status bar. If pressed twice quickly, copies it to clipboard."
 msgstr ""
 "Lee la barra de estado. Si se pulsa dos veces rápidamente, la copia al "
 "portapapeles. "
 
-#: suma:58
+#: mensajes:58
 #, python-format
 msgid "Page address is: %s (%s)"
 msgstr "La dirección de la página es: %s (%s) "
 
-#: suma:63
+#: mensajes:63
 msgid "Address not found"
 msgstr "Dirección no encontrada"
 
-#: suma:65
+#: mensajes:65
 msgid ""
 "Reads the page address. If pressed twice quickly, copies it to clipboard."
 msgstr ""
 "Lee la dirección de la página. Si se pulsa dos veces rápidamente, la copia "
 "al portapapeles. "
 
-#: suma:85
+#: mensajes:85
 msgid "Tool bar not found"
 msgstr "No se encuentra la barra de herramientas"
 
-#: suma:87
+#: mensajes:87
 msgid ""
 "Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool "
 "bar."
@@ -73,39 +73,43 @@ msgstr ""
 "Muestra una lista de pestañas abiertas. Si se pulsa dos veces rápidamente, "
 "muestra los botones de la barra de herramientas. "
 
-#: suma:105
+#: mensajes:105
 msgid "There is no notification"
 msgstr "No hay ninguna notificación"
 
-#: suma:107
+#: mensajes:107
 msgid "If there is any notification opens"
 msgstr "Abre la notificación si la hay"
 
-#: suma:131
+#: mensajes:131
 msgid "Brings the focus to the document"
 msgstr "Lleva el foco al documento"
 
-#: suma:143
+#: mensajes:143
 msgid "Opened tabs"
 msgstr "Pestañas abiertas"
 
-#: suma:150
+#: mensajes:150
 msgid "Tool Bar Buttons"
 msgstr "Botones de la barra de herramientas"
 
-#: suma:203
+#: mensajes:203
 msgid "&Go"
 msgstr "&Ir"
 
-#: suma:207
+#: mensajes:207
 msgid "&Options"
 msgstr "&Opciones"
 
-#: suma:210
+#: mensajes:210
 msgid "Close"
 msgstr "Cerrar"
 
-#: suma:290
+#: mensajes:286
+msgid "(Press down arrow to display more options)"
+msgstr "Pulsa flecha abajo para mostrar más opciones"
+
+#: mensajes:309
 msgid ""
 "Reads the sender and recipients of the message. If pressed twice quickly, "
 "opens the options menu."
@@ -113,21 +117,50 @@ msgstr ""
 "Lee el remitente y los destinatarios del mensaje. Si se pulsa dos veces "
 "rápidamente, abre el menú de opciones. "
 
-#: suma:298 suma:310 suma:329
+#: mensajes:317 mensajes:329 mensajes:348
 msgid "Not found"
 msgstr "No encontrado"
 
-#: suma:300 suma:312 suma:337
+#: mensajes:319 mensajes:331 mensajes:356
 msgid "you are not in a message window"
 msgstr "No estás en una ventana de mensaje "
 
-#: suma:302
+#: mensajes:321
 msgid "Reads the subject of the message."
 msgstr "Lee el asunto del mensaje. "
 
-#: suma:314
+#: mensajes:333
 msgid "Reads date of the message."
 msgstr "Lee la fecha del mensaje. "
+
+#: mensajes:396 mensajes:407 mensajes:429 mensajes:440
+msgid "Search in "
+msgstr "Buscar en "
+
+#: mensajes:455
+msgid "uncheck"
+msgstr "Desmarcar"
+
+#: mensajes:457
+msgid "check"
+msgstr "Marcar"
+
+#: mensajes:466
+msgid "checked"
+msgstr "Marcado"
+
+#: mensajes:468
+msgid "not checked"
+msgstr "No marcado"
+
+#: mensajes:496
+msgid "Expand the conversation to display messages"
+msgstr "Expande la conversación para ver los mensajes"
+
+#: mensajes:498
+msgid "Preview pane is not active or message has not been loaded yet"
+msgstr ""
+"El panel de vista previa no está activo o el mensaje no se ha cargado aún"
 
 #~ msgid "Property page not found"
 #~ msgstr "No se encontró la página de propiedades"
