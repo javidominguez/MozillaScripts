@@ -1,4 +1,4 @@
-# Mozilla Thunderbird Scripts version 1.0.2 (Sept 2016)
+# Mozilla Thunderbird Scripts version 1.0.3 (Oct 2016)
 # Author Javi Dominguez <fjavids@gmail.com>
 # License GNU GPL
 
@@ -28,7 +28,7 @@ class AppModule(appModuleHandler.AppModule):
 					clsList.insert(0, SearchBox)
 			except KeyError, AttributeError:
 				pass
-		if obj.role == controlTypes.ROLE_TREEVIEWITEM:
+		if obj.role == controlTypes.ROLE_TREEVIEWITEM or obj.role == controlTypes.ROLE_TABLEROW:
 			try:
 				if obj.parent.IA2Attributes["id"] == "threadTree":
 					setattr(obj, "getDocument", self.isDocument)
@@ -248,6 +248,6 @@ class ThreadTree(BrokenFocusedState):
 			obj = obj.next
 
 	__gestures = {
-		"kb:Space": "readPreviewPane"
+		"kb:NVDA+downArrow": "readPreviewPane"
 	}
 	

@@ -17,4 +17,4 @@
 * En la barra de filtrado rápido:
 	* Pulsa flecha abajo para mostrar más opciones, intro para marcar/desmarcar la opción seleccionada
 * En la lista de mensajes:
-	* Si el panel de vista previa está activado, pulsa barra espaciadora para leer el mensaje  sin salir de la lista.
+	* Si el panel de vista previa está activado, pulsa NVDA + flecha abajo para leer el mensaje  sin salir de la lista.

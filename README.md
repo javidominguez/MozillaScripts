@@ -19,5 +19,5 @@
 * In the bar of fast filtering:
 	* Press down Arrow to display more options, enter to check/unchek the selected option.
 * In messages list:
-	* If the preview pane is active, press space bar to read the message without leaving the list.
+	* If the preview pane is active, press NVDA+downArrow to read the message without leaving the list.
 	
