@@ -2,8 +2,8 @@
  
 ## Firefox   
  
-* NVDA+A Lee la dirección de la página. Si se pulsa dos veces rápidamente, la copia al portapapeles. 
-* NVDA+Numpad3 or NVDA+End Lee la barra de estado. Si se pulsa dos veces rápidamente, la copia al portapapeles. 
+* NVDA+A (sobremesa) o NVDA+Control+A (portátil) Lee la dirección de la página. Si se pulsa dos veces rápidamente, la copia al portapapeles. 
+* NVDA+End (sobremesa) o NVDA+Shift+End (portátil) Lee la barra de estado. Si se pulsa dos veces rápidamente, la copia al portapapeles. 
 * NVDA+F8 Muestra una lista de pestañas abiertas. Si se pulsa dos veces rápidamente, muestra los botones de la barra de herramientas. 
 * NVDA+Control+N Muestra la notificación si la hay.
 * NVDA+F6 Lleva el foco al documento.
@@ -17,4 +17,5 @@
 * En la barra de filtrado rápido:
 	* Pulsa flecha abajo para mostrar más opciones, intro para marcar/desmarcar la opción seleccionada
 * En la lista de mensajes:
-	* Si el panel de vista previa está activado, pulsa NVDA + flecha abajo para leer el mensaje  sin salir de la lista.
+	* Si el panel de vista previa está activado, pulsa NVDA + flecha abajo (sobremesa) o NVDA+A (portátil) para leer el mensaje  sin salir de la lista.
+	* Control+Alt+flechas derecha o izquierda se mueve entre las columnas.

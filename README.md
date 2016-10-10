@@ -4,8 +4,8 @@
  
 ## Firefox
 
-* NVDA+A Reads the page address. If pressed twice quickly, copies it to clipboard.
-* NVDA+Numpad3 or NVDA+End Reads the status bar. If pressed twice quickly, copies it to clipboard.
+* NVDA+A (desktop) or NVDA+Control+A (laptop) Reads the page address. If pressed twice quickly, copies it to clipboard.
+* NVDA+End (desktop) or NVDA+Shift+End (laptop) Reads the status bar. If pressed twice quickly, copies it to clipboard.
 * NVDA+F8 Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool bar.
 * NVDA+Control+N Shows the notification if there is any.
 * NVDA+F6 Brings the focus to the document.
@@ -19,5 +19,5 @@
 * In the bar of fast filtering:
 	* Press down Arrow to display more options, enter to check/unchek the selected option.
 * In messages list:
-	* If the preview pane is active, press NVDA+downArrow to read the message without leaving the list.
-	
+	* If the preview pane is active, press NVDA+downArrow (desktop) or NVDA+A (laptop) to read the message without leaving the list.
+	* Control+Alt+rightArrow and Control+Alt+leftArrow moves between columns.

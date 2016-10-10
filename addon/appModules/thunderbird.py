@@ -1,4 +1,4 @@
-# Mozilla Thunderbird Scripts version 1.0.3 (Oct 2016)
+# Mozilla Thunderbird Scripts version 1.0.4 (Oct 2016)
 # Author Javi Dominguez <fjavids@gmail.com>
 # License GNU GPL
 
@@ -17,6 +17,7 @@ import winUser
 addonHandler.initTranslation()
 
 class AppModule(appModuleHandler.AppModule):
+	scriptCategory = _("mozilla Thunderbird")
 	lastIndex = 0
 
 	def chooseNVDAObjectOverlayClasses(self, obj, clsList):
@@ -26,12 +27,15 @@ class AppModule(appModuleHandler.AppModule):
 					setattr(obj, "pointedObj", None)
 					obj.description = _("(Press down arrow to display more options)")
 					clsList.insert(0, SearchBox)
-			except KeyError, AttributeError:
+			except KeyError:
+				pass
+			except AttributeError:
 				pass
 		if obj.role == controlTypes.ROLE_TREEVIEWITEM or obj.role == controlTypes.ROLE_TABLEROW:
 			try:
 				if obj.parent.IA2Attributes["id"] == "threadTree":
 					setattr(obj, "getDocument", self.isDocument)
+					setattr(obj, "currentCell", None)
 					clsList.insert(0, ThreadTree)
 			except KeyError, AttributeError:
 				pass
@@ -46,8 +50,6 @@ class AppModule(appModuleHandler.AppModule):
 			rightClick = True
 		self.addressField(index, rightClick)
 		self.lastIndex = index
-	# Translators: Message presented in input help mode.
-	script_readAddressField.__doc__ = _("Reads the sender and recipients of the message. If pressed twice quickly, opens the options menu.")
 
 	def script_messageSubject (self, gesture):
 		if self.isDocument():
@@ -226,6 +228,31 @@ class SearchBox(BrokenFocusedState):
 	}
 	
 class ThreadTree(BrokenFocusedState):
+	scriptCategory = _("mozilla Thunderbird")
+
+	def script_nextCell(self, gesture):
+		if self.currentCell:
+			if self.currentCell.next:
+				self.currentCell = self.currentCell.next
+		else:
+			self.currentCell = self.firstChild
+		if not self.currentCell.name:
+			self.currentCell.name = _("empty")
+		self.currentCell.states = None
+		api.setNavigatorObject(self.currentCell)
+		speech.speakObject(self.currentCell, reason=controlTypes.REASON_QUERY)
+
+	def script_previousCell(self, gesture):
+		if self.currentCell:
+			if self.currentCell.previous:
+				self.currentCell = self.currentCell.previous
+		else:
+			self.currentCell = self.firstChild
+		if not self.currentCell.name:
+			self.currentCell.name = _("empty")
+		self.currentCell.states = None
+		api.setNavigatorObject(self.currentCell)
+		speech.speakObject(self.currentCell, reason=controlTypes.REASON_QUERY)
 
 	def script_readPreviewPane(self, gesture):
 		doc = self.getDocument()
@@ -237,6 +264,8 @@ class ThreadTree(BrokenFocusedState):
 				ui.message(_("Expand the conversation to display messages"))
 			else:
 				ui.message(_("Preview pane is not active or message has not been loaded yet"))
+	# Translators: Message presented in input help mode.
+	script_readPreviewPane.__doc__ = _("In message list, reads the selected message without leaving the list.")
 
 	def readPreviewPane(self, obj):
 		obj = obj.firstChild
@@ -248,6 +277,9 @@ class ThreadTree(BrokenFocusedState):
 			obj = obj.next
 
 	__gestures = {
-		"kb:NVDA+downArrow": "readPreviewPane"
+	"kb:Control+Alt+rightArrow": "nextCell",
+	"kb:Control+Alt+leftArrow": "previousCell",
+		"kb(desktop):NVDA+downArrow": "readPreviewPane",
+		"kb(laptop):NVDA+A": "readPreviewPane"
 	}
 	

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-01 17:43+0200\n"
-"PO-Revision-Date: 2016-10-01 17:46+0200\n"
+"POT-Creation-Date: 2016-10-10 21:22+0200\n"
+"PO-Revision-Date: 2016-10-10 21:24+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -105,62 +105,74 @@ msgstr "&Opciones"
 msgid "Close"
 msgstr "Cerrar"
 
-#: mensajes:286
+#: mensajes:279 mensajes:490
+msgid "mozilla Thunderbird"
+msgstr "Mozilla Thunderbird"
+
+#: mensajes:287
 msgid "(Press down arrow to display more options)"
 msgstr "Pulsa flecha abajo para mostrar más opciones"
 
-#: mensajes:309
-msgid ""
-"Reads the sender and recipients of the message. If pressed twice quickly, "
-"opens the options menu."
-msgstr ""
-"Lee el remitente y los destinatarios del mensaje. Si se pulsa dos veces "
-"rápidamente, abre el menú de opciones. "
-
-#: mensajes:317 mensajes:329 mensajes:348
+#: mensajes:319 mensajes:331 mensajes:350
 msgid "Not found"
 msgstr "No encontrado"
 
-#: mensajes:319 mensajes:331 mensajes:356
+#: mensajes:321 mensajes:333 mensajes:358
 msgid "you are not in a message window"
 msgstr "No estás en una ventana de mensaje "
 
-#: mensajes:321
+#: mensajes:323
 msgid "Reads the subject of the message."
 msgstr "Lee el asunto del mensaje. "
 
-#: mensajes:333
+#: mensajes:335
 msgid "Reads date of the message."
 msgstr "Lee la fecha del mensaje. "
 
-#: mensajes:396 mensajes:407 mensajes:429 mensajes:440
+#: mensajes:398 mensajes:409 mensajes:431 mensajes:442
 msgid "Search in "
 msgstr "Buscar en "
 
-#: mensajes:455
+#: mensajes:457
 msgid "uncheck"
 msgstr "Desmarcar"
 
-#: mensajes:457
+#: mensajes:459
 msgid "check"
 msgstr "Marcar"
 
-#: mensajes:466
+#: mensajes:468
 msgid "checked"
 msgstr "Marcado"
 
-#: mensajes:468
+#: mensajes:470
 msgid "not checked"
 msgstr "No marcado"
 
-#: mensajes:496
+#: mensajes:499 mensajes:511
+msgid "empty"
+msgstr "Vacía"
+
+#: mensajes:523
 msgid "Expand the conversation to display messages"
 msgstr "Expande la conversación para ver los mensajes"
 
-#: mensajes:498
+#: mensajes:525
 msgid "Preview pane is not active or message has not been loaded yet"
 msgstr ""
 "El panel de vista previa no está activo o el mensaje no se ha cargado aún"
+
+#: mensajes:527
+msgid "In message list, reads the selected message without leaving the list."
+msgstr ""
+"En la lista de mensajes, lee el mensaje seleccionado sin salir de la lista."
+
+#~ msgid ""
+#~ "Reads the sender and recipients of the message. If pressed twice quickly, "
+#~ "opens the options menu."
+#~ msgstr ""
+#~ "Lee el remitente y los destinatarios del mensaje. Si se pulsa dos veces "
+#~ "rápidamente, abre el menú de opciones. "
 
 #~ msgid "Property page not found"
 #~ msgstr "No se encontró la página de propiedades"
