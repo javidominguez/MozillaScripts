@@ -1,26 +1,26 @@
-# Mozilla Thunderbird Scripts version 1.0.4 (Oct 2016)
+# Mozilla Thunderbird Scripts version 1.0.5 (Oct 2016)
 # Author Javi Dominguez <fjavids@gmail.com>
 # License GNU GPL
 
-from nvdaBuiltin.appModules.thunderbird import *
-from speech import pauseSpeech
+from nvdaBuiltin.appModules import thunderbird
 from time import time
 from NVDAObjects.IAccessible.mozilla import BrokenFocusedState
-import appModuleHandler
 import addonHandler
 import controlTypes
 import api
 import ui
 import scriptHandler
 import winUser
+import speech
 
 addonHandler.initTranslation()
 
-class AppModule(appModuleHandler.AppModule):
+class AppModule(thunderbird.AppModule):
 	scriptCategory = _("mozilla Thunderbird")
 	lastIndex = 0
 
 	def chooseNVDAObjectOverlayClasses(self, obj, clsList):
+		# Overlay search box in fast filtering bar
 		if obj.role == controlTypes.ROLE_EDITABLETEXT:
 			try:
 				if obj.IA2Attributes["xml-roles"] == "searchbox":
@@ -31,13 +31,16 @@ class AppModule(appModuleHandler.AppModule):
 				pass
 			except AttributeError:
 				pass
+		# Overlay list of messages
 		if obj.role == controlTypes.ROLE_TREEVIEWITEM or obj.role == controlTypes.ROLE_TABLEROW:
 			try:
-				if obj.parent.IA2Attributes["id"] == "threadTree":
-					setattr(obj, "getDocument", self.isDocument)
-					setattr(obj, "currentCell", None)
-					clsList.insert(0, ThreadTree)
-			except KeyError, AttributeError:
+				if obj.parent:
+					if obj.parent.IA2Attributes["id"] == "threadTree":
+						setattr(obj, "getDocument", self.isDocument)
+						clsList.insert(0, ThreadTree)
+			except KeyError:
+				pass
+			except AttributeError:
 				pass
 
 	def script_readAddressField(self, gesture):
@@ -84,7 +87,7 @@ class AppModule(appModuleHandler.AppModule):
 				except IndexError:
 					pass
 			if index >= len(fields):
-				return()
+				return
 			try:
 				ui.message(",".join([o.name for o in fields[index].parent.children]))
 			except (IndexError, AttributeError):
@@ -94,7 +97,7 @@ class AppModule(appModuleHandler.AppModule):
 				api.setMouseObject(fields[index].children[0].children[1])
 				winUser.mouse_event(winUser.MOUSEEVENTF_RIGHTDOWN,0,0,None,None)
 				winUser.mouse_event(winUser.MOUSEEVENTF_RIGHTUP,0,0,None,None)
-				pauseSpeech(True)
+				speech.pauseSpeech(True)
 		else:
 			ui.message(_("you are not in a message window"))
 
@@ -153,7 +156,7 @@ class SearchBox(BrokenFocusedState):
 			if not self.pointedObj or self.pointedObj.role == controlTypes.ROLE_TREEVIEW:
 				self.pointedObj = self.parent.parent.firstChild
 				gesture.send()
-				return()
+				return
 		self.readCheckButton()
 
 	def script_previousOption(self, gesture):
@@ -162,7 +165,7 @@ class SearchBox(BrokenFocusedState):
 			ui.message(controlTypes.roleLabels[self.role])
 			if self.value:
 				ui.message(self.value)
-			return()
+			return
 		self.pointedObj = self.pointedObj.simplePrevious
 		isToolBarButton = False
 		try:
@@ -181,13 +184,15 @@ class SearchBox(BrokenFocusedState):
 					isToolBarButton = True
 					if "qfb-qs-" in self.pointedObj.IA2Attributes["id"]:
 						self.pointedObj.name = _("Search in ")+self.pointedObj.name
-			except:
+			except KeyError:
+				pass
+			except AttributeError:
 				pass
 			try:
 				if not self.pointedObj or self.pointedObj == self.parent.parent.firstChild or "titlebar" in self.pointedObj.IA2Attributes["id"]:
 					self.pointedObj = self.parent.parent.firstChild
 					gesture.send()
-					return()
+					return
 			except KeyError:
 				pass
 		self.readCheckButton()
@@ -230,29 +235,20 @@ class SearchBox(BrokenFocusedState):
 class ThreadTree(BrokenFocusedState):
 	scriptCategory = _("mozilla Thunderbird")
 
-	def script_nextCell(self, gesture):
-		if self.currentCell:
-			if self.currentCell.next:
-				self.currentCell = self.currentCell.next
-		else:
-			self.currentCell = self.firstChild
-		if not self.currentCell.name:
-			self.currentCell.name = _("empty")
-		self.currentCell.states = None
-		api.setNavigatorObject(self.currentCell)
-		speech.speakObject(self.currentCell, reason=controlTypes.REASON_QUERY)
-
-	def script_previousCell(self, gesture):
-		if self.currentCell:
-			if self.currentCell.previous:
-				self.currentCell = self.currentCell.previous
-		else:
-			self.currentCell = self.firstChild
-		if not self.currentCell.name:
-			self.currentCell.name = _("empty")
-		self.currentCell.states = None
-		api.setNavigatorObject(self.currentCell)
-		speech.speakObject(self.currentCell, reason=controlTypes.REASON_QUERY)
+	def script_moveToColumn(self, gesture):
+		try:
+			index = int(gesture.keyName[-1])-1
+		except AttributeError:
+			index = int(gesture.mainKeyName[-1])-1
+		if index >= self.childCount:
+			ui.message(_("There are not more columns"))
+			return
+		obj = self.getChild(index)
+		if not obj.name:
+			obj.name = _("empty")
+		obj.states = None
+		api.setNavigatorObject(obj)
+		speech.speakObject(obj, reason=controlTypes.REASON_FOCUS)
 
 	def script_readPreviewPane(self, gesture):
 		doc = self.getDocument()
@@ -277,9 +273,18 @@ class ThreadTree(BrokenFocusedState):
 			obj = obj.next
 
 	__gestures = {
-	"kb:Control+Alt+rightArrow": "nextCell",
-	"kb:Control+Alt+leftArrow": "previousCell",
+		# read preview pane
 		"kb(desktop):NVDA+downArrow": "readPreviewPane",
-		"kb(laptop):NVDA+A": "readPreviewPane"
+		"kb(laptop):NVDA+A": "readPreviewPane",
+		# Move to column
+		"kb:NVDA+Control+1": "moveToColumn",
+		"kb:NVDA+Control+2": "moveToColumn",
+		"kb:NVDA+Control+3": "moveToColumn",
+		"kb:NVDA+Control+4": "moveToColumn",
+		"kb:NVDA+Control+5": "moveToColumn",
+		"kb:NVDA+Control+6": "moveToColumn",
+		"kb:NVDA+Control+7": "moveToColumn",
+		"kb:NVDA+Control+8": "moveToColumn",
+		"kb:NVDA+Control+9": "moveToColumn"
 	}
 	

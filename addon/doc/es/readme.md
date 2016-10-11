@@ -18,4 +18,4 @@
 	* Pulsa flecha abajo para mostrar más opciones, intro para marcar/desmarcar la opción seleccionada
 * En la lista de mensajes:
 	* Si el panel de vista previa está activado, pulsa NVDA + flecha abajo (sobremesa) o NVDA+A (portátil) para leer el mensaje  sin salir de la lista.
-	* Control+Alt+flechas derecha o izquierda se mueve entre las columnas.
+	* Control+NVDA+1-9 se mueve entre las columnas.

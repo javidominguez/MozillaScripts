@@ -20,4 +20,4 @@
 	* Press down Arrow to display more options, enter to check/unchek the selected option.
 * In messages list:
 	* If the preview pane is active, press NVDA+downArrow (desktop) or NVDA+A (laptop) to read the message without leaving the list.
-	* Control+Alt+rightArrow and Control+Alt+leftArrow moves between columns.
+	* Control+NVDA+1-9 moves between columns.

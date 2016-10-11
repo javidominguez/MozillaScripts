@@ -1,9 +1,8 @@
-# Mozilla Firefox Scripts version 1.0.3 (Sept 2016)
+# Mozilla Firefox Scripts version 1.0.4 (Oct 2016)
 # Author Javi Dominguez <fjavids@gmail.com>
 # License GNU GPL
 
-from nvdaBuiltin.appModules.firefox import *
-import appModuleHandler
+from nvdaBuiltin.appModules import firefox
 import addonHandler
 import scriptHandler
 import globalCommands
@@ -16,7 +15,7 @@ import wx
 
 addonHandler.initTranslation()
 
-class AppModule(appModuleHandler.AppModule):
+class AppModule(firefox.AppModule):
 	tbDialog = None
 
 	scriptCategory = _("mozilla Firefox")
@@ -24,7 +23,7 @@ class AppModule(appModuleHandler.AppModule):
 	def script_status(self, gesture):
 		if not self.inMainWindow():
 			ui.message(_("Not available here"))
-			return()
+			return
 		group = self.searchAmongTheChildren(("tag", "tabpanels"), api.getForegroundObject())
 		if group:
 			for propertyPage in filter(lambda o: o.role == controlTypes.ROLE_PROPERTYPAGE, group.children):
@@ -41,7 +40,7 @@ class AppModule(appModuleHandler.AppModule):
 				if scriptHandler.getLastScriptRepeatCount() == 1:
 					if api.copyToClip(obj.name):
 						ui.message(_("Copied to clipboard"))
-			return()
+			return
 		ui.message (_("Status bar not found"))
 	# Translators: Message presented in input help mode.
 	script_status.__doc__ = _("Reads the status bar. If pressed twice quickly, copies it to clipboard.")
@@ -49,7 +48,7 @@ class AppModule(appModuleHandler.AppModule):
 	def script_url(self, gesture):
 		if not self.inMainWindow():
 			ui.message(_("Not available here"))
-			return()
+			return
 		path = (("id", "nav-bar"), ("id", "urlbar"), ("id", "identity-box",))
 		secInfoButton = self.searchObject(path)
 		if secInfoButton:
@@ -59,7 +58,7 @@ class AppModule(appModuleHandler.AppModule):
 			if scriptHandler.getLastScriptRepeatCount() == 1:
 				if api.copyToClip(url):
 					ui.message(_("Copied to clipboard"))
-			return()
+			return
 		ui.message (_("Address not found"))
 	# Translators: Message presented in input help mode.
 	script_url.__doc__ = _("Reads the page address. If pressed twice quickly, copies it to clipboard.")
@@ -67,7 +66,7 @@ class AppModule(appModuleHandler.AppModule):
 	def script_toolsBar(self, gesture):
 		if not self.inMainWindow() and api.getForegroundObject().appModule.productName != "NVDA":
 			ui.message(_("Not available here"))
-			return()
+			return
 		if not self.tbDialog:
 			self.tbDialog = toolsBarDialog(gui.mainFrame)
 		if scriptHandler.getLastScriptRepeatCount() == 0:
@@ -81,7 +80,7 @@ class AppModule(appModuleHandler.AppModule):
 				self.tbDialog.Show()
 				self.tbDialog.Centre()
 				gui.mainFrame.postPopup()
-			return()
+			return
 		ui.message (_("Tool bar not found"))
 	# Translators: Message presented in input help mode.
 	script_toolsBar.__doc__ = _("Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool bar.")
@@ -89,7 +88,7 @@ class AppModule(appModuleHandler.AppModule):
 	def script_openNotification(self, gesture):
 		if not self.inMainWindow():
 			ui.message(_("Not available here"))
-			return()
+			return
 		path = (("id", "nav-bar"), ("id", "urlbar"), ("class", "notification-anchor-icon"))
 		button = self.searchObject(path)
 		if button:
@@ -99,9 +98,9 @@ class AppModule(appModuleHandler.AppModule):
 			api.setFocusObject(button)
 			try:
 				scriptHandler.executeScript(globalCommands.commands.script_review_activate, None)
-				return()
+				return
 			except:
-				return()
+				return
 		ui.message(_("There is no notification"))
 	# Translators: Message presented in input help mode.
 	script_openNotification.__doc__ = _("If there is any notification opens")
@@ -109,7 +108,7 @@ class AppModule(appModuleHandler.AppModule):
 	def script_focusDocument(self, gesture):
 		if not self.inMainWindow():
 			ui.message(_("Not available here"))
-			return()
+			return
 		group = self.searchAmongTheChildren(("tag", "tabpanels"), api.getForegroundObject())
 		if group:
 			for propertyPage in filter(lambda o: o.role == controlTypes.ROLE_PROPERTYPAGE, group.children):
