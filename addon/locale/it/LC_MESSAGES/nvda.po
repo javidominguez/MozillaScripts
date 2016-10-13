@@ -5,183 +5,193 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 'Mozilla' '1.0'\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-13 21:53+0200\n"
-"PO-Revision-Date: 2016-10-13 21:53+0200\n"
-"Last-Translator: Ruslan Kolodyazhni <eye0@rambler.ru>\n"
-"Language-Team: Translators\n"
-"Language: ru\n"
+"POT-Creation-Date: 2016-10-11 19:27+0200\n"
+"PO-Revision-Date: 2016-10-12 17:43+0200\n"
+"Last-Translator: Simone Dal Maso <simone.dalmaso@gmail.com>\n"
+"Language-Team: simone.dalmaso@gmail.com\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 1.8.7\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: messages:21
 msgid "mozilla Firefox"
-msgstr ""
+msgstr "Mozilla Firefox"
 
 #: messages:25 messages:50 messages:68 messages:90 messages:110
 msgid "Not available here"
-msgstr ""
+msgstr "Non disponibile qui"
 
 #: messages:36
 #, python-format
 msgid "Status bar: %s"
-msgstr "Строка состояния: %s"
+msgstr "Barra di stato: %s "
 
 #: messages:38 messages:44
 msgid "Status bar not found"
-msgstr "Строка состояния не найдена"
+msgstr "Barra di stato non trovata"
 
 #: messages:42 messages:60
 msgid "Copied to clipboard"
-msgstr "Скопировано в буфер"
+msgstr "Copiato negli appunti"
 
 #: messages:46
 msgid "Reads the status bar. If pressed twice quickly, copies it to clipboard."
 msgstr ""
-"Читает строку состояния. Если нажать быстро дважды, копирует её в буфер "
-"обмена."
+"Legge la barra di stato. Se premuto due volte velocemente, copia il "
+"contenuto negli appunti."
 
 #: messages:57
 #, python-format
 msgid "Page address is: %s (%s)"
-msgstr "Адрес страницы: %s (%s)"
+msgstr "L'indirizzo della pagina è: %s (%s) "
 
 #: messages:62
 msgid "Address not found"
-msgstr "Адрес не найден"
+msgstr "Indirizzo non trovatoDirección no encontrada"
 
 #: messages:64
 msgid ""
 "Reads the page address. If pressed twice quickly, copies it to clipboard."
 msgstr ""
-"Читает Адрес страницы. Если нажать быстро дважды, копирует его в буфер."
+"Legge l'indirizzo della pagina. Se premuto due volte velocemente, copia il "
+"contenuto negli appunti."
 
 #: messages:84
 msgid "Tool bar not found"
 msgstr ""
+"Barra degli strumenti non trovataNo se encuentra la barra de herramientas"
 
 #: messages:86
 msgid ""
 "Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool "
 "bar."
 msgstr ""
-"Показывает список открытых вкладок. Если нажать быстро дважды, показывает "
-"кнопки панели инструментов."
+"Visualizza un elenco delle schede aperte. Se premuto due volte velocemente, "
+"mostra i pulsanti della barra degli strumenti."
 
 #: messages:104
 msgid "There is no notification"
-msgstr ""
+msgstr "Non ci sono notifiche"
 
 #: messages:106
 msgid "If there is any notification opens"
-msgstr ""
+msgstr "Apre la notifica se presente"
 
 #: messages:130
 msgid "Brings the focus to the document"
-msgstr ""
+msgstr "Sposta il focus sul documento"
 
 #: messages:142
 msgid "Opened tabs"
-msgstr "Открытые вкладки"
+msgstr "Schede aperte"
 
 #: messages:149
 msgid "Tool Bar Buttons"
-msgstr "Кнопки панели инструментов"
+msgstr "Pulsanti della barra degli strumenti"
 
 #: messages:202
 msgid "&Go"
-msgstr "&Перейти"
+msgstr "&Vai"
 
 #: messages:206
 msgid "&Options"
-msgstr "&Настройки"
+msgstr "&Opzioni"
 
 #: messages:209
 msgid "Close"
-msgstr "Закрыть"
+msgstr "Chiudi"
 
 #: messages:277 messages:494
 msgid "mozilla Thunderbird"
-msgstr ""
+msgstr "Mozilla Thunderbird"
 
 #: messages:286
 msgid "(Press down arrow to display more options)"
-msgstr ""
+msgstr "Premere freccia giù per ulteriori opzioni"
 
 #: messages:321 messages:333 messages:352
 msgid "Not found"
-msgstr "Не найдено"
+msgstr "Non trovato"
 
 #: messages:323 messages:335 messages:360
 msgid "you are not in a message window"
-msgstr "Вы не в окне сообщения"
+msgstr "Non sei in una finestra del messaggio"
 
 #: messages:325
 msgid "Reads the subject of the message."
-msgstr "Читает тему сообщения."
+msgstr "Legge l'oggetto del messaggio."
 
 #: messages:337
 msgid "Reads date of the message."
-msgstr "Читает дату сообщения."
+msgstr "Legge la data del messaggio."
 
 #: messages:400 messages:411 messages:433 messages:444
 msgid "Search in "
-msgstr ""
+msgstr "Cerca in"
 
 #: messages:461
 msgid "uncheck"
-msgstr ""
+msgstr "Attiva"
 
 #: messages:463
 msgid "check"
-msgstr ""
+msgstr "Disattiva"
 
 #: messages:472
 msgid "checked"
-msgstr ""
+msgstr "Attivato"
 
 #: messages:474
 msgid "not checked"
-msgstr ""
+msgstr "Non attivato"
 
 #: messages:502
 msgid "There are not more columns"
-msgstr ""
+msgstr "Non ci sono ulteriori colonne"
 
 #: messages:506
 msgid "empty"
-msgstr ""
+msgstr "Vuota"
 
 #: messages:518
 msgid "Expand the conversation to display messages"
-msgstr ""
+msgstr "Espandere la conversazione per visualizzare i messaggi"
 
 #: messages:520
 msgid "Preview pane is not active or message has not been loaded yet"
-msgstr ""
+msgstr "L'anteprima non è attiva o il messaggio non si è ancora caricato"
 
 #: messages:522
 msgid "In message list, reads the selected message without leaving the list."
 msgstr ""
+"Nell'elenco dei messaggi, legge il messaggio selezionato senza abbandonare "
+"l'elenco"
 
 #~ msgid ""
 #~ "Reads the sender and recipients of the message. If pressed twice quickly, "
 #~ "opens the options menu."
 #~ msgstr ""
-#~ "Читает отправителя и получателей сообщения. Если нажать быстро дважды, "
-#~ "открывает меню настроек."
+#~ "Lee el remitente y los destinatarios del mensaje. Si se pulsa dos veces "
+#~ "rápidamente, abre el menú de opciones. "
 
 #~ msgid "Property page not found"
-#~ msgstr "Страница свойств не найдена"
+#~ msgstr "No se encontró la página de propiedades"
 
-#~ msgid "Mozilla Scripts"
-#~ msgstr "Mozilla Scripts"
-
-#~ msgid "Provides NVDA scripts for Mozilla Firefox and Thunderbird"
+#~ msgid ""
+#~ "Reads the sender of the message. If pressed twice quickly, opens the "
+#~ "options menu."
 #~ msgstr ""
-#~ "Предоставляет сценарии программы NVDA для Mozilla Firefox и Thunderbird"
+#~ "Lee el remitente del mensaje. Si se pulsa dos veces rápidamente, abre el "
+#~ "menú de opciones. "
+
+#~ msgid ""
+#~ "Reads the recipient of the message. If pressed twice quickly, opens the "
+#~ "options menu."
+#~ msgstr ""
+#~ "Lee el destinatario del mensaje. Si se pulsa dos veces rápidamente, abre "
+#~ "el menú de opciones. "
