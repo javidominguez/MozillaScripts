@@ -21,3 +21,5 @@
 * In messages list:
 	* If the preview pane is active, press NVDA+downArrow (desktop) or NVDA+A (laptop) to read the message without leaving the list.
 	* Control+NVDA+1-9 moves between columns.
+	* NVDA+H Displays a dialog in which you can change the order of the columns in the message list.
+	

@@ -19,3 +19,4 @@
 * En la lista de mensajes:
 	* Si el panel de vista previa está activado, pulsa NVDA + flecha abajo (sobremesa) o NVDA+A (portátil) para leer el mensaje  sin salir de la lista.
 	* Control+NVDA+1-9 se mueve entre las columnas.
+	* NVDA+H Muestra un diálogo con el que cambiar el orden de las columnas en la lista de mensajes.

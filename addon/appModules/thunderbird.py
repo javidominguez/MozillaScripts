@@ -1,23 +1,29 @@
-# Mozilla Thunderbird Scripts version 1.0.5 (Oct 2016)
+# Mozilla Thunderbird Scripts version 1.1.0 (apr 2017)
 # Author Javi Dominguez <fjavids@gmail.com>
 # License GNU GPL
 
 from nvdaBuiltin.appModules import thunderbird
 from time import time
 from NVDAObjects.IAccessible.mozilla import BrokenFocusedState
+from tones import beep
 import addonHandler
 import controlTypes
 import api
+import win32api
 import ui
 import scriptHandler
 import winUser
 import speech
+import gui
+import wx
+import globalCommands
 
 addonHandler.initTranslation()
 
 class AppModule(thunderbird.AppModule):
 	scriptCategory = _("mozilla Thunderbird")
 	lastIndex = 0
+	Dialog = None
 
 	def chooseNVDAObjectOverlayClasses(self, obj, clsList):
 		# Overlay search box in fast filtering bar
@@ -58,7 +64,7 @@ class AppModule(thunderbird.AppModule):
 		if self.isDocument():
 			obj = filter(lambda o: o.role == controlTypes.ROLE_UNKNOWN, self.getPropertyPage().children)[1]
 			try:
-				ui.message(obj.children[0].name)
+				ui.message(obj.getChild(0).name)
 			except (IndexError, AttributeError):
 				ui.message(_("Not found"))
 		else:
@@ -78,6 +84,29 @@ class AppModule(thunderbird.AppModule):
 	# Translators: Message presented in input help mode.
 	script_messageDate.__doc__ = _("Reads date of the message.")
 
+	def script_manageColumns(self, gesture):
+		try:
+			columnHeaders = filter(lambda o: o.role == controlTypes.ROLE_TABLE, self.getPropertyPage().children)[0].getChild(0).children
+		except IndexError:
+			try:
+				columnHeaders = filter(lambda o: o.role == controlTypes.ROLE_TREEVIEW, self.getPropertyPage().children)[-1].getChild(0).children
+			except IndexError:
+				ui.message("You are not in a list of messages")
+				return
+		if len(columnHeaders) == 1:
+			ui.message(_("Column headers not found"))
+			return
+		if not self.Dialog:
+			self.Dialog = manageColumnsDialog(gui.mainFrame)
+		self.Dialog.update(columnHeaders[:-1], columnHeaders[-1])
+		if not self.Dialog.IsShown():
+			gui.mainFrame.prePopup()
+			self.Dialog.Show()
+			self.Dialog.Centre()
+			gui.mainFrame.postPopup()
+	# Translators: Message presented in input help mode.
+	script_manageColumns.__doc__ = _("Allows you to change the order of the columns in the messages list")
+
 	def addressField(self, index, rightClick):
 		if self.isDocument():
 			fields = []
@@ -93,8 +122,8 @@ class AppModule(thunderbird.AppModule):
 			except (IndexError, AttributeError):
 				ui.message(_("Not found"))
 			if rightClick:
-				api.moveMouseToNVDAObject(fields[index].children[0].children[1])
-				api.setMouseObject(fields[index].children[0].children[1])
+				api.moveMouseToNVDAObject(fields[index].getChild(0).getChild(1))
+				api.setMouseObject(fields[index].getChild(0).getChild(1))
 				winUser.mouse_event(winUser.MOUSEEVENTF_RIGHTDOWN,0,0,None,None)
 				winUser.mouse_event(winUser.MOUSEEVENTF_RIGHTUP,0,0,None,None)
 				speech.pauseSpeech(True)
@@ -125,7 +154,8 @@ class AppModule(thunderbird.AppModule):
 		"kb:Control+Shift+3": "readAddressField",
 		"kb:Control+Shift+4": "readAddressField",
 		"kb:Control+Shift+5": "messageSubject",
-		"kb:Control+Shift+6": "messageDate"
+		"kb:Control+Shift+6": "messageDate",
+		"kb:NVDA+H": "manageColumns"
 	}
 
 class SearchBox(BrokenFocusedState):
@@ -154,6 +184,7 @@ class SearchBox(BrokenFocusedState):
 			except:
 				pass
 			if not self.pointedObj or self.pointedObj.role == controlTypes.ROLE_TREEVIEW:
+				ui.message(_('Leaving search box'))
 				self.pointedObj = self.parent.parent.firstChild
 				gesture.send()
 				return
@@ -288,3 +319,103 @@ class ThreadTree(BrokenFocusedState):
 		"kb:NVDA+Control+9": "moveToColumn"
 	}
 	
+class manageColumnsDialog(wx.Dialog):
+	def __init__(self, parent):
+		super(manageColumnsDialog, self).__init__(parent, title=_("Manage columns"))
+		# Build interface
+		mainSizer = wx.BoxSizer(wx.VERTICAL)
+		self.listBox = wx.ListBox(self, wx.NewId(), style=wx.LB_SINGLE, size=(100, 60))
+		mainSizer.Add(self.listBox, proportion=8)
+		buttonsSizer = wx.BoxSizer(wx.HORIZONTAL)
+		upButtonID = wx.NewId()
+		self.upButton = wx.Button(self, upButtonID, _("&up"))
+		buttonsSizer.Add(self.upButton)
+		downButtonID = wx.NewId()
+		self.downButton = wx.Button(self, downButtonID, _("&down"))
+		buttonsSizer.Add(self.downButton)
+		optionsButtonID = wx.NewId()
+		self.optionsButton = wx.Button(self, optionsButtonID, _("&options"))
+		buttonsSizer.Add(self.optionsButton)
+		cancelButton = wx.Button(self, wx.ID_CANCEL, _("Close"))
+		buttonsSizer.Add(cancelButton)
+		mainSizer.Add(buttonsSizer)
+		mainSizer.Fit(self)
+		self.SetSizer(mainSizer)
+		self.Bind( wx.EVT_BUTTON, self.onUpButton, id=upButtonID)
+		self.Bind( wx.EVT_BUTTON, self.onDownButton, id=downButtonID)
+		self.Bind( wx.EVT_BUTTON, self.onOptionsButton, id=optionsButtonID)
+
+	def update(self, columns=None, optionsButton=None):
+		if columns:
+			self.columns = columns
+			self.folder = columns[0].windowText # To prevent errors if the user changes the folder while the dialog is open
+			# The objects are sorted by their position on the screen, which not always corresponds to its index in children
+			self.columns.sort(key=lambda o: o.location[0])
+		if optionsButton:
+			self.options = optionsButton
+		self.listBox.SetItems([item.name for item in self.columns])
+		self.listBox.SetSelection(0)
+
+	def onUpButton(self, event):
+		c = self.listBox.GetSelections()[0]
+		if c == 0:
+			ui.message(_("Can't move %s, it is already the first column." % self.columns[c].name))
+			return
+		if self.dragAndDrop(c-1, c):
+			self.listBox.SetSelection(c-1)
+			self.upButton.SetFocus()
+			self.Show()
+			self.Center()
+			ui.message(_("%s before %s" % (self.columns[c-1].name, self.columns[c].name)))
+		else:
+			beep(150, 100)
+
+	def onDownButton(self, event):
+		c = self.listBox.GetSelections()[0]
+		if c+1 == len(self.columns):
+			ui.message(_("Can't move %s, it is already the last column." % self.columns[c].name))
+			return
+		if self.dragAndDrop(c, c+1):
+			self.listBox.SetSelection(c+1)
+			self.downButton.SetFocus()
+			self.Show()
+			self.Center()
+			ui.message(_("%s after %s" % (self.columns[c+1].name, self.columns[c].name)))
+		else:
+			beep(150, 100)
+
+	def onOptionsButton(self, event):
+		self.Hide()
+		self.options.scrollIntoView()
+		api.setNavigatorObject(self.options)
+		try:
+			scriptHandler.executeScript(globalCommands.commands.script_review_activate, None)
+			speech.cancelSpeech()
+		except:
+			pass
+
+	def dragAndDrop(self, hIndex1, hIndex2):
+		if self.columns[0].windowText != self.folder:
+			ui.message(_("Folder has changed, return to %s to manage columns or restart this dialog" % self.folder[:-22]))
+			return False
+		self.Hide()
+		try:
+			x = self.columns[hIndex1].location[0]+self.columns[hIndex1].location[2]/2
+			y = self.columns[hIndex1].location[1]+self.columns[hIndex1].location[3]/2
+		except TypeError:
+			return False 
+		if api.getDesktopObject().objectFromPoint(x,y) != self.columns[hIndex1]:
+			return False
+		win32api.SetCursorPos((x, y))
+		if winUser.getKeyState(winUser.VK_LBUTTON)&32768:
+			winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
+		winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,1,None,None)
+		x = self.columns[hIndex2].location[0]+self.columns[hIndex2].location[2]+1
+		y = self.columns[hIndex2].location[1]+self.columns[hIndex2].location[3]/2
+		win32api.SetCursorPos((x, y))
+		winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
+		tmp = self.columns[hIndex1]
+		self.columns[hIndex1] = self.columns[hIndex2]
+		self.columns[hIndex2] = tmp
+		self.update()
+		return True

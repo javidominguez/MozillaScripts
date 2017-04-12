@@ -19,7 +19,7 @@ addon_info = {
 	# Translators: Long description to be shown for this add-on on add-on information from add-ons manager
 	"addon_description" : _("Provides NVDA scripts for Mozilla Firefox and Thunderbird"),
 	# version
-	"addon_version" : "1.0",
+	"addon_version" : "1.1dev",
 	# Author(s)
 	"addon_author" : u"Javi Dominguez <fjavids@gmail.com>",
 	# URL for the add-on documentation support
