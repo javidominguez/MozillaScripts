@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-12 19:10+0200\n"
-"PO-Revision-Date: 2017-04-12 19:17+0200\n"
+"POT-Creation-Date: 2017-04-13 12:59+0200\n"
+"PO-Revision-Date: 2017-04-13 13:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -129,6 +129,10 @@ msgstr "Lee el asunto del mensaje. "
 msgid "Reads date of the message."
 msgstr "Lee la fecha del mensaje. "
 
+#: suma:375
+msgid "You are not in a list of messages"
+msgstr "No está en una lista de mensajes"
+
 #: suma:378
 msgid "Column headers not found"
 msgstr "No se encuentran encabezados de columna"
@@ -202,7 +206,7 @@ msgstr "&Opciones"
 #: suma:643
 #, python-format
 msgid "Can't move %s, it is already the first column."
-msgstr "No se puede mover %s, ya es la primera columna"
+msgstr "No se puede mover %s, ya es la primera columna."
 
 #: suma:650
 #, python-format
@@ -219,7 +223,7 @@ msgstr "No se puede mover %s, ya es la última columna"
 msgid "%s after %s"
 msgstr "%s después de  %s"
 
-#: suma:680
+#: suma:679
 #, python-format
 msgid ""
 "Folder has changed, return to %s to manage columns or restart this dialog"

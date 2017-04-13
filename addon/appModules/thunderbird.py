@@ -91,7 +91,7 @@ class AppModule(thunderbird.AppModule):
 			try:
 				columnHeaders = filter(lambda o: o.role == controlTypes.ROLE_TREEVIEW, self.getPropertyPage().children)[-1].getChild(0).children
 			except IndexError:
-				ui.message("You are not in a list of messages")
+				ui.message(_("You are not in a list of messages"))
 				return
 		if len(columnHeaders) == 1:
 			ui.message(_("Column headers not found"))
@@ -359,28 +359,28 @@ class manageColumnsDialog(wx.Dialog):
 	def onUpButton(self, event):
 		c = self.listBox.GetSelections()[0]
 		if c == 0:
-			ui.message(_("Can't move %s, it is already the first column." % self.columns[c].name))
+			ui.message(_("Can't move %s, it is already the first column.") % self.columns[c].name)
 			return
 		if self.dragAndDrop(c-1, c):
 			self.listBox.SetSelection(c-1)
 			self.upButton.SetFocus()
 			self.Show()
 			self.Center()
-			ui.message(_("%s before %s" % (self.columns[c-1].name, self.columns[c].name)))
+			ui.message(_("%s before %s") % (self.columns[c-1].name, self.columns[c].name))
 		else:
 			beep(150, 100)
 
 	def onDownButton(self, event):
 		c = self.listBox.GetSelections()[0]
 		if c+1 == len(self.columns):
-			ui.message(_("Can't move %s, it is already the last column." % self.columns[c].name))
+			ui.message(_("Can't move %s, it is already the last column.") % self.columns[c].name)
 			return
 		if self.dragAndDrop(c, c+1):
 			self.listBox.SetSelection(c+1)
 			self.downButton.SetFocus()
 			self.Show()
 			self.Center()
-			ui.message(_("%s after %s" % (self.columns[c+1].name, self.columns[c].name)))
+			ui.message(_("%s after %s") % (self.columns[c+1].name, self.columns[c].name))
 		else:
 			beep(150, 100)
 
@@ -390,13 +390,12 @@ class manageColumnsDialog(wx.Dialog):
 		api.setNavigatorObject(self.options)
 		try:
 			scriptHandler.executeScript(globalCommands.commands.script_review_activate, None)
-			speech.cancelSpeech()
 		except:
-			pass
+			beep(150, 100)
 
 	def dragAndDrop(self, hIndex1, hIndex2):
 		if self.columns[0].windowText != self.folder:
-			ui.message(_("Folder has changed, return to %s to manage columns or restart this dialog" % self.folder[:-22]))
+			ui.message(_("Folder has changed, return to %s to manage columns or restart this dialog") % self.folder[:-22])
 			return False
 		self.Hide()
 		try:
