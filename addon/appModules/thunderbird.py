@@ -9,7 +9,6 @@ from tones import beep
 import addonHandler
 import controlTypes
 import api
-import win32api
 import ui
 import scriptHandler
 import winUser
@@ -405,13 +404,13 @@ class manageColumnsDialog(wx.Dialog):
 			return False 
 		if api.getDesktopObject().objectFromPoint(x,y) != self.columns[hIndex1]:
 			return False
-		win32api.SetCursorPos((x, y))
+		winUser.setCursorPos(x, y)
 		if winUser.getKeyState(winUser.VK_LBUTTON)&32768:
 			winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
 		winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,1,None,None)
 		x = self.columns[hIndex2].location[0]+self.columns[hIndex2].location[2]+1
 		y = self.columns[hIndex2].location[1]+self.columns[hIndex2].location[3]/2
-		win32api.SetCursorPos((x, y))
+		winUser.setCursorPos(x, y)
 		winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
 		tmp = self.columns[hIndex1]
 		self.columns[hIndex1] = self.columns[hIndex2]
