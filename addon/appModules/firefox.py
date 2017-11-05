@@ -42,7 +42,6 @@ class AppModule(firefox.AppModule):
 						ui.message(_("Copied to clipboard"))
 			return
 		ui.message (_("Status bar not found"))
-	# Translators: Message presented in input help mode.
 	script_status.__doc__ = _("Reads the status bar. If pressed twice quickly, copies it to clipboard.")
 
 	def script_url(self, gesture):
@@ -60,7 +59,6 @@ class AppModule(firefox.AppModule):
 					ui.message(_("Copied to clipboard"))
 			return
 		ui.message (_("Address not found"))
-	# Translators: Message presented in input help mode.
 	script_url.__doc__ = _("Reads the page address. If pressed twice quickly, copies it to clipboard.")
 
 	def script_toolsBar(self, gesture):
@@ -82,7 +80,6 @@ class AppModule(firefox.AppModule):
 				gui.mainFrame.postPopup()
 			return
 		ui.message (_("Tool bar not found"))
-	# Translators: Message presented in input help mode.
 	script_toolsBar.__doc__ = _("Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool bar.")
 
 	def script_openNotification(self, gesture):
@@ -102,7 +99,6 @@ class AppModule(firefox.AppModule):
 			except:
 				return
 		ui.message(_("There is no notification"))
-	# Translators: Message presented in input help mode.
 	script_openNotification.__doc__ = _("If there is any notification opens")
 
 	def script_focusDocument(self, gesture):
@@ -126,7 +122,6 @@ class AppModule(firefox.AppModule):
 				ui.message("%s %s" % (controlTypes.roleLabels[doc.role], doc.name))
 			except NameError:
 				pass
-	# Translators: Message presented in input help mode.
 	script_focusDocument.__doc__ = _("Brings the focus to the document")
 
 	def getTabsDialog(self):

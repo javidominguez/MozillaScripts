@@ -68,7 +68,6 @@ class AppModule(thunderbird.AppModule):
 				ui.message(_("Not found"))
 		else:
 			ui.message(_("you are not in a message window"))
-	# Translators: Message presented in input help mode.
 	script_messageSubject.__doc__ = _("Reads the subject of the message.")
 
 	def script_messageDate (self, gesture):
@@ -80,7 +79,6 @@ class AppModule(thunderbird.AppModule):
 				ui.message(_("Not found"))
 		else:
 			ui.message(_("you are not in a message window"))
-	# Translators: Message presented in input help mode.
 	script_messageDate.__doc__ = _("Reads date of the message.")
 
 	def script_manageColumns(self, gesture):
@@ -103,8 +101,33 @@ class AppModule(thunderbird.AppModule):
 			self.Dialog.Show()
 			self.Dialog.Centre()
 			gui.mainFrame.postPopup()
-	# Translators: Message presented in input help mode.
 	script_manageColumns.__doc__ = _("Allows you to change the order of the columns in the messages list")
+
+	def script_attachments (self, gesture):
+		doc = self.isDocument()
+		if doc and controlTypes.STATE_READONLY in doc.states:
+			try:
+				attachmentToggleButton = filter(lambda o: o.IA2Attributes["id"] == "attachmentToggle", self.getPropertyPage().children)[0]
+			except IndexError:
+				ui.message(_("There are No attachments"))
+				return
+			ui.message(attachmentToggleButton.next.name)
+			if controlTypes.STATE_PRESSED not in attachmentToggleButton.states:
+				api.moveMouseToNVDAObject(attachmentToggleButton)
+				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,0,None,None)
+				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
+			else:
+				self.getPropertyPage().children[-1].getChild(0).setFocus()
+			return
+		gesture.send()
+	script_attachments.__doc__ = _("Brings the focus to the list of attachments, if any.")
+
+	def script_focusDocument(self, gesture):
+		try:
+			self.isDocument().setFocus()
+		except:
+			pass
+	script_focusDocument.__doc__ = _("Brings the focus to the text of the open message.")
 
 	def addressField(self, index, rightClick):
 		if self.isDocument():
@@ -154,7 +177,9 @@ class AppModule(thunderbird.AppModule):
 		"kb:Control+Shift+4": "readAddressField",
 		"kb:Control+Shift+5": "messageSubject",
 		"kb:Control+Shift+6": "messageDate",
-		"kb:NVDA+H": "manageColumns"
+		"kb:NVDA+H": "manageColumns",
+		"kb:Control+Shift+A": "attachments",
+		"kb:NVDA+F6": "focusDocument"
 	}
 
 class SearchBox(BrokenFocusedState):
@@ -290,7 +315,6 @@ class ThreadTree(BrokenFocusedState):
 				ui.message(_("Expand the conversation to display messages"))
 			else:
 				ui.message(_("Preview pane is not active or message has not been loaded yet"))
-	# Translators: Message presented in input help mode.
 	script_readPreviewPane.__doc__ = _("In message list, reads the selected message without leaving the list.")
 
 	def readPreviewPane(self, obj):

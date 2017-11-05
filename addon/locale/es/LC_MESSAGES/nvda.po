@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-13 12:59+0200\n"
-"PO-Revision-Date: 2017-04-13 13:00+0200\n"
+"POT-Creation-Date: 2017-11-05 17:03+0100\n"
+"PO-Revision-Date: 2017-11-05 17:04+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -18,54 +18,54 @@ msgstr ""
 "X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: suma:21
+#: fuentes:21
 msgid "mozilla Firefox"
 msgstr "Mozilla Firefox"
 
-#: suma:25 suma:50 suma:68 suma:90 suma:110
+#: fuentes:25 fuentes:50 fuentes:68 fuentes:90 fuentes:110
 msgid "Not available here"
 msgstr "No disponible aquí"
 
-#: suma:36
+#: fuentes:36
 #, python-format
 msgid "Status bar: %s"
 msgstr "Barra de estado: %s "
 
-#: suma:38 suma:44
+#: fuentes:38 fuentes:44
 msgid "Status bar not found"
 msgstr "No se encontró la barra de estado"
 
-#: suma:42 suma:60
+#: fuentes:42 fuentes:60
 msgid "Copied to clipboard"
 msgstr "Copiado al portapapeles"
 
-#: suma:46
+#: fuentes:46
 msgid "Reads the status bar. If pressed twice quickly, copies it to clipboard."
 msgstr ""
 "Lee la barra de estado. Si se pulsa dos veces rápidamente, la copia al "
 "portapapeles. "
 
-#: suma:57
+#: fuentes:57
 #, python-format
 msgid "Page address is: %s (%s)"
 msgstr "La dirección de la página es: %s (%s) "
 
-#: suma:62
+#: fuentes:62
 msgid "Address not found"
 msgstr "Dirección no encontrada"
 
-#: suma:64
+#: fuentes:64
 msgid ""
 "Reads the page address. If pressed twice quickly, copies it to clipboard."
 msgstr ""
 "Lee la dirección de la página. Si se pulsa dos veces rápidamente, la copia "
 "al portapapeles. "
 
-#: suma:84
+#: fuentes:84
 msgid "Tool bar not found"
 msgstr "No se encuentra la barra de herramientas"
 
-#: suma:86
+#: fuentes:86
 msgid ""
 "Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool "
 "bar."
@@ -73,157 +73,169 @@ msgstr ""
 "Muestra una lista de pestañas abiertas. Si se pulsa dos veces rápidamente, "
 "muestra los botones de la barra de herramientas. "
 
-#: suma:104
+#: fuentes:104
 msgid "There is no notification"
 msgstr "No hay ninguna notificación"
 
-#: suma:106
+#: fuentes:106
 msgid "If there is any notification opens"
 msgstr "Abre la notificación si la hay"
 
-#: suma:130
+#: fuentes:130
 msgid "Brings the focus to the document"
 msgstr "Lleva el foco al documento"
 
-#: suma:164
+#: fuentes:164
 msgid "Opened tabs"
 msgstr "Pestañas abiertas"
 
-#: suma:171
+#: fuentes:171
 msgid "Tool Bar Buttons"
 msgstr "Botones de la barra de herramientas"
 
-#: suma:225
+#: fuentes:225
 msgid "&Go"
 msgstr "&Ir"
 
-#: suma:229
+#: fuentes:229
 msgid "&Options"
 msgstr "&Opciones"
 
-#: suma:232 suma:620
+#: fuentes:232 fuentes:647
 msgid "Close"
 msgstr "Cerrar"
 
-#: suma:305 suma:548
+#: fuentes:304 fuentes:575
 msgid "mozilla Thunderbird"
 msgstr "Mozilla Thunderbird"
 
-#: suma:315
+#: fuentes:314
 msgid "(Press down arrow to display more options)"
 msgstr "Pulsa flecha abajo para mostrar más opciones"
 
-#: suma:350 suma:362 suma:404
+#: fuentes:349 fuentes:361 fuentes:429
 msgid "Not found"
 msgstr "No encontrado"
 
-#: suma:352 suma:364 suma:412
+#: fuentes:351 fuentes:363 fuentes:437
 msgid "you are not in a message window"
 msgstr "No estás en una ventana de mensaje "
 
-#: suma:354
+#: fuentes:353
 msgid "Reads the subject of the message."
 msgstr "Lee el asunto del mensaje. "
 
-#: suma:366
+#: fuentes:365
 msgid "Reads date of the message."
 msgstr "Lee la fecha del mensaje. "
 
-#: suma:375
+#: fuentes:374
 msgid "You are not in a list of messages"
 msgstr "No está en una lista de mensajes"
 
-#: suma:378
+#: fuentes:377
 msgid "Column headers not found"
 msgstr "No se encuentran encabezados de columna"
 
-#: suma:389
+#: fuentes:388
 msgid "Allows you to change the order of the columns in the messages list"
 msgstr "Permite cambiar el orden de las columnas en la lista de mensajes"
 
-#: suma:453 suma:464 suma:487 suma:498
+#: fuentes:396
+msgid "There are No attachments"
+msgstr "No hay adjuntos"
+
+#: fuentes:407
+msgid "Brings the focus to the list of attachments, if any."
+msgstr "Lleva el foco a la lista de adjuntos si los hay."
+
+#: fuentes:414
+msgid "Brings the focus to the text of the open message."
+msgstr "Lleva el foco al texto del mensaje abierto."
+
+#: fuentes:480 fuentes:491 fuentes:514 fuentes:525
 msgid "Search in "
 msgstr "Buscar en "
 
-#: suma:468
+#: fuentes:495
 msgid "Leaving search box"
 msgstr "Dejando la caja de búsqueda "
 
-#: suma:515
+#: fuentes:542
 msgid "uncheck"
 msgstr "Desmarcar"
 
-#: suma:517
+#: fuentes:544
 msgid "check"
 msgstr "Marcar"
 
-#: suma:526
+#: fuentes:553
 msgid "checked"
 msgstr "Marcado"
 
-#: suma:528
+#: fuentes:555
 msgid "not checked"
 msgstr "No marcado"
 
-#: suma:556
+#: fuentes:583
 msgid "There are not more columns"
 msgstr "No hay más columnas"
 
-#: suma:560
+#: fuentes:587
 msgid "empty"
 msgstr "Vacía"
 
-#: suma:572
+#: fuentes:599
 msgid "Expand the conversation to display messages"
 msgstr "Expande la conversación para ver los mensajes"
 
-#: suma:574
+#: fuentes:601
 msgid "Preview pane is not active or message has not been loaded yet"
 msgstr ""
 "El panel de vista previa no está activo o el mensaje no se ha cargado aún"
 
-#: suma:576
+#: fuentes:603
 msgid "In message list, reads the selected message without leaving the list."
 msgstr ""
 "En la lista de mensajes, lee el mensaje seleccionado sin salir de la lista."
 
-#: suma:605
+#: fuentes:632
 msgid "Manage columns"
 msgstr "Organizar columnas"
 
-#: suma:612
+#: fuentes:639
 msgid "&up"
 msgstr "&Subir"
 
-#: suma:615
+#: fuentes:642
 msgid "&down"
 msgstr "&Bajar"
 
-#: suma:618
+#: fuentes:645
 msgid "&options"
 msgstr "&Opciones"
 
-#: suma:643
+#: fuentes:670
 #, python-format
 msgid "Can't move %s, it is already the first column."
 msgstr "No se puede mover %s, ya es la primera columna."
 
-#: suma:650
+#: fuentes:677
 #, python-format
 msgid "%s before %s"
 msgstr "%s antes de %s"
 
-#: suma:657
+#: fuentes:684
 #, python-format
 msgid "Can't move %s, it is already the last column."
 msgstr "No se puede mover %s, ya es la última columna"
 
-#: suma:664
+#: fuentes:691
 #, python-format
 msgid "%s after %s"
 msgstr "%s después de  %s"
 
-#: suma:679
+#: fuentes:706
 #, python-format
 msgid ""
 "Folder has changed, return to %s to manage columns or restart this dialog"
