@@ -7,245 +7,287 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MozillaScripts 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-05 17:03+0100\n"
-"PO-Revision-Date: 2017-11-11 19:27-0000\n"
+"POT-Creation-Date: 2017-11-26 21:04+0100\n"
+"PO-Revision-Date: 2017-11-26 21:07+0100\n"
 "Last-Translator: Ângelo Abrantes <ampa4374@gmail.com>\n"
 "Language-Team: Ângelo Miguel Abrantes <angelomiguelabrantes@gmail.com>\n"
-"Language: es\n"
+"Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Language: Portuguese\n"
-"X-Poedit-Country: PORTUGAL\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
-#: fuentes:21
+#: source:27
 msgid "mozilla Firefox"
 msgstr "Mozilla Firefox"
 
-#: fuentes:25
-#: fuentes:50
-#: fuentes:68
-#: fuentes:90
-#: fuentes:110
+#: source:40
+msgid "Couldn't capture the text of this notification"
+msgstr ""
+
+#: source:50 source:74 source:91 source:113 source:155
 msgid "Not available here"
 msgstr "Indisponível, aqui"
 
-#: fuentes:36
+#: source:61
 #, python-format
 msgid "Status bar: %s"
 msgstr "Barra de estado: %s "
 
-#: fuentes:38
-#: fuentes:44
+#: source:63 source:69
 msgid "Status bar not found"
 msgstr "A barra de estado não foi encontrada"
 
-#: fuentes:42
-#: fuentes:60
+#: source:67 source:84
 msgid "Copied to clipboard"
 msgstr "Copiado para a área de transferência"
 
-#: fuentes:46
+#: source:70
 msgid "Reads the status bar. If pressed twice quickly, copies it to clipboard."
-msgstr "Lê a barra de estado. Se pressionado duas vezes rapidamente, copia-a para a área de transferência."
+msgstr ""
+"Lê a barra de estado. Se pressionado duas vezes rapidamente, copia-a para a "
+"área de transferência."
 
-#: fuentes:57
+#: source:81
 #, python-format
 msgid "Page address is: %s (%s)"
 msgstr "O endereço da página é: %s (%s) "
 
-#: fuentes:62
+#: source:86
 msgid "Address not found"
 msgstr "Endereço não encontrado"
 
-#: fuentes:64
-msgid "Reads the page address. If pressed twice quickly, copies it to clipboard."
-msgstr "Lê o endereço da página. Se pressionado duas vezes rapidamente, copia-o para a área de transferência."
+#: source:87
+msgid ""
+"Reads the page address. If pressed twice quickly, copies it to clipboard."
+msgstr ""
+"Lê o endereço da página. Se pressionado duas vezes rapidamente, copia-o para "
+"a área de transferência."
 
-#: fuentes:84
+#: source:107
 msgid "Tool bar not found"
 msgstr "Barra de ferramentas não encontrada"
 
-#: fuentes:86
-msgid "Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool bar."
-msgstr "Mostra uma lista de separadores abertos. Se pressionado duas vezes rapidamente, mostra os botões da barra de ferramentas."
+#: source:108
+msgid ""
+"Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool "
+"bar."
+msgstr ""
+"Mostra uma lista de separadores abertos. Se pressionado duas vezes "
+"rapidamente, mostra os botões da barra de ferramentas."
 
-#: fuentes:104
+#: source:134
+msgid "About an hour ago"
+msgstr ""
+
+#: source:136
+#, python-format
+msgid "About %d hours ago"
+msgstr ""
+
+#: source:138
+msgid "About a minute ago"
+msgstr ""
+
+#: source:140
+#, python-format
+msgid "About %d minutes ago"
+msgstr ""
+
+#: source:142
+msgid "a second ago"
+msgstr ""
+
+#: source:144
+#, python-format
+msgid "%d seconds ago"
+msgstr ""
+
+#: source:146
+msgid "Notification History"
+msgstr ""
+
+#: source:148
+#, python-format
+msgid "Last alert, %s: %s"
+msgstr ""
+
+#: source:150
 msgid "There is no notification"
 msgstr "Não há qualquer notificação"
 
-#: fuentes:106
-msgid "If there is any notification opens"
-msgstr "Se houver qualquer notificação aberta"
+#: source:151
+msgid ""
+"Reads the last notification and it takes the system focus to it if it is "
+"possible. By pressing two times quickly shows the history of notifications."
+msgstr ""
 
-#: fuentes:130
+#: source:174
 msgid "Brings the focus to the document"
 msgstr "Traz o foco para o documento"
 
-#: fuentes:164
+#: source:198
 msgid "Opened tabs"
 msgstr "Separadores abertos"
 
-#: fuentes:171
+#: source:205
 msgid "Tool Bar Buttons"
 msgstr "Botões da barra de ferramentas"
 
-#: fuentes:225
+#: source:258
 msgid "&Go"
 msgstr "&Ir para"
 
-#: fuentes:229
+#: source:262
 msgid "&Options"
 msgstr "&Opções"
 
-#: fuentes:232
-#: fuentes:647
+#: source:265 source:688
 msgid "Close"
 msgstr "Fechar"
 
-#: fuentes:304
-#: fuentes:575
+#: source:349 source:617
 msgid "mozilla Thunderbird"
 msgstr "Mozilla Thunderbird"
 
-#: fuentes:314
+#: source:359
 msgid "(Press down arrow to display more options)"
 msgstr "Pressione seta para baixo para mostrar mais opções"
 
-#: fuentes:349
-#: fuentes:361
-#: fuentes:429
+#: source:394 source:405 source:471
 msgid "Not found"
 msgstr "Não encontrado"
 
-#: fuentes:351
-#: fuentes:363
-#: fuentes:437
+#: source:396 source:407 source:479
 msgid "you are not in a message window"
 msgstr "Não está numa janela de mensagem"
 
-#: fuentes:353
+#: source:397
 msgid "Reads the subject of the message."
 msgstr "Lê o assunto da mensagem"
 
-#: fuentes:365
+#: source:408
 msgid "Reads date of the message."
 msgstr "Lê a data da mensagem"
 
-#: fuentes:374
+#: source:417
 msgid "You are not in a list of messages"
 msgstr "Não está numa lista de mensagens"
 
-#: fuentes:377
+#: source:420
 msgid "Column headers not found"
 msgstr "Encabeçamentos de coluna não encontrados"
 
-#: fuentes:388
+#: source:430
 msgid "Allows you to change the order of the columns in the messages list"
 msgstr "Permite alterar a ordem das colunas na lista de mensagens"
 
-#: fuentes:396
+#: source:438
 msgid "There are No attachments"
 msgstr "Não existem anexos"
 
-#: fuentes:407
+#: source:449
 msgid "Brings the focus to the list of attachments, if any."
 msgstr "Traz o foco para a lista de anexos, se houver."
 
-#: fuentes:414
+#: source:456
 msgid "Brings the focus to the text of the open message."
 msgstr "Traz o foco para o texto da mensagem aberta."
 
-#: fuentes:480
-#: fuentes:491
-#: fuentes:514
-#: fuentes:525
+#: source:522 source:533 source:556 source:567
 msgid "Search in "
 msgstr "Procure em"
 
-#: fuentes:495
+#: source:537
 msgid "Leaving search box"
 msgstr "A abandonar a caixa de pesquisa"
 
-#: fuentes:542
+#: source:584
 msgid "uncheck"
 msgstr "Desmarcar"
 
-#: fuentes:544
+#: source:586
 msgid "check"
 msgstr "Marcar"
 
-#: fuentes:553
+#: source:595
 msgid "checked"
 msgstr "Marcado"
 
-#: fuentes:555
+#: source:597
 msgid "not checked"
 msgstr "Desmarcado"
 
-#: fuentes:583
+#: source:625
 msgid "There are not more columns"
 msgstr "Não há mais colunas"
 
-#: fuentes:587
+#: source:629
 msgid "empty"
 msgstr "Vazia"
 
-#: fuentes:599
+#: source:641
 msgid "Expand the conversation to display messages"
 msgstr "Expanda a conversa para mostrar as mensagens"
 
-#: fuentes:601
+#: source:643
 msgid "Preview pane is not active or message has not been loaded yet"
-msgstr "O painel de visualização não está activo ou a mensagem ainda não foi carregada"
+msgstr ""
+"O painel de visualização não está activo ou a mensagem ainda não foi "
+"carregada"
 
-#: fuentes:603
+#: source:644
 msgid "In message list, reads the selected message without leaving the list."
 msgstr "Na lista de mensagens, lê a mensagem seleccionada sem sair da lista."
 
-#: fuentes:632
+#: source:673
 msgid "Manage columns"
 msgstr "Gerir colunas"
 
-#: fuentes:639
+#: source:680
 msgid "&up"
 msgstr "&Subir"
 
-#: fuentes:642
+#: source:683
 msgid "&down"
 msgstr "&descer"
 
-#: fuentes:645
+#: source:686
 msgid "&options"
 msgstr "&Opções"
 
-#: fuentes:670
+#: source:711
 #, python-format
 msgid "Can't move %s, it is already the first column."
 msgstr "Não é possível mover% s, já é a primeira coluna."
 
-#: fuentes:677
+#: source:718
 #, python-format
 msgid "%s before %s"
 msgstr "%s antes de %s"
 
-#: fuentes:684
+#: source:725
 #, python-format
 msgid "Can't move %s, it is already the last column."
 msgstr "Não é possível mover% s, já é a última coluna."
 
-#: fuentes:691
+#: source:732
 #, python-format
 msgid "%s after %s"
 msgstr "%s depois de  %s"
 
-#: fuentes:706
+#: source:747
 #, python-format
-msgid "Folder has changed, return to %s to manage columns or restart this dialog"
-msgstr "A pasta mudou, volte para% s para gerir colunas ou reinicie esta caixa de diálogo"
+msgid ""
+"Folder has changed, return to %s to manage columns or restart this dialog"
+msgstr ""
+"A pasta mudou, volte para% s para gerir colunas ou reinicie esta caixa de "
+"diálogo"
+
+#~ msgid "If there is any notification opens"
+#~ msgstr "Se houver qualquer notificação aberta"
 
 #~ msgid ""
 #~ "Reads the sender and recipients of the message. If pressed twice quickly, "
@@ -253,18 +295,20 @@ msgstr "A pasta mudou, volte para% s para gerir colunas ou reinicie esta caixa d
 #~ msgstr ""
 #~ "Lee el remitente y los destinatarios del mensaje. Si se pulsa dos veces "
 #~ "rápidamente, abre el menú de opciones. "
+
 #~ msgid "Property page not found"
 #~ msgstr "No se encontró la página de propiedades"
+
 #~ msgid ""
 #~ "Reads the sender of the message. If pressed twice quickly, opens the "
 #~ "options menu."
 #~ msgstr ""
 #~ "Lee el remitente del mensaje. Si se pulsa dos veces rápidamente, abre el "
 #~ "menú de opciones. "
+
 #~ msgid ""
 #~ "Reads the recipient of the message. If pressed twice quickly, opens the "
 #~ "options menu."
 #~ msgstr ""
 #~ "Lee el destinatario del mensaje. Si se pulsa dos veces rápidamente, abre "
 #~ "el menú de opciones. "
-

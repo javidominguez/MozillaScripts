@@ -3,6 +3,7 @@
 # License GNU GPL
 
 from nvdaBuiltin.appModules import firefox
+from NVDAObjects.IAccessible.mozilla import Dialog, IAccessible
 import addonHandler
 import scriptHandler
 import globalCommands
@@ -10,16 +11,40 @@ import controlTypes
 import api
 import ui
 import winUser
+import speech
 import gui
 import wx
+from datetime import datetime, timedelta
+from threading import Timer
 
 addonHandler.initTranslation()
 
 class AppModule(firefox.AppModule):
+
 	tbDialog = None
+	notificationHistory = []
 
 	scriptCategory = _("mozilla Firefox")
-	
+
+	def chooseNVDAObjectOverlayClasses(self, obj, clsList):
+		if obj.role == controlTypes.ROLE_ALERT:
+			alertText = ""
+			for child in obj.recursiveDescendants:
+				if child.name:
+					if not child.isFocusable and child.name not in alertText:
+						alertText = "%s %s" % (alertText, child.name)
+			obj.description = alertText
+			clsList.insert(0, alertPopup)
+
+	def event_alert(self, obj, nextHandler):
+		alertText = obj.name if obj.name else obj.description if obj.description else obj.displayText if obj.displayText else _("Couldn't capture the text of this notification")
+		if self.inMainWindow():
+			if self.focusAlertPopup(obj):
+				Timer(0.5, nextHandler)
+				return
+		self.notificationHistory.append((datetime.now(), alertText))
+		nextHandler()
+
 	def script_status(self, gesture):
 		if not self.inMainWindow():
 			ui.message(_("Not available here"))
@@ -82,24 +107,48 @@ class AppModule(firefox.AppModule):
 		ui.message (_("Tool bar not found"))
 	script_toolsBar.__doc__ = _("Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool bar.")
 
+
 	def script_openNotification(self, gesture):
 		if not self.inMainWindow():
 			ui.message(_("Not available here"))
 			return
-		path = (("id", "nav-bar"), ("id", "urlbar"), ("class", "notification-anchor-icon"))
-		button = self.searchObject(path)
-		if button:
-			ui.message(button.name)
-			button.scrollIntoView()
-			api.setNavigatorObject(button)
-			api.setFocusObject(button)
-			try:
-				scriptHandler.executeScript(globalCommands.commands.script_review_activate, None)
+		obj = api.getForegroundObject().simpleFirstChild
+		if obj.role == controlTypes.ROLE_ALERT:
+			if api.getFocusObject().parent == obj: # Already focused
+				ui.message(obj.description)
+				speech.speakObject(api.getFocusObject())
 				return
-			except:
+			if self.focusAlertPopup(obj):
 				return
-		ui.message(_("There is no notification"))
-	script_openNotification.__doc__ = _("If there is any notification opens")
+		if self.notificationHistory:
+			def elapsedFromTimestamp(timestamp):
+				delta = datetime.now()-timestamp
+				d = -delta.days
+				h, r = divmod(delta.seconds, 3600)
+				m, s = divmod(r, 60)
+				if d == 1:
+					return "Yesterday"
+				if d > 1:
+					return "%d days ago" % d
+				if h == 1:
+					return _("About an hour ago")
+				elif h > 1:
+					return _("About %d hours ago") % h
+				if m == 1:
+					return _("About a minute ago")
+				elif m > 1:
+					return _("About %d minutes ago") % m
+				if s == 1:
+					return _("a second ago")
+				elif s > 1:
+					return _("%d seconds ago") % s
+			if scriptHandler.getLastScriptRepeatCount() == 1:
+				ui.browseableMessage("\n".join(["%s: %s" % (elapsedFromTimestamp(notification[0]), notification[1]) for notification in self.notificationHistory]), _("Notification History"))
+			else:
+				ui.message(_("Last alert, %s: %s") % (elapsedFromTimestamp(self.notificationHistory[-1][0]), self.notificationHistory[-1][1]))
+		else:
+			ui.message(_("There is no notification"))
+	script_openNotification.__doc__ = _("Reads the last notification and it takes the system focus to it if it is possible. By pressing two times quickly shows the history of notifications.")
 
 	def script_focusDocument(self, gesture):
 		if not self.inMainWindow():
@@ -123,6 +172,18 @@ class AppModule(firefox.AppModule):
 			except NameError:
 				pass
 	script_focusDocument.__doc__ = _("Brings the focus to the document")
+
+	def focusAlertPopup(self, alertPopup):
+		if True:
+			obj = alertPopup.firstChild
+			while obj and not obj.isFocusable:
+				obj = obj.next
+			if obj:
+				obj.scrollIntoView()
+				obj.setFocus()
+				Timer(0.1, speech.cancelSpeech)
+				return True
+		return False
 
 	def getTabsDialog(self):
 		tabs = ""
@@ -170,7 +231,7 @@ class AppModule(firefox.AppModule):
 		try:
 			if api.getForegroundObject().IA2Attributes["id"] != "main-window":
 				return(False)
-		except AttributeError:
+		except (AttributeError, KeyError):
 			return(False)
 		return(True)
 
@@ -251,3 +312,16 @@ class toolsBarDialog(wx.Dialog):
 			api.setMouseObject(obj)
 			return (True)
 		return(False)
+
+class alertPopup(Dialog):
+	pass
+
+class alertPopupChild(IAccessible):
+
+	def script_title(self, gesture):
+		ui.message("titulo de la alerta")
+		ui.message(self.container.description)
+
+	__gestures = {
+	filter(lambda g: g[1].__name__ == "script_title", globalCommands.commands._gestureMap.iteritems())[0][0]: "title"
+	}

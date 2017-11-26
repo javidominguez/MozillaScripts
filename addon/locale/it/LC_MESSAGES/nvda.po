@@ -7,66 +7,70 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-11 19:27+0200\n"
-"PO-Revision-Date: 2016-10-12 17:43+0200\n"
+"POT-Creation-Date: 2017-11-26 21:10+0100\n"
+"PO-Revision-Date: 2017-11-26 21:10+0100\n"
 "Last-Translator: Simone Dal Maso <simone.dalmaso@gmail.com>\n"
 "Language-Team: simone.dalmaso@gmail.com\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: messages:21
+#: source:27
 msgid "mozilla Firefox"
 msgstr "Mozilla Firefox"
 
-#: messages:25 messages:50 messages:68 messages:90 messages:110
+#: source:40
+msgid "Couldn't capture the text of this notification"
+msgstr ""
+
+#: source:50 source:74 source:91 source:113 source:155
 msgid "Not available here"
 msgstr "Non disponibile qui"
 
-#: messages:36
+#: source:61
 #, python-format
 msgid "Status bar: %s"
 msgstr "Barra di stato: %s "
 
-#: messages:38 messages:44
+#: source:63 source:69
 msgid "Status bar not found"
 msgstr "Barra di stato non trovata"
 
-#: messages:42 messages:60
+#: source:67 source:84
 msgid "Copied to clipboard"
 msgstr "Copiato negli appunti"
 
-#: messages:46
+#: source:70
 msgid "Reads the status bar. If pressed twice quickly, copies it to clipboard."
 msgstr ""
 "Legge la barra di stato. Se premuto due volte velocemente, copia il "
 "contenuto negli appunti."
 
-#: messages:57
+#: source:81
 #, python-format
 msgid "Page address is: %s (%s)"
 msgstr "L'indirizzo della pagina è: %s (%s) "
 
-#: messages:62
+#: source:86
 msgid "Address not found"
 msgstr "Indirizzo non trovatoDirección no encontrada"
 
-#: messages:64
+#: source:87
 msgid ""
 "Reads the page address. If pressed twice quickly, copies it to clipboard."
 msgstr ""
 "Legge l'indirizzo della pagina. Se premuto due volte velocemente, copia il "
 "contenuto negli appunti."
 
-#: messages:84
+#: source:107
 msgid "Tool bar not found"
 msgstr ""
 "Barra degli strumenti non trovataNo se encuentra la barra de herramientas"
 
-#: messages:86
+#: source:108
 msgid ""
 "Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool "
 "bar."
@@ -74,103 +78,214 @@ msgstr ""
 "Visualizza un elenco delle schede aperte. Se premuto due volte velocemente, "
 "mostra i pulsanti della barra degli strumenti."
 
-#: messages:104
+#: source:134
+msgid "About an hour ago"
+msgstr ""
+
+#: source:136
+#, python-format
+msgid "About %d hours ago"
+msgstr ""
+
+#: source:138
+msgid "About a minute ago"
+msgstr ""
+
+#: source:140
+#, python-format
+msgid "About %d minutes ago"
+msgstr ""
+
+#: source:142
+msgid "a second ago"
+msgstr ""
+
+#: source:144
+#, python-format
+msgid "%d seconds ago"
+msgstr ""
+
+#: source:146
+msgid "Notification History"
+msgstr ""
+
+#: source:148
+#, python-format
+msgid "Last alert, %s: %s"
+msgstr ""
+
+#: source:150
 msgid "There is no notification"
 msgstr "Non ci sono notifiche"
 
-#: messages:106
-msgid "If there is any notification opens"
-msgstr "Apre la notifica se presente"
+#: source:151
+msgid ""
+"Reads the last notification and it takes the system focus to it if it is "
+"possible. By pressing two times quickly shows the history of notifications."
+msgstr ""
 
-#: messages:130
+#: source:174
 msgid "Brings the focus to the document"
 msgstr "Sposta il focus sul documento"
 
-#: messages:142
+#: source:198
 msgid "Opened tabs"
 msgstr "Schede aperte"
 
-#: messages:149
+#: source:205
 msgid "Tool Bar Buttons"
 msgstr "Pulsanti della barra degli strumenti"
 
-#: messages:202
+#: source:258
 msgid "&Go"
 msgstr "&Vai"
 
-#: messages:206
+#: source:262
 msgid "&Options"
 msgstr "&Opzioni"
 
-#: messages:209
+#: source:265 source:688
 msgid "Close"
 msgstr "Chiudi"
 
-#: messages:277 messages:494
+#: source:349 source:617
 msgid "mozilla Thunderbird"
 msgstr "Mozilla Thunderbird"
 
-#: messages:286
+#: source:359
 msgid "(Press down arrow to display more options)"
 msgstr "Premere freccia giù per ulteriori opzioni"
 
-#: messages:321 messages:333 messages:352
+#: source:394 source:405 source:471
 msgid "Not found"
 msgstr "Non trovato"
 
-#: messages:323 messages:335 messages:360
+#: source:396 source:407 source:479
 msgid "you are not in a message window"
 msgstr "Non sei in una finestra del messaggio"
 
-#: messages:325
+#: source:397
 msgid "Reads the subject of the message."
 msgstr "Legge l'oggetto del messaggio."
 
-#: messages:337
+#: source:408
 msgid "Reads date of the message."
 msgstr "Legge la data del messaggio."
 
-#: messages:400 messages:411 messages:433 messages:444
+#: source:417
+msgid "You are not in a list of messages"
+msgstr ""
+
+#: source:420
+msgid "Column headers not found"
+msgstr ""
+
+#: source:430
+msgid "Allows you to change the order of the columns in the messages list"
+msgstr ""
+
+#: source:438
+msgid "There are No attachments"
+msgstr ""
+
+#: source:449
+msgid "Brings the focus to the list of attachments, if any."
+msgstr ""
+
+#: source:456
+msgid "Brings the focus to the text of the open message."
+msgstr ""
+
+#: source:522 source:533 source:556 source:567
 msgid "Search in "
 msgstr "Cerca in"
 
-#: messages:461
+#: source:537
+msgid "Leaving search box"
+msgstr ""
+
+#: source:584
 msgid "uncheck"
 msgstr "Attiva"
 
-#: messages:463
+#: source:586
 msgid "check"
 msgstr "Disattiva"
 
-#: messages:472
+#: source:595
 msgid "checked"
 msgstr "Attivato"
 
-#: messages:474
+#: source:597
 msgid "not checked"
 msgstr "Non attivato"
 
-#: messages:502
+#: source:625
 msgid "There are not more columns"
 msgstr "Non ci sono ulteriori colonne"
 
-#: messages:506
+#: source:629
 msgid "empty"
 msgstr "Vuota"
 
-#: messages:518
+#: source:641
 msgid "Expand the conversation to display messages"
 msgstr "Espandere la conversazione per visualizzare i messaggi"
 
-#: messages:520
+#: source:643
 msgid "Preview pane is not active or message has not been loaded yet"
 msgstr "L'anteprima non è attiva o il messaggio non si è ancora caricato"
 
-#: messages:522
+#: source:644
 msgid "In message list, reads the selected message without leaving the list."
 msgstr ""
 "Nell'elenco dei messaggi, legge il messaggio selezionato senza abbandonare "
 "l'elenco"
+
+#: source:673
+msgid "Manage columns"
+msgstr ""
+
+#: source:680
+msgid "&up"
+msgstr ""
+
+#: source:683
+msgid "&down"
+msgstr ""
+
+#: source:686
+msgid "&options"
+msgstr ""
+
+#: source:711
+#, python-format
+msgid "Can't move %s, it is already the first column."
+msgstr ""
+
+#: source:718
+#, python-format
+msgid "%s before %s"
+msgstr ""
+
+#: source:725
+#, python-format
+msgid "Can't move %s, it is already the last column."
+msgstr ""
+
+#: source:732
+#, python-format
+msgid "%s after %s"
+msgstr ""
+
+#: source:747
+#, python-format
+msgid ""
+"Folder has changed, return to %s to manage columns or restart this dialog"
+msgstr ""
+
+#~ msgid "If there is any notification opens"
+#~ msgstr "Apre la notifica se presente"
 
 #~ msgid ""
 #~ "Reads the sender and recipients of the message. If pressed twice quickly, "
