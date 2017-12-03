@@ -7,7 +7,7 @@
 * NVDA + A (desktop) ou NVDA + Control + A (laptop) Lê o endereço da página. Se pressionado duas vezes rapidamente, copia-o para a área de transferência.
 * NVDA + End (desktop) ou NVDA + Shift + End (laptop) Lê a barra de estado. Se pressionado duas vezes rapidamente, copia-a para a área de transferência.
 * NVDA + F8 Mostra uma lista de separadores abertos. Se pressionado duas vezes rapidamente, mostra os botões da barra de ferramentas.
-* NVDA + Control + N Mostra a notificação se houver alguma.
+* NVDA + Control + N Lê a última notificação e leva para lá o foco do sistema se for possível. Pressionando duas vezes rapidamente mostra o histórico das notificações.
 * NVDA + F6 Traz o foco para o documento.
  
 ## Thunderbird
@@ -17,7 +17,7 @@
 	* Controle + Shift + 5 Lê o assunto da mensagem.
 	* Controle + Shift + 6 Lê a data da mensagem.
 	* Controle + Shift + A Traz o foco para a lista de anexos, se houver algum.
-(Estes scripts também estão disponíveis na lista de mensagens se você ativar o painel de visualização).
+(Estes scripts também estão disponíveis na lista de mensagens se  activar o painel de visualização).
 * Na barra de filtragem rápida:
 	* Pressione seta para baixo para mostrar  mais opções, enter para marcar / desmarcar a opção seleccionada.
 * Na lista de mensagens:

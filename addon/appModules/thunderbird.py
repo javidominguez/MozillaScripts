@@ -1,9 +1,10 @@
-# Mozilla Thunderbird Scripts version 1.1.0 (apr 2017)
+# Mozilla Thunderbird Scripts version 1.4 (Dec-2017)
 # Author Javi Dominguez <fjavids@gmail.com>
 # License GNU GPL
 
 from nvdaBuiltin.appModules import thunderbird
 from time import time
+from datetime import datetime
 from NVDAObjects.IAccessible.mozilla import BrokenFocusedState
 from tones import beep
 import addonHandler
@@ -16,13 +17,17 @@ import speech
 import gui
 import wx
 import globalCommands
+import shared
 
 addonHandler.initTranslation()
 
 class AppModule(thunderbird.AppModule):
+
 	scriptCategory = _("mozilla Thunderbird")
+
 	lastIndex = 0
 	Dialog = None
+	notificationHistory = []
 
 	def chooseNVDAObjectOverlayClasses(self, obj, clsList):
 		# Overlay search box in fast filtering bar
@@ -47,6 +52,14 @@ class AppModule(thunderbird.AppModule):
 				pass
 			except AttributeError:
 				pass
+
+	def event_alert(self, obj, nextHandler):
+		alertText = obj.name if obj.name else obj.description if obj.description else obj.displayText if obj.displayText else ""
+		if shared.focusAlertPopup(obj,
+		SETFOCUS = False if controlTypes.STATE_EDITABLE in api.getFocusObject().states else True):
+			return
+		self.notificationHistory.append((datetime.now(), alertText.replace("\n", "\t")))
+		nextHandler()
 
 	def script_readAddressField(self, gesture):
 		try:
@@ -129,6 +142,24 @@ class AppModule(thunderbird.AppModule):
 			pass
 	script_focusDocument.__doc__ = _("Brings the focus to the text of the open message.")
 
+	def script_notifications(self, gesture):
+		obj = self.getPropertyPage().simpleLastChild.simplePrevious
+		if obj.role == controlTypes.ROLE_ALERT:
+			if api.getFocusObject().parent == obj: # Already focused
+				ui.message(shared.getAlertText(obj))
+				speech.speakObject(api.getFocusObject())
+				return
+			if shared.focusAlertPopup(obj):
+				return
+		if self.notificationHistory:
+			if scriptHandler.getLastScriptRepeatCount() == 1:
+				ui.browseableMessage("\n".join(["%s: %s" % (shared.elapsedFromTimestamp(notification[0]), notification[1]) for notification in self.notificationHistory]), "%s - Thunderbird" % _("Notification History"))
+			else:
+				ui.message(_("Last alert, %s: %s") % (shared.elapsedFromTimestamp(self.notificationHistory[-1][0]), self.notificationHistory[-1][1]))
+		else:
+			ui.message(_("There is no notification"))
+	script_notifications.__doc__ = _("Reads the last notification and it takes the system focus to it if it is possible. By pressing two times quickly shows the history of notifications.")
+
 	def addressField(self, index, rightClick):
 		if self.isDocument():
 			fields = []
@@ -179,7 +210,8 @@ class AppModule(thunderbird.AppModule):
 		"kb:Control+Shift+6": "messageDate",
 		"kb:NVDA+H": "manageColumns",
 		"kb:Control+Shift+A": "attachments",
-		"kb:NVDA+F6": "focusDocument"
+		"kb:NVDA+F6": "focusDocument",
+		"kb:NVDA+Control+N": "notifications"
 	}
 
 class SearchBox(BrokenFocusedState):

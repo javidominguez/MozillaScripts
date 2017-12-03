@@ -7,7 +7,7 @@
 * NVDA + A (desktop) ou NVDA + Control + A (laptop) Lê o endereço da página. Se pressionado duas vezes rapidamente, copia-o para a área de transferência.
 * NVDA + End (desktop) ou NVDA + Shift + End (laptop) Lê a barra de estado. Se pressionado duas vezes rapidamente, copia-a para a área de transferência.
 * NVDA + F8 Mostra uma lista de separadores abertos. Se pressionado duas vezes rapidamente, mostra os botões da barra de ferramentas.
-* NVDA + Control + N Mostra a notificação se houver alguma.
+* NVDA + Control + N Lê a última notificação e leva para lá o foco do sistema se for possível. Pressionando duas vezes rapidamente mostra o histórico das notificações.
 * NVDA + F6 Traz o foco para o documento.
  
 ## Thunderbird
