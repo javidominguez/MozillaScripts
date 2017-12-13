@@ -1,4 +1,4 @@
-# Mozilla Thunderbird Scripts version 1.4 (Dec-2017)
+# Mozilla Thunderbird Scripts version 1.4.1 (Dec-2017)
 # Author Javi Dominguez <fjavids@gmail.com>
 # License GNU GPL
 
@@ -54,11 +54,15 @@ class AppModule(thunderbird.AppModule):
 				pass
 
 	def event_alert(self, obj, nextHandler):
-		alertText = obj.name if obj.name else obj.description if obj.description else obj.displayText if obj.displayText else ""
-		if shared.focusAlertPopup(obj,
-		SETFOCUS = False if controlTypes.STATE_EDITABLE in api.getFocusObject().states else True):
-			return
-		self.notificationHistory.append((datetime.now(), alertText.replace("\n", "\t")))
+		if obj.role == controlTypes.ROLE_ALERT:
+			alertText = obj.name if obj.name else obj.description if obj.description else obj.displayText if obj.displayText else ""
+			if shared.focusAlertPopup(obj,
+			SETFOCUS = False if controlTypes.STATE_EDITABLE in api.getFocusObject().states else True):
+				return
+			notificationLog = (datetime.now(), alertText.replace("\n", "\t"))
+			if notificationLog not in self.notificationHistory:
+				# Sometimes there are duplicate notifications. Is checked before storing in the history.
+				self.notificationHistory.append(notificationLog)
 		nextHandler()
 
 	def script_readAddressField(self, gesture):
@@ -66,9 +70,7 @@ class AppModule(thunderbird.AppModule):
 			index = int(gesture.keyName[-1])-1
 		except AttributeError:
 			index = int(gesture.mainKeyName[-1])-1
-		rightClick = False
-		if scriptHandler.getLastScriptRepeatCount() == 1 and index == self.lastIndex:
-			rightClick = True
+		rightClick = True if scriptHandler.getLastScriptRepeatCount() == 1 and index == self.lastIndex else False
 		self.addressField(index, rightClick)
 		self.lastIndex = index
 
@@ -190,16 +192,16 @@ class AppModule(thunderbird.AppModule):
 				doc = filter(lambda o: o.role == controlTypes.ROLE_DOCUMENT, frame.children)[0]
 			except IndexError:
 				pass
-		return(doc)
+		return doc
 
 	def getPropertyPage(self):
 		fg = api.getForegroundObject()
 		try:
 			propertyPages = filter(lambda o: o.role == controlTypes.ROLE_PROPERTYPAGE, filter(lambda o: o.role == controlTypes.ROLE_GROUPING, fg.children)[0].children)
-			return(propertyPages[0])
+			return propertyPages[0]
 		except IndexError:
 			# When message is opened in a new window there are not a property page. Address fields hang directly from foreground.
-			return(fg)
+			return fg
 
 	__gestures = {
 		"kb:Control+Shift+1": "readAddressField",
@@ -226,9 +228,7 @@ class SearchBox(BrokenFocusedState):
 				isToolBarButton = True
 				if "qfb-qs-" in self.pointedObj.IA2Attributes["id"]:
 					self.pointedObj.name = _("Search in ")+self.pointedObj.name
-		except KeyError:
-			pass
-		except AttributeError:
+		except (KeyError, AttributeError):
 			pass
 		while not isToolBarButton :
 			try:
@@ -260,9 +260,7 @@ class SearchBox(BrokenFocusedState):
 				isToolBarButton = True
 				if "qfb-qs-" in self.pointedObj.IA2Attributes["id"]:
 					self.pointedObj.name = _("Search in ")+self.pointedObj.name
-		except KeyError:
-			pass
-		except AttributeError:
+		except (KeyError, AttributeError):
 			pass
 		while not isToolBarButton :
 			try:
@@ -373,7 +371,7 @@ class ThreadTree(BrokenFocusedState):
 		"kb:NVDA+Control+8": "moveToColumn",
 		"kb:NVDA+Control+9": "moveToColumn"
 	}
-	
+
 class manageColumnsDialog(wx.Dialog):
 	def __init__(self, parent):
 		super(manageColumnsDialog, self).__init__(parent, title=_("Manage columns"))

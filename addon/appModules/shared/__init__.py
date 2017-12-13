@@ -32,13 +32,13 @@ def focusAlertPopup(alertPopup, SETFOCUS = True):
 
 def elapsedFromTimestamp(timestamp):
 	delta = datetime.now()-timestamp
-	d = -delta.days
+	d = delta.days
+	if d == 1:
+		return _("Yesterday")
+	if d > 1:
+		return _("%d days ago") % d
 	h, r = divmod(delta.seconds, 3600)
 	m, s = divmod(r, 60)
-	if d == 1:
-		return "Yesterday"
-	if d > 1:
-		return "%d days ago" % d
 	if h == 1:
 		return _("About an hour ago")
 	elif h > 1:
@@ -54,9 +54,10 @@ def elapsedFromTimestamp(timestamp):
 
 def getAlertText(alertPopup):
 	alertText = alertPopup.name if alertPopup.name else alertPopup.description if alertPopup.description else alertPopup.displayText if alertPopup.displayText else ""
+	extendedAlertText = alertText
 	for obj in alertPopup.recursiveDescendants:
 		objText = obj.name if obj.name else obj.description if obj.description else obj.displayText if obj.displayText else ""
-		if not obj.isFocusable and objText not in alertText:
+		extendedAlertText = "%s %s" % (extendedAlertText, objText)
+		if obj.role == controlTypes.ROLE_STATICTEXT and objText not in alertText:
 			alertText = "%s %s" % (alertText, objText)
-	return alertText
-	
+	return alertText if alertText else extendedAlertText if extendedAlertText else _("Couldn't capture the text of this notification")

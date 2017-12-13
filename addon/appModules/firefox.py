@@ -1,4 +1,4 @@
-# Mozilla Firefox Scripts version 1.4 (Dec-2017)
+# Mozilla Firefox Scripts version 1.4.1 (Dec-2017)
 # Author Javi Dominguez <fjavids@gmail.com>
 # License GNU GPL
 
@@ -28,13 +28,33 @@ class AppModule(firefox.AppModule):
 	scriptCategory = _("mozilla Firefox")
 
 	def event_alert(self, obj, nextHandler):
-		alertText = shared.getAlertText(obj)
-		alertText = _("Couldn't capture the text of this notification") if not alertText else alertText
-		if self.inMainWindow():
-			if shared.focusAlertPopup(obj):
-				Timer(0.75, nextHandler)
+		try:
+			if obj.IA2Attributes["id"] == "customizationui-widget-panel":
+				# Firefox add-on panel
+				speech.cancelSpeech()
+				api.setFocusObject(obj.simpleFirstChild)
+				nextHandler()
 				return
-		self.notificationHistory.append((datetime.now(), alertText.replace("\n", "\t")))
+		except (KeyError, AttributeError):
+			pass
+		try:
+			isNotification = "notification" in "".join(obj.IA2Attributes.values()).lower()\
+			or "alert" in "".join(obj.IA2Attributes.values()).lower()
+		except:
+			isNotification = False
+		if isNotification:
+			try:
+				isPopup = obj.IA2Attributes["id"] == "notification-popup"
+			except (KeyError, AttributeError):
+				isPopup = False
+			if self.inMainWindow() and isPopup:
+				if shared.focusAlertPopup(obj):
+					Timer(0.75, nextHandler)
+					return
+			alertText = "%s" % shared.getAlertText(obj)
+			notificationLog = (datetime.now(), alertText.replace("\n", "\t"))
+			if notificationLog not in self.notificationHistory:
+				self.notificationHistory.append(notificationLog)
 		nextHandler()
 
 	def script_status(self, gesture):
@@ -68,7 +88,15 @@ class AppModule(firefox.AppModule):
 		path = (("id", "nav-bar"), ("id", "urlbar"), ("id", "identity-box",))
 		secInfoButton = self.searchObject(path)
 		if secInfoButton:
-			securInfo = secInfoButton.description
+			securInfo = secInfoButton.description # This has changed in FF 57. Keeping this line for compatibility with earlier versions.
+			try: # This one is for FF 57 and later.
+				securInfo = secInfoButton.getChild(1).name if secInfoButton.getChild(1).IA2Attributes["id"] == "connection-icon" else ""
+				if securInfo:
+					owner = " ".join([o.name for o in filter(lambda o: o.role == controlTypes.ROLE_STATICTEXT, secInfoButton.recursiveDescendants)])
+					securInfo = "%s, %s" % (owner, securInfo) if owner else securInfo
+			except:
+				pass
+			securInfo  = _("Insecure connection") if not securInfo   else securInfo  
 			url = secInfoButton.next.value
 			ui.message(_("Page address is: %s (%s)") % (url, securInfo))
 			if scriptHandler.getLastScriptRepeatCount() == 1:
@@ -152,22 +180,22 @@ class AppModule(firefox.AppModule):
 				pass
 			else:
 				tabs = filter(lambda o: o.role == controlTypes.ROLE_TAB, tabControl.children)
-		return(tabs, "%d %s" % (len(tabs), _("Opened tabs")))
+		return tabs, "%d %s" % (len(tabs), _("Opened tabs"))
 
 	def getButtonsDialog(self):
 		fg = api.getForegroundObject()
 		buttons = []
 		for toolBar in filter(lambda o: o.role == controlTypes.ROLE_TOOLBAR, fg.children):
 			buttons = buttons + filter(lambda o: o.role == controlTypes.ROLE_BUTTON, toolBar.children)
-		return(buttons, _("Tool Bar Buttons"))
+		return buttons, _("Tool Bar Buttons")
 
 	def searchObject(self, path):
 		obj = api.getForegroundObject()
 		for milestone in path:
 			obj = self.searchAmongTheChildren(milestone, obj)
 			if not obj:
-				return(None)
-		return(obj)
+				return
+		return obj
 
 	def searchAmongTheChildren(self, id, into):
 		if not into:
@@ -187,10 +215,10 @@ class AppModule(firefox.AppModule):
 	def inMainWindow(self):
 		try:
 			if api.getForegroundObject().IA2Attributes["id"] != "main-window":
-				return(False)
+				return False
 		except (AttributeError, KeyError):
-			return(False)
-		return(True)
+			return False
+		return True
 
 	__gestures = {
 		"kb(desktop):NVDA+End": "status",
@@ -267,6 +295,5 @@ class toolsBarDialog(wx.Dialog):
 			obj.scrollIntoView()
 			api.moveMouseToNVDAObject(obj)
 			api.setMouseObject(obj)
-			return (True)
-		return(False)
-
+			return True
+		return False
