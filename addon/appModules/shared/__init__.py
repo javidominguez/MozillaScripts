@@ -1,7 +1,7 @@
-# Mozilla Scripts version 1.4 (Dec-2017)
-# Shared code for both appmodules
-# Author Javi Dominguez <fjavids@gmail.com>
-# License GNU GPL
+# Mozilla Scripts add-on for NVDA
+#This file is covered by the GNU General Public License.
+#See the file COPYING.txt for more details.
+#Copyright (C) 2017 Javi Dominguez <fjavids@gmail.com>
 
 from datetime import datetime, timedelta
 from threading import Timer

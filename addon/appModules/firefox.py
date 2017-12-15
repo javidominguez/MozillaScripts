@@ -1,6 +1,7 @@
-# Mozilla Firefox Scripts version 1.4.1 (Dec-2017)
-# Author Javi Dominguez <fjavids@gmail.com>
-# License GNU GPL
+# Mozilla Scripts add-on for NVDA
+#This file is covered by the GNU General Public License.
+#See the file COPYING.txt for more details.
+#Copyright (C) 2017 Javi Dominguez <fjavids@gmail.com>
 
 from nvdaBuiltin.appModules import firefox
 from NVDAObjects.IAccessible.mozilla import Dialog, IAccessible
