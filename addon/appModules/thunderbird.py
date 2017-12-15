@@ -1,6 +1,7 @@
-# Mozilla Thunderbird Scripts version 1.4.1 (Dec-2017)
-# Author Javi Dominguez <fjavids@gmail.com>
-# License GNU GPL
+# Mozilla Scripts add-on for NVDA
+#This file is covered by the GNU General Public License.
+#See the file COPYING.txt for more details.
+#Copyright (C) 2017 Javi Dominguez <fjavids@gmail.com>
 
 from nvdaBuiltin.appModules import thunderbird
 from time import time
@@ -23,6 +24,7 @@ addonHandler.initTranslation()
 
 class AppModule(thunderbird.AppModule):
 
+	#TRANSLATORS: category for Thunderbird input gestures
 	scriptCategory = _("mozilla Thunderbird")
 
 	lastIndex = 0
@@ -35,6 +37,7 @@ class AppModule(thunderbird.AppModule):
 			try:
 				if obj.IA2Attributes["xml-roles"] == "searchbox":
 					setattr(obj, "pointedObj", None)
+					#TRANSLATORS: additional description for the search field
 					obj.description = _("(Press down arrow to display more options)")
 					clsList.insert(0, SearchBox)
 			except KeyError:
@@ -80,9 +83,12 @@ class AppModule(thunderbird.AppModule):
 			try:
 				ui.message(obj.getChild(0).name)
 			except (IndexError, AttributeError):
+				#TRANSLATORS: cannot find subject
 				ui.message(_("Not found"))
 		else:
+			#TRANSLATORS: message spoken if you try to read the subject out of a message window
 			ui.message(_("you are not in a message window"))
+	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_messageSubject.__doc__ = _("Reads the subject of the message.")
 
 	def script_messageDate (self, gesture):
@@ -91,9 +97,12 @@ class AppModule(thunderbird.AppModule):
 				obj = filter(lambda o: o.role == controlTypes.ROLE_EDITABLETEXT and controlTypes.STATE_READONLY in o.states, self.getPropertyPage().children)[0]
 				ui.message(obj.value)
 			except (IndexError, AttributeError):
+				#TRANSLATORS: cannot find date
 				ui.message(_("Not found"))
 		else:
+			#TRANSLATORS: message spoken if you try to read the date out of a message window
 			ui.message(_("you are not in a message window"))
+	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_messageDate.__doc__ = _("Reads date of the message.")
 
 	def script_manageColumns(self, gesture):
@@ -103,9 +112,11 @@ class AppModule(thunderbird.AppModule):
 			try:
 				columnHeaders = filter(lambda o: o.role == controlTypes.ROLE_TREEVIEW, self.getPropertyPage().children)[-1].getChild(0).children
 			except IndexError:
+				#TRANSLATORS: message spoken if you want to manage columns out of messages list
 				ui.message(_("You are not in a list of messages"))
 				return
 		if len(columnHeaders) == 1:
+			#TRANSLATORS: this is a message list without column headers
 			ui.message(_("Column headers not found"))
 			return
 		if not self.Dialog:
@@ -116,6 +127,7 @@ class AppModule(thunderbird.AppModule):
 			self.Dialog.Show()
 			self.Dialog.Centre()
 			gui.mainFrame.postPopup()
+	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_manageColumns.__doc__ = _("Allows you to change the order of the columns in the messages list")
 
 	def script_attachments (self, gesture):
@@ -124,6 +136,7 @@ class AppModule(thunderbird.AppModule):
 			try:
 				attachmentToggleButton = filter(lambda o: o.IA2Attributes["id"] == "attachmentToggle", self.getPropertyPage().children)[0]
 			except IndexError:
+				#TRANSLATORS: there are no attachments in this message
 				ui.message(_("There are No attachments"))
 				return
 			ui.message(attachmentToggleButton.next.name)
@@ -135,6 +148,7 @@ class AppModule(thunderbird.AppModule):
 				self.getPropertyPage().children[-1].getChild(0).setFocus()
 			return
 		gesture.send()
+	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_attachments.__doc__ = _("Brings the focus to the list of attachments, if any.")
 
 	def script_focusDocument(self, gesture):
@@ -142,6 +156,7 @@ class AppModule(thunderbird.AppModule):
 			self.isDocument().setFocus()
 		except:
 			pass
+	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_focusDocument.__doc__ = _("Brings the focus to the text of the open message.")
 
 	def script_notifications(self, gesture):
@@ -157,9 +172,12 @@ class AppModule(thunderbird.AppModule):
 			if scriptHandler.getLastScriptRepeatCount() == 1:
 				ui.browseableMessage("\n".join(["%s: %s" % (shared.elapsedFromTimestamp(notification[0]), notification[1]) for notification in self.notificationHistory]), "%s - Thunderbird" % _("Notification History"))
 			else:
+				#TRANSLATORS: read the last notification
 				ui.message(_("Last alert, %s: %s") % (shared.elapsedFromTimestamp(self.notificationHistory[-1][0]), self.notificationHistory[-1][1]))
 		else:
+			#TRANSLATORS: there is no recent notification in Thunderbird
 			ui.message(_("There is no notification"))
+	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_notifications.__doc__ = _("Reads the last notification and it takes the system focus to it if it is possible. By pressing two times quickly shows the history of notifications.")
 
 	def addressField(self, index, rightClick):
@@ -175,6 +193,7 @@ class AppModule(thunderbird.AppModule):
 			try:
 				ui.message(",".join([o.name for o in fields[index].parent.children]))
 			except (IndexError, AttributeError):
+				#TRANSLATORS: cannot find sender address
 				ui.message(_("Not found"))
 			if rightClick:
 				api.moveMouseToNVDAObject(fields[index].getChild(0).getChild(1))
@@ -183,6 +202,7 @@ class AppModule(thunderbird.AppModule):
 				winUser.mouse_event(winUser.MOUSEEVENTF_RIGHTUP,0,0,None,None)
 				speech.pauseSpeech(True)
 		else:
+			#TRANSLATORS: message spoken if you try to read the sender address out of a message window
 			ui.message(_("you are not in a message window"))
 
 	def isDocument(self):
@@ -240,6 +260,7 @@ class SearchBox(BrokenFocusedState):
 			except:
 				pass
 			if not self.pointedObj or self.pointedObj.role == controlTypes.ROLE_TREEVIEW:
+				#TRANSLATORS: message spoken when leaving the search box in Thunderbird
 				ui.message(_('Leaving search box'))
 				self.pointedObj = self.parent.parent.firstChild
 				gesture.send()
@@ -268,6 +289,7 @@ class SearchBox(BrokenFocusedState):
 				if self.pointedObj.IA2Attributes["tag"] == "toolbarbutton":
 					isToolBarButton = True
 					if "qfb-qs-" in self.pointedObj.IA2Attributes["id"]:
+						#TRANSLATORS: Thunderbird search box name
 						self.pointedObj.name = _("Search in ")+self.pointedObj.name
 			except KeyError:
 				pass
@@ -285,8 +307,10 @@ class SearchBox(BrokenFocusedState):
 	def script_pressButton(self, gesture):
 		if self.pointedObj:
 			if controlTypes.STATE_PRESSED in self.pointedObj.states:
+				#TRANSLATORS: a button has been unchecked
 				ui.message(_("uncheck"))
 			else:
+				#TRANSLATORS: a button has been checked
 				ui.message(_("check"))
 			ui.message(self.pointedObj.name)
 			api.moveMouseToNVDAObject(self.pointedObj)
@@ -296,8 +320,10 @@ class SearchBox(BrokenFocusedState):
 
 	def readCheckButton(self):
 		if controlTypes.STATE_PRESSED in self.pointedObj.states:
+			#TRANSLATORS: a button is checked
 			state = _("checked")
 		else:
+			#TRANSLATORS: a button is not checked
 			state = _("not checked")
 		if self.pointedObj.description:
 			ui.message("%s, %s, %s" % (self.pointedObj.name, state, self.pointedObj.description))
@@ -316,8 +342,9 @@ class SearchBox(BrokenFocusedState):
 	"kb:upArrow": "previousOption",
 	"kb:Enter": "pressButton"
 	}
-	
+
 class ThreadTree(BrokenFocusedState):
+	#TRANSLATORS: category for Thunderbird input gestures
 	scriptCategory = _("mozilla Thunderbird")
 
 	def script_moveToColumn(self, gesture):
@@ -326,10 +353,12 @@ class ThreadTree(BrokenFocusedState):
 		except AttributeError:
 			index = int(gesture.mainKeyName[-1])-1
 		if index >= self.childCount:
+			#TRANSLATORS: message spoken when there aren't more columns in the tree
 			ui.message(_("There are not more columns"))
 			return
 		obj = self.getChild(index)
 		if not obj.name:
+			#TRANSLATORS: empty object name
 			obj.name = _("empty")
 		obj.states = None
 		api.setNavigatorObject(obj)
@@ -342,10 +371,14 @@ class ThreadTree(BrokenFocusedState):
 			self.readPreviewPane(doc)
 		else:
 			if controlTypes.STATE_COLLAPSED in self.states:
+				#TRANSLATORS: message spoken when a conversation is collapsed
 				ui.message(_("Expand the conversation to display messages"))
 			else:
+				#TRANSLATORS: the preview pane is not available yet
 				ui.message(_("Preview pane is not active or message has not been loaded yet"))
+	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_readPreviewPane.__doc__ = _("In message list, reads the selected message without leaving the list.")
+
 
 	def readPreviewPane(self, obj):
 		obj = obj.firstChild
@@ -374,6 +407,7 @@ class ThreadTree(BrokenFocusedState):
 
 class manageColumnsDialog(wx.Dialog):
 	def __init__(self, parent):
+		#TRANSLATORS: manage columns dialog title
 		super(manageColumnsDialog, self).__init__(parent, title=_("Manage columns"))
 		# Build interface
 		mainSizer = wx.BoxSizer(wx.VERTICAL)
@@ -381,14 +415,18 @@ class manageColumnsDialog(wx.Dialog):
 		mainSizer.Add(self.listBox, proportion=8)
 		buttonsSizer = wx.BoxSizer(wx.HORIZONTAL)
 		upButtonID = wx.NewId()
+		#TRANSLATORS: up button in columns dialog
 		self.upButton = wx.Button(self, upButtonID, _("&up"))
 		buttonsSizer.Add(self.upButton)
 		downButtonID = wx.NewId()
+		#TRANSLATORS: down button in columns dialog
 		self.downButton = wx.Button(self, downButtonID, _("&down"))
 		buttonsSizer.Add(self.downButton)
 		optionsButtonID = wx.NewId()
+		#TRANSLATORS: options button in the columns dialog
 		self.optionsButton = wx.Button(self, optionsButtonID, _("&options"))
 		buttonsSizer.Add(self.optionsButton)
+		#TRANSLATORS: close button in the columns dialog
 		cancelButton = wx.Button(self, wx.ID_CANCEL, _("Close"))
 		buttonsSizer.Add(cancelButton)
 		mainSizer.Add(buttonsSizer)
@@ -412,6 +450,7 @@ class manageColumnsDialog(wx.Dialog):
 	def onUpButton(self, event):
 		c = self.listBox.GetSelections()[0]
 		if c == 0:
+			#TRANSLATORS: the column can't be moved, it is already in the first position
 			ui.message(_("Can't move %s, it is already the first column.") % self.columns[c].name)
 			return
 		if self.dragAndDrop(c-1, c):
@@ -419,6 +458,7 @@ class manageColumnsDialog(wx.Dialog):
 			self.upButton.SetFocus()
 			self.Show()
 			self.Center()
+			#TRANSLATORS: the selected column moves before another column
 			ui.message(_("%s before %s") % (self.columns[c-1].name, self.columns[c].name))
 		else:
 			beep(150, 100)
@@ -426,6 +466,7 @@ class manageColumnsDialog(wx.Dialog):
 	def onDownButton(self, event):
 		c = self.listBox.GetSelections()[0]
 		if c+1 == len(self.columns):
+			#TRANSLATOR: this is the last column and can't be moved
 			ui.message(_("Can't move %s, it is already the last column.") % self.columns[c].name)
 			return
 		if self.dragAndDrop(c, c+1):
@@ -433,6 +474,7 @@ class manageColumnsDialog(wx.Dialog):
 			self.downButton.SetFocus()
 			self.Show()
 			self.Center()
+			#TRANSLATORS: a column goes after another column
 			ui.message(_("%s after %s") % (self.columns[c+1].name, self.columns[c].name))
 		else:
 			beep(150, 100)
@@ -448,6 +490,7 @@ class manageColumnsDialog(wx.Dialog):
 
 	def dragAndDrop(self, hIndex1, hIndex2):
 		if self.columns[0].windowText != self.folder:
+			#TRANSLATORS: the folder content has changed while this dialog was opened
 			ui.message(_("Folder has changed, return to %s to manage columns or restart this dialog") % self.folder[:-22])
 			return False
 		self.Hide()
@@ -471,3 +514,4 @@ class manageColumnsDialog(wx.Dialog):
 		self.columns[hIndex2] = tmp
 		self.update()
 		return True
+

@@ -1,6 +1,7 @@
-# Mozilla Firefox Scripts version 1.4.1 (Dec-2017)
-# Author Javi Dominguez <fjavids@gmail.com>
-# License GNU GPL
+# Mozilla Scripts add-on for NVDA
+#This file is covered by the GNU General Public License.
+#See the file COPYING.txt for more details.
+#Copyright (C) 2017 Javi Dominguez <fjavids@gmail.com>
 
 from nvdaBuiltin.appModules import firefox
 from NVDAObjects.IAccessible.mozilla import Dialog, IAccessible
@@ -25,6 +26,7 @@ class AppModule(firefox.AppModule):
 	tbDialog = None
 	notificationHistory = []
 
+	#TRANSLATORS: category for Firefox input gestures
 	scriptCategory = _("mozilla Firefox")
 
 	def event_alert(self, obj, nextHandler):
@@ -59,6 +61,7 @@ class AppModule(firefox.AppModule):
 
 	def script_status(self, gesture):
 		if not self.inMainWindow():
+			#TRANSLATORS: message spoken by NVDA when the focus is not in the main Firefox window
 			ui.message(_("Not available here"))
 			return
 		group = self.searchAmongTheChildren(("tag", "tabpanels"), api.getForegroundObject())
@@ -70,19 +73,25 @@ class AppModule(firefox.AppModule):
 				except IndexError:
 					pass
 			try:
+				#TRANSLATORS: Firefox status bar content
 				ui.message(_("Status bar: %s") % obj.name)
 			except NameError:
+				#TRANSLATORS: message spoken when there is no status bar in Firefox
 				ui.message (_("Status bar not found"))
 			else:
 				if scriptHandler.getLastScriptRepeatCount() == 1:
 					if api.copyToClip(obj.name):
+						#TRANSLATORS: message spoken when an item hast just been copied to the clipboard
 						ui.message(_("Copied to clipboard"))
 			return
+		#TRANSLATORS: Firefox status bar not found
 		ui.message (_("Status bar not found"))
+	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_status.__doc__ = _("Reads the status bar. If pressed twice quickly, copies it to clipboard.")
 
 	def script_url(self, gesture):
 		if not self.inMainWindow():
+			#TRANSLATORS: message spoken by NVDA when the focus is not in the main Firefox window
 			ui.message(_("Not available here"))
 			return
 		path = (("id", "nav-bar"), ("id", "urlbar"), ("id", "identity-box",))
@@ -96,18 +105,24 @@ class AppModule(firefox.AppModule):
 					securInfo = "%s, %s" % (owner, securInfo) if owner else securInfo
 			except:
 				pass
+			#TRANSLATORS: this connection is using http, not https
 			securInfo  = _("Insecure connection") if not securInfo   else securInfo  
 			url = secInfoButton.next.value
+			#TRANSLATORS: message spoken when reading the Firefox address bar
 			ui.message(_("Page address is: %s (%s)") % (url, securInfo))
 			if scriptHandler.getLastScriptRepeatCount() == 1:
 				if api.copyToClip(url):
+					#TRANSLATORS: message spoken when an item hast just been copied to the clipboard
 					ui.message(_("Copied to clipboard"))
 			return
+		#TRANSLATORS: message spoken when addres bar could not be found
 		ui.message (_("Address not found"))
+	#TRANSLATORS: description shown in input gestures dialog for this script
 	script_url.__doc__ = _("Reads the page address. If pressed twice quickly, copies it to clipboard.")
 
 	def script_toolsBar(self, gesture):
 		if not self.inMainWindow() and api.getForegroundObject().appModule.productName != "NVDA":
+			#TRANSLATORS: message spoken by NVDA when the focus is not in the main Firefox window
 			ui.message(_("Not available here"))
 			return
 		if not self.tbDialog:
@@ -124,7 +139,9 @@ class AppModule(firefox.AppModule):
 				self.tbDialog.Centre()
 				gui.mainFrame.postPopup()
 			return
+		#TRANSLATORS: message spoken when Firefox toolbar is not found
 		ui.message (_("Tool bar not found"))
+	#TRANSLATORS: documentation shown in the input gestures dialog for this script
 	script_toolsBar.__doc__ = _("Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool bar.")
 
 
@@ -142,13 +159,17 @@ class AppModule(firefox.AppModule):
 			if scriptHandler.getLastScriptRepeatCount() == 1:
 				ui.browseableMessage("\n".join(["%s: %s" % (shared.elapsedFromTimestamp(notification[0]), notification[1]) for notification in self.notificationHistory]), "%s - Firefox" % _("Notification History"))
 			else:
+				#TRANSLATORS: read the last notification
 				ui.message(_("Last alert, %s: %s") % (shared.elapsedFromTimestamp(self.notificationHistory[-1][0]), self.notificationHistory[-1][1]))
 		else:
+			#TRANSLATORS: there is no recent notification in Firefox
 			ui.message(_("There is no notification"))
+	#TRANSLATORS: documentation shown in the input gestures dialog for this script
 	script_notifications.__doc__ = _("Reads the last notification and it takes the system focus to it if it is possible. By pressing two times quickly shows the history of notifications.")
 
 	def script_focusDocument(self, gesture):
 		if not self.inMainWindow():
+			#TRANSLATORS: message spoken by NVDA when the focus is not in the main Firefox window
 			ui.message(_("Not available here"))
 			return
 		group = self.searchAmongTheChildren(("tag", "tabpanels"), api.getForegroundObject())
@@ -168,6 +189,7 @@ class AppModule(firefox.AppModule):
 				ui.message("%s %s" % (controlTypes.roleLabels[doc.role], doc.name))
 			except NameError:
 				pass
+	#TRANSLATORS: documentation shown in the input gestures dialog for this script
 	script_focusDocument.__doc__ = _("Brings the focus to the document")
 
 	def getTabsDialog(self):
@@ -180,6 +202,7 @@ class AppModule(firefox.AppModule):
 				pass
 			else:
 				tabs = filter(lambda o: o.role == controlTypes.ROLE_TAB, tabControl.children)
+		#TRANSLATORS: opened tabs in tabs dialog
 		return tabs, "%d %s" % (len(tabs), _("Opened tabs"))
 
 	def getButtonsDialog(self):
@@ -187,6 +210,7 @@ class AppModule(firefox.AppModule):
 		buttons = []
 		for toolBar in filter(lambda o: o.role == controlTypes.ROLE_TOOLBAR, fg.children):
 			buttons = buttons + filter(lambda o: o.role == controlTypes.ROLE_BUTTON, toolBar.children)
+		#TRANSLATORS: Toolbar buttons dialog
 		return buttons, _("Tool Bar Buttons")
 
 	def searchObject(self, path):
@@ -240,13 +264,16 @@ class toolsBarDialog(wx.Dialog):
 		self.Bind(wx.EVT_LISTBOX, self.onListBox, self.listBox)
 		buttonsSizer = wx.BoxSizer(wx.HORIZONTAL)
 		goButtonID = wx.NewId()
+		#TRANSLATORS: go button in toolbar buttons dialog
 		self.goButton = wx.Button(self, goButtonID, _("&Go"))
 		buttonsSizer.Add(self.goButton)
 		self.Bind( wx.EVT_BUTTON, self.onGoButton, id=goButtonID)
 		optionsButtonID = wx.NewId()
+		#TRANSLATORS: options button in toolbar buttons dialog
 		self.optionsButton = wx.Button(self, optionsButtonID, _("&Options"))
 		buttonsSizer.Add(self.optionsButton)
 		self.Bind( wx.EVT_BUTTON, self.onOptionsButton, id=optionsButtonID)
+		#TRANSLATORS: close button in toolbar buttons dialog
 		cancelButton = wx.Button(self, wx.ID_CANCEL, _("Close"))
 		buttonsSizer.Add(cancelButton)
 		mainSizer.Add(buttonsSizer)
