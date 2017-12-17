@@ -99,7 +99,7 @@ class AppModule(firefox.AppModule):
 		if secInfoButton:
 			securInfo = secInfoButton.description # This has changed in FF 57. Keeping this line for compatibility with earlier versions.
 			try: # This one is for FF 57 and later.
-				securInfo = secInfoButton.getChild(1).name if secInfoButton.getChild(1).IA2Attributes["id"] == "connection-icon" else ""
+				securInfo = secInfoButton.firstChild.next.name if secInfoButton.firstChild.next.IA2Attributes["id"] == "connection-icon" else ""
 				if securInfo:
 					owner = " ".join([o.name for o in filter(lambda o: o.role == controlTypes.ROLE_STATICTEXT, secInfoButton.recursiveDescendants)])
 					securInfo = "%s, %s" % (owner, securInfo) if owner else securInfo
@@ -225,7 +225,7 @@ class AppModule(firefox.AppModule):
 		if not into:
 			return(None)
 		key, value = id
-		obj = into.getChild(0)
+		obj = into.firstChild
 		if key in obj.IA2Attributes.keys():
 			if obj.IA2Attributes[key] == value:
 				return(obj)

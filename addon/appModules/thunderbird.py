@@ -81,7 +81,7 @@ class AppModule(thunderbird.AppModule):
 		if self.isDocument():
 			obj = filter(lambda o: o.role == controlTypes.ROLE_UNKNOWN, self.getPropertyPage().children)[1]
 			try:
-				ui.message(obj.getChild(0).name)
+				ui.message(obj.firstChild.name)
 			except (IndexError, AttributeError):
 				#TRANSLATORS: cannot find subject
 				ui.message(_("Not found"))
@@ -107,10 +107,10 @@ class AppModule(thunderbird.AppModule):
 
 	def script_manageColumns(self, gesture):
 		try:
-			columnHeaders = filter(lambda o: o.role == controlTypes.ROLE_TABLE, self.getPropertyPage().children)[0].getChild(0).children
+			columnHeaders = filter(lambda o: o.role == controlTypes.ROLE_TABLE, self.getPropertyPage().children)[0].firstChild.children
 		except IndexError:
 			try:
-				columnHeaders = filter(lambda o: o.role == controlTypes.ROLE_TREEVIEW, self.getPropertyPage().children)[-1].getChild(0).children
+				columnHeaders = filter(lambda o: o.role == controlTypes.ROLE_TREEVIEW, self.getPropertyPage().children)[-1].firstChild.children
 			except IndexError:
 				#TRANSLATORS: message spoken if you want to manage columns out of messages list
 				ui.message(_("You are not in a list of messages"))
@@ -145,7 +145,7 @@ class AppModule(thunderbird.AppModule):
 				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,0,None,None)
 				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
 			else:
-				self.getPropertyPage().children[-1].getChild(0).setFocus()
+				self.getPropertyPage().children[-1].firstChild.setFocus()
 			return
 		gesture.send()
 	#TRANSLATORS: message shown in Input gestures dialog for this script
@@ -196,8 +196,8 @@ class AppModule(thunderbird.AppModule):
 				#TRANSLATORS: cannot find sender address
 				ui.message(_("Not found"))
 			if rightClick:
-				api.moveMouseToNVDAObject(fields[index].getChild(0).getChild(1))
-				api.setMouseObject(fields[index].getChild(0).getChild(1))
+				api.moveMouseToNVDAObject(fields[index].firstChild.firstChild.next)
+				api.setMouseObject(fields[index].firstChild.firstChild.next)
 				winUser.mouse_event(winUser.MOUSEEVENTF_RIGHTDOWN,0,0,None,None)
 				winUser.mouse_event(winUser.MOUSEEVENTF_RIGHTUP,0,0,None,None)
 				speech.pauseSpeech(True)
