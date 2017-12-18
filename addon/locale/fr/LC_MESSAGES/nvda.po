@@ -1,0 +1,328 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-12-12 21:47+0100\n"
+"PO-Revision-Date: 2017-12-18 22:03+0100\n"
+"Last-Translator: André-Abush CLAUSE <dev@andreabc.net>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: sources.py:28
+msgid "mozilla Firefox"
+msgstr "Mozilla Firefox"
+
+#: sources.py:61 sources.py:85 sources.py:110 sources.py:151
+msgid "Not available here"
+msgstr "Non disponible ici"
+
+#: sources.py:72
+#, python-format
+msgid "Status bar: %s"
+msgstr "Barre d'état : %s"
+
+#: sources.py:74 sources.py:80
+msgid "Status bar not found"
+msgstr "Barre d'état introuvable"
+
+#: sources.py:78 sources.py:103
+msgid "Copied to clipboard"
+msgstr "Copié dans le presse-papier"
+
+#: sources.py:81
+msgid "Reads the status bar. If pressed twice quickly, copies it to clipboard."
+msgstr ""
+"Lit la barre d'état. Si vous appuyez deux fois rapidement, le copie dans le "
+"presse-papiers."
+
+#: sources.py:98
+msgid "Insecure connection"
+msgstr "Connexion non sécurisée"
+
+#: sources.py:100
+#, python-format
+msgid "Page address is: %s (%s)"
+msgstr "L'adresse de la page est: %s (%s)"
+
+#: sources.py:105
+msgid "Address not found"
+msgstr "Adresse introuvable"
+
+#: sources.py:106
+msgid ""
+"Reads the page address. If pressed twice quickly, copies it to clipboard."
+msgstr ""
+"Lit l'adresse de la page. Si vous appuyez deux fois rapidement, le copie "
+"dans le presse-papiers."
+
+#: sources.py:126
+msgid "Tool bar not found"
+msgstr "Barre d'outils introuvable"
+
+#: sources.py:127
+msgid ""
+"Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool "
+"bar."
+msgstr ""
+"Affiche une liste des onglets ouverts. Si vous appuyez deux fois rapidement, "
+"affiche les boutons de la barre d'outils."
+
+#: sources.py:142 sources.py:456
+msgid "Notification History"
+msgstr "Historique des notifications"
+
+#: sources.py:144 sources.py:458
+#, python-format
+msgid "Last alert, %s: %s"
+msgstr "Dernière alerte, %s: %s"
+
+#: sources.py:146 sources.py:460
+msgid "There is no notification"
+msgstr "Il y a aucune notification"
+
+#: sources.py:147 sources.py:461
+msgid ""
+"Reads the last notification and it takes the system focus to it if it is "
+"possible. By pressing two times quickly shows the history of notifications."
+msgstr ""
+"Lit la dernière notification et prend le focus système si possible. En "
+"pressant deux fois rapidement, affiche l'historique des notifications."
+
+#: sources.py:170
+msgid "Brings the focus to the document"
+msgstr "Emmène le focus sur le document"
+
+#: sources.py:182
+msgid "Opened tabs"
+msgstr "Onglets ouverts"
+
+#: sources.py:189
+msgid "Tool Bar Buttons"
+msgstr "Boutons de la barre d'outils"
+
+#: sources.py:242
+msgid "&Go"
+msgstr "&Aller"
+
+#: sources.py:246
+msgid "&Options"
+msgstr "&Options"
+
+#: sources.py:249 sources.py:690
+msgid "Close"
+msgstr "Fermer"
+
+#: sources.py:324 sources.py:619
+msgid "mozilla Thunderbird"
+msgstr "Mozilla Thunderbird"
+
+#: sources.py:336
+msgid "(Press down arrow to display more options)"
+msgstr "(Appuyez sur flèche bas pour afficher plus d'options)"
+
+#: sources.py:381 sources.py:392 sources.py:476
+msgid "Not found"
+msgstr "Non trouvé"
+
+#: sources.py:383 sources.py:394 sources.py:484
+msgid "you are not in a message window"
+msgstr "vous n'êtes pas dans une fenêtre de message"
+
+#: sources.py:384
+msgid "Reads the subject of the message."
+msgstr "Lit le sujet du message."
+
+#: sources.py:395
+msgid "Reads date of the message."
+msgstr "Lit la date du message."
+
+#: sources.py:404
+msgid "You are not in a list of messages"
+msgstr "Vous n'êtes pas dans une liste de messages"
+
+#: sources.py:407
+msgid "Column headers not found"
+msgstr "En-têtes de colonne non trouvés"
+
+#: sources.py:417
+msgid "Allows you to change the order of the columns in the messages list"
+msgstr "Vous permet de changer l'ordre des colonnes dans la liste des messages"
+
+#: sources.py:425
+msgid "There are No attachments"
+msgstr "Il n’y a pas de pièces jointes"
+
+#: sources.py:436
+msgid "Brings the focus to the list of attachments, if any."
+msgstr "Emmène le focus sur la liste des pièces jointes, le cas échéant."
+
+#: sources.py:443
+msgid "Brings the focus to the text of the open message."
+msgstr "Emmène le focus sur le texte du message ouvert."
+
+#: sources.py:528 sources.py:537 sources.py:560 sources.py:569
+msgid "Search in "
+msgstr "Rechercher dans"
+
+#: sources.py:541
+msgid "Leaving search box"
+msgstr "Sorti du champ de recherche"
+
+#: sources.py:586
+msgid "uncheck"
+msgstr "décocher"
+
+#: sources.py:588
+msgid "check"
+msgstr "Cocher"
+
+#: sources.py:597
+msgid "checked"
+msgstr "coché"
+
+#: sources.py:599
+msgid "not checked"
+msgstr "Non coché"
+
+#: sources.py:627
+msgid "There are not more columns"
+msgstr "Il n’y a pas davantage de colonnes"
+
+#: sources.py:631
+msgid "empty"
+msgstr "vide"
+
+#: sources.py:643
+msgid "Expand the conversation to display messages"
+msgstr "Développez la conversation pour afficher les messages"
+
+#: sources.py:645
+msgid "Preview pane is not active or message has not been loaded yet"
+msgstr ""
+"Le volet d'aperçu n'est pas actif ou le message n'a pas encore été chargé"
+
+#: sources.py:646
+msgid "In message list, reads the selected message without leaving the list."
+msgstr ""
+"Dans la liste des messages, lit le message sélectionné sans quitter la liste."
+
+#: sources.py:675
+msgid "Manage columns"
+msgstr "agencer les colonnes"
+
+#: sources.py:682
+msgid "&up"
+msgstr "&monter"
+
+#: sources.py:685
+msgid "&down"
+msgstr "&descendre"
+
+#: sources.py:688
+msgid "&options"
+msgstr "&options"
+
+#: sources.py:713
+#, python-format
+msgid "Can't move %s, it is already the first column."
+msgstr "Impossible de déplacer %s, il s’agit déjà de la première colonne."
+
+#: sources.py:720
+#, python-format
+msgid "%s before %s"
+msgstr "%s avant %s"
+
+#: sources.py:727
+#, python-format
+msgid "Can't move %s, it is already the last column."
+msgstr "Impossible de déplacer %s, il s’agit déjà de la dernière colonne."
+
+#: sources.py:734
+#, python-format
+msgid "%s after %s"
+msgstr "%s après %s"
+
+#: sources.py:749
+#, python-format
+msgid ""
+"Folder has changed, return to %s to manage columns or restart this dialog"
+msgstr ""
+"Le dossier a changé, retournez à %s pour agencer les colonnes ou relancez "
+"cette boîte de dialogue"
+
+#: sources.py:808
+msgid "Yesterday"
+msgstr "Hier"
+
+#: sources.py:810
+#, python-format
+msgid "%d days ago"
+msgstr "il y a %d jours"
+
+#: sources.py:814
+msgid "About an hour ago"
+msgstr "Il y a environ une heure"
+
+#: sources.py:816
+#, python-format
+msgid "About %d hours ago"
+msgstr "Il y a environ %d heures"
+
+#: sources.py:818
+msgid "About a minute ago"
+msgstr "Il y a environ une minute"
+
+#: sources.py:820
+#, python-format
+msgid "About %d minutes ago"
+msgstr "Il y a environ %d minutes"
+
+#: sources.py:822
+msgid "a second ago"
+msgstr "il y a une seconde"
+
+#: sources.py:824
+#, python-format
+msgid "%d seconds ago"
+msgstr "il y a %d secondes"
+
+#: sources.py:835
+msgid "Couldn't capture the text of this notification"
+msgstr "Impossible de capturer le texte de cette notification"
+
+#~ msgid "If there is any notification opens"
+#~ msgstr "Abre la notificación si la hay"
+
+#~ msgid ""
+#~ "Reads the sender and recipients of the message. If pressed twice quickly, "
+#~ "opens the options menu."
+#~ msgstr ""
+#~ "Lee el remitente y los destinatarios del mensaje. Si se pulsa dos veces "
+#~ "rápidamente, abre el menú de opciones. "
+
+#~ msgid "Property page not found"
+#~ msgstr "No se encontró la página de propiedades"
+
+#~ msgid ""
+#~ "Reads the sender of the message. If pressed twice quickly, opens the "
+#~ "options menu."
+#~ msgstr ""
+#~ "Lee el remitente del mensaje. Si se pulsa dos veces rápidamente, abre el "
+#~ "menú de opciones. "
+
+#~ msgid ""
+#~ "Reads the recipient of the message. If pressed twice quickly, opens the "
+#~ "options menu."
+#~ msgstr ""
+#~ "Lee el destinatario del mensaje. Si se pulsa dos veces rápidamente, abre "
+#~ "el menú de opciones. "
