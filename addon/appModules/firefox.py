@@ -1,4 +1,4 @@
-# Mozilla Scripts add-on for NVDA
+# Mozilla Apps Enhancements add-on for NVDA
 #This file is covered by the GNU General Public License.
 #See the file COPYING.txt for more details.
 #Copyright (C) 2017 Javi Dominguez <fjavids@gmail.com>
@@ -73,8 +73,7 @@ class AppModule(firefox.AppModule):
 				except IndexError:
 					pass
 			try:
-				#TRANSLATORS: Firefox status bar content
-				ui.message(_("Status bar: %s") % obj.name)
+				ui.message(obj.name)
 			except NameError:
 				#TRANSLATORS: message spoken when there is no status bar in Firefox
 				ui.message (_("Status bar not found"))
@@ -108,8 +107,7 @@ class AppModule(firefox.AppModule):
 			#TRANSLATORS: this connection is using http, not https
 			securInfo  = _("Insecure connection") if not securInfo   else securInfo  
 			url = secInfoButton.next.value
-			#TRANSLATORS: message spoken when reading the Firefox address bar
-			ui.message(_("Page address is: %s (%s)") % (url, securInfo))
+			ui.message("%s (%s)" % (url, securInfo))
 			if scriptHandler.getLastScriptRepeatCount() == 1:
 				if api.copyToClip(url):
 					#TRANSLATORS: message spoken when an item hast just been copied to the clipboard

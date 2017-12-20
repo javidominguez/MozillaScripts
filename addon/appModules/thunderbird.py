@@ -1,10 +1,10 @@
-# Mozilla Scripts add-on for NVDA
+# Mozilla Apps Enhancements add-on for NVDA
 #This file is covered by the GNU General Public License.
 #See the file COPYING.txt for more details.
 #Copyright (C) 2017 Javi Dominguez <fjavids@gmail.com>
 
 from nvdaBuiltin.appModules import thunderbird
-from time import time
+from time import time, sleep
 from datetime import datetime
 from NVDAObjects.IAccessible.mozilla import BrokenFocusedState
 from tones import beep
@@ -505,13 +505,15 @@ class manageColumnsDialog(wx.Dialog):
 		if winUser.getKeyState(winUser.VK_LBUTTON)&32768:
 			winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
 		winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,1,None,None)
-		x = self.columns[hIndex2].location[0]+self.columns[hIndex2].location[2]+1
-		y = self.columns[hIndex2].location[1]+self.columns[hIndex2].location[3]/2
-		winUser.setCursorPos(x, y)
+		d = self.columns[hIndex2].location[0]+self.columns[hIndex2].location[2]+1
+		# Move slowly because if it do not the Left mouse button will be unlocked before the cursor reaches the destination. 
+		while x < d:
+			x = d if x > d else x+20
+			winUser.setCursorPos(x, y)
+			sleep(0.002)
 		winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
 		tmp = self.columns[hIndex1]
 		self.columns[hIndex1] = self.columns[hIndex2]
 		self.columns[hIndex2] = tmp
 		self.update()
 		return True
-

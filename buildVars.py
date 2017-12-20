@@ -14,7 +14,7 @@ addon_info = {
 	"addon_name" : "Mozilla",
 	# Add-on summary, usually the user visible name of the addon.
 	# Translators: Summary for this add-on to be shown on installation and add-on information.
-	"addon_summary" : _("Mozilla Scripts"),
+	"addon_summary" : _("Mozilla Apps Enhancements"),
 	# Add-on description
 	# Translators: Long description to be shown for this add-on on add-on information from add-ons manager
 	"addon_description" : _("Provides accessibility features for Mozilla Firefox and Thunderbird"),
