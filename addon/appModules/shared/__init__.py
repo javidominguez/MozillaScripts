@@ -8,6 +8,7 @@ from threading import Timer
 import speech
 import controlTypes
 import api
+import re
 import addonHandler
 
 addonHandler.initTranslation()
@@ -70,3 +71,27 @@ def getAlertText(alertPopup):
 			alertText = "%s %s" % (alertText, objText)
 	#TRANSLATORS: the notification text could not be read
 	return alertText if alertText else extendedAlertText if extendedAlertText else _("Couldn't capture the text of this notification")
+
+def searchObject(path):
+	obj = api.getForegroundObject()
+	for milestone in path:
+		obj = searchAmongTheChildren(milestone, obj)
+		if not obj:
+			return
+	return obj
+
+def searchAmongTheChildren(id, into):
+	if not into:
+		return(None)
+	key, value = id
+	obj = into.firstChild
+	if key in obj.IA2Attributes.keys():
+		if re.match(value, obj.IA2Attributes[key]):
+			return(obj)
+	while obj:
+		if key in obj.IA2Attributes.keys():
+			if re.match(value, obj.IA2Attributes[key]):
+				break
+		obj = obj.next
+	return(obj)
+

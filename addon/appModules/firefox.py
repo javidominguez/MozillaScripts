@@ -17,6 +17,7 @@ import gui
 import wx
 from datetime import datetime
 from threading import Timer
+import re
 import shared
 
 addonHandler.initTranslation()
@@ -39,12 +40,7 @@ class AppModule(firefox.AppModule):
 				return
 		except (KeyError, AttributeError):
 			pass
-		try:
-			isNotification = "notification" in "".join(obj.IA2Attributes.values()).lower()\
-			or "alert" in "".join(obj.IA2Attributes.values()).lower()
-		except:
-			isNotification = False
-		if isNotification:
+		if re.match(".*notification.*|.*alert.*", ";".join(obj.IA2Attributes.values()).lower()):
 			try:
 				isPopup = obj.IA2Attributes["id"] == "notification-popup"
 			except (KeyError, AttributeError):
@@ -64,7 +60,7 @@ class AppModule(firefox.AppModule):
 			#TRANSLATORS: message spoken by NVDA when the focus is not in the main Firefox window
 			ui.message(_("Not available here"))
 			return
-		group = self.searchAmongTheChildren(("tag", "tabpanels"), api.getForegroundObject())
+		group = shared.searchAmongTheChildren(("tag", "tabpanels"), api.getForegroundObject())
 		if group:
 			for propertyPage in filter(lambda o: o.role == controlTypes.ROLE_PROPERTYPAGE, group.children):
 				try:
@@ -94,7 +90,7 @@ class AppModule(firefox.AppModule):
 			ui.message(_("Not available here"))
 			return
 		path = (("id", "nav-bar"), ("id", "urlbar"), ("id", "identity-box",))
-		secInfoButton = self.searchObject(path)
+		secInfoButton = shared.searchObject(path)
 		if secInfoButton:
 			securInfo = secInfoButton.description # This has changed in FF 57. Keeping this line for compatibility with earlier versions.
 			try: # This one is for FF 57 and later.
@@ -170,7 +166,7 @@ class AppModule(firefox.AppModule):
 			#TRANSLATORS: message spoken by NVDA when the focus is not in the main Firefox window
 			ui.message(_("Not available here"))
 			return
-		group = self.searchAmongTheChildren(("tag", "tabpanels"), api.getForegroundObject())
+		group = shared.searchAmongTheChildren(("tag", "tabpanels"), api.getForegroundObject())
 		if group:
 			for propertyPage in filter(lambda o: o.role == controlTypes.ROLE_PROPERTYPAGE, group.children):
 				try:
@@ -210,29 +206,6 @@ class AppModule(firefox.AppModule):
 			buttons = buttons + filter(lambda o: o.role == controlTypes.ROLE_BUTTON, toolBar.children)
 		#TRANSLATORS: Toolbar buttons dialog
 		return buttons, _("Tool Bar Buttons")
-
-	def searchObject(self, path):
-		obj = api.getForegroundObject()
-		for milestone in path:
-			obj = self.searchAmongTheChildren(milestone, obj)
-			if not obj:
-				return
-		return obj
-
-	def searchAmongTheChildren(self, id, into):
-		if not into:
-			return(None)
-		key, value = id
-		obj = into.firstChild
-		if key in obj.IA2Attributes.keys():
-			if obj.IA2Attributes[key] == value:
-				return(obj)
-		while obj:
-			if key in obj.IA2Attributes.keys():
-				if obj.IA2Attributes[key] == value:
-					break
-			obj = obj.next
-		return(obj)
 
 	def inMainWindow(self):
 		try:

@@ -74,6 +74,9 @@ class AppModule(thunderbird.AppModule):
 		except AttributeError:
 			index = int(gesture.mainKeyName[-1])-1
 		rightClick = True if scriptHandler.getLastScriptRepeatCount() == 1 and index == self.lastIndex else False
+		if shared.searchAmongTheChildren(("id",".*compose.*"), api.getForegroundObject()):
+			self.addressFieldOnComposing(index, rightClick)
+			return
 		self.addressField(index, rightClick)
 		self.lastIndex = index
 
@@ -204,6 +207,27 @@ class AppModule(thunderbird.AppModule):
 		else:
 			#TRANSLATORS: message spoken if you try to read the sender address out of a message window
 			ui.message(_("you are not in a message window"))
+
+	def addressFieldOnComposing(self, index, focus):
+		if index == 0:
+			sender = shared.searchObject((("id","MsgHeadersToolbar"), ("id","msgIdentity")))
+			if focus:
+				api.moveMouseToNVDAObject(sender)
+				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,0,None,None)
+				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
+			else:
+				ui.message("%s %s, %s" % (sender.name, sender.value, sender.keyboardShortcut))
+		else:
+			addressingWidget = shared.searchObject((("id","MsgHeadersToolbar"),("id","addressingWidget")))
+			recipients = filter(lambda o: o.role == controlTypes.ROLE_COMBOBOX and o.firstChild.role == controlTypes.ROLE_EDITABLETEXT, addressingWidget.recursiveDescendants)
+			if index > len(recipients):
+				return
+			if focus:
+				api.moveMouseToNVDAObject(recipients[index-1])
+				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,0,None,None)
+				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
+			else:
+				ui.message("%s %s" % (recipients[index-1].name, recipients[index-1].firstChild.value if recipients[index-1].firstChild.value else _("empty")))
 
 	def isDocument(self):
 		doc = None
