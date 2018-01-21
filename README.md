@@ -1,6 +1,6 @@
-# Mozilla Scripts
+# Mozilla Apps Enhancements
  
- add-on that provides NVDA scripts for Mozilla   
+ add-on that provides  accessibility features for Mozilla applications
  
 ## Firefox
 

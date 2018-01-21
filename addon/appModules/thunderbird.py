@@ -59,8 +59,7 @@ class AppModule(thunderbird.AppModule):
 	def event_alert(self, obj, nextHandler):
 		if obj.role == controlTypes.ROLE_ALERT:
 			alertText = obj.name if obj.name else obj.description if obj.description else obj.displayText if obj.displayText else ""
-			if shared.focusAlertPopup(obj,
-			SETFOCUS = False if controlTypes.STATE_EDITABLE in api.getFocusObject().states else True):
+			if shared.focusAlertPopup(obj, False if  self.isComposing() else True):
 				return
 			notificationLog = (datetime.now(), alertText.replace("\n", "\t"))
 			if notificationLog not in self.notificationHistory:
@@ -73,14 +72,24 @@ class AppModule(thunderbird.AppModule):
 			index = int(gesture.keyName[-1])-1
 		except AttributeError:
 			index = int(gesture.mainKeyName[-1])-1
-		rightClick = True if scriptHandler.getLastScriptRepeatCount() == 1 and index == self.lastIndex else False
-		if shared.searchAmongTheChildren(("id",".*compose.*"), api.getForegroundObject()):
-			self.addressFieldOnComposing(index, rightClick)
-			return
-		self.addressField(index, rightClick)
+		twice = True if scriptHandler.getLastScriptRepeatCount() == 1 and index == self.lastIndex else False
+		if self.isComposing():
+			self.addressFieldOnComposing(index, twice)
+		else:
+			self.addressField(index, twice)
 		self.lastIndex = index
 
 	def script_messageSubject (self, gesture):
+		if self.isComposing():
+			subject = shared.searchObject((
+			("id","MsgHeadersToolbar"),
+			("id","msgSubject"),
+			("class","textbox-input")))
+			if scriptHandler.getLastScriptRepeatCount() == 1:
+				subject.setFocus()
+			else:
+				ui.message("%s %s" % (subject.name, subject.value if subject.value else _("empty")))
+			return
 		if self.isDocument():
 			obj = filter(lambda o: o.role == controlTypes.ROLE_UNKNOWN, self.getPropertyPage().children)[1]
 			try:
@@ -95,6 +104,8 @@ class AppModule(thunderbird.AppModule):
 	script_messageSubject.__doc__ = _("Reads the subject of the message.")
 
 	def script_messageDate (self, gesture):
+		if self.isComposing():
+			return
 		if self.isDocument():
 			try:
 				obj = filter(lambda o: o.role == controlTypes.ROLE_EDITABLETEXT and controlTypes.STATE_READONLY in o.states, self.getPropertyPage().children)[0]
@@ -209,8 +220,10 @@ class AppModule(thunderbird.AppModule):
 			ui.message(_("you are not in a message window"))
 
 	def addressFieldOnComposing(self, index, focus):
+		sender = shared.searchObject((
+		("id","MsgHeadersToolbar"),
+		("id","msgIdentity")))
 		if index == 0:
-			sender = shared.searchObject((("id","MsgHeadersToolbar"), ("id","msgIdentity")))
 			if focus:
 				api.moveMouseToNVDAObject(sender)
 				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,0,None,None)
@@ -218,11 +231,18 @@ class AppModule(thunderbird.AppModule):
 			else:
 				ui.message("%s %s, %s" % (sender.name, sender.value, sender.keyboardShortcut))
 		else:
-			addressingWidget = shared.searchObject((("id","MsgHeadersToolbar"),("id","addressingWidget")))
+			addressingWidget = shared.searchObject((
+			("id","MsgHeadersToolbar"),
+			("id","addressingWidget")))
 			recipients = filter(lambda o: o.role == controlTypes.ROLE_COMBOBOX and o.firstChild.role == controlTypes.ROLE_EDITABLETEXT, addressingWidget.recursiveDescendants)
 			if index > len(recipients):
 				return
-			if focus:
+			if focus and controlTypes.STATE_FOCUSED not in recipients[index-1].firstChild.states:
+				if controlTypes.STATE_EXPANDED in sender.states:
+				# When the list of senders is expanded it cover the recipient widget. It must be collapsed before click in recipients.
+					api.moveMouseToNVDAObject(sender)
+					winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,0,None,None)
+					winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
 				api.moveMouseToNVDAObject(recipients[index-1])
 				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,0,None,None)
 				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
@@ -237,6 +257,9 @@ class AppModule(thunderbird.AppModule):
 			except IndexError:
 				pass
 		return doc
+
+	def isComposing(self):
+		return True if shared.searchAmongTheChildren(("id",".*compose.*"), api.getForegroundObject()) else False
 
 	def getPropertyPage(self):
 		fg = api.getForegroundObject()
