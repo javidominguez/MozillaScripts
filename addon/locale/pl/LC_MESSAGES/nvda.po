@@ -1,0 +1,326 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 'Mozilla' '1.6dev'\n"
+"Report-Msgid-Bugs-To: 'nvda-translations@freelists.org'\n"
+"POT-Creation-Date: 2018-05-04 12:25+0200\n"
+"PO-Revision-Date: 2018-05-04 14:38+0100\n"
+"Last-Translator: \n"
+"Language-Team:  <zvonimirek222@yandex.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.10\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"Language: pl_PL\n"
+"X-Poedit-Basepath: C:\\MozillaScripts\\addon\\appModules\n"
+
+#. TRANSLATORS: category for Firefox input gestures
+#: addon\appModules\firefox.py:31
+msgid "mozilla Firefox"
+msgstr "mozilla Firefox"
+
+#. TRANSLATORS: message spoken by NVDA when the focus is not in the main Firefox window
+#: addon\appModules\firefox.py:61 addon\appModules\firefox.py:90
+#: addon\appModules\firefox.py:120 addon\appModules\firefox.py:167
+msgid "Not available here"
+msgstr "Niedostępne tutaj"
+
+#. TRANSLATORS: message spoken when there is no status bar in Firefox
+#. TRANSLATORS: Firefox status bar not found
+#: addon\appModules\firefox.py:75 addon\appModules\firefox.py:83
+msgid "Status bar not found"
+msgstr "Nieznaleziono paska stanu"
+
+#. TRANSLATORS: message spoken when an item hast just been copied to the clipboard
+#: addon\appModules\firefox.py:80 addon\appModules\firefox.py:110
+msgid "Copied to clipboard"
+msgstr "Skopiowano do schowka"
+
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\firefox.py:85
+msgid "Reads the status bar. If pressed twice quickly, copies it to clipboard."
+msgstr ""
+"Czyta pasek stanu, jeżeli jest naciśnięte dwukrotnie, kopiuje go do schowka."
+
+#. TRANSLATORS: this connection is using http, not https
+#: addon\appModules\firefox.py:104
+msgid "Insecure connection"
+msgstr "Niebezpieczne połączenie"
+
+#. TRANSLATORS: message spoken when addres bar could not be found
+#: addon\appModules\firefox.py:113
+msgid "Address not found"
+msgstr "Nie można znaleźć adresu"
+
+#. TRANSLATORS: description shown in input gestures dialog for this script
+#: addon\appModules\firefox.py:115
+msgid ""
+"Reads the page address. If pressed twice quickly, copies it to clipboard."
+msgstr ""
+"Czyta adres strony. Jeżeli jest naciśnięte dwukrotnie, kopiuje go do schowka."
+
+#. TRANSLATORS: message spoken when Firefox toolbar is not found
+#: addon\appModules\firefox.py:137
+msgid "Tool bar not found"
+msgstr "Nie można znaleźć paska narzędzi"
+
+#. TRANSLATORS: documentation shown in the input gestures dialog for this script
+#: addon\appModules\firefox.py:139
+msgid ""
+"Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool "
+"bar."
+msgstr ""
+"Otwiera listę otwartych kart. Jeżeli jest naciśnięte dwukrotnie, wyświetla "
+"przyciski paska narzędzi."
+
+#: addon\appModules\firefox.py:154 addon\appModules\thunderbird.py:187
+msgid "Notification History"
+msgstr "Historia powiadomień"
+
+#. TRANSLATORS: read the last notification
+#: addon\appModules\firefox.py:157 addon\appModules\thunderbird.py:190
+#, python-format
+msgid "Last alert, %s: %s"
+msgstr "Ostatnie ostrzeżenie, %s: %s"
+
+#. TRANSLATORS: there is no recent notification in Firefox
+#. TRANSLATORS: there is no recent notification in Thunderbird
+#: addon\appModules\firefox.py:160 addon\appModules\thunderbird.py:193
+msgid "There is no notification"
+msgstr "Nie ma powiadomienia"
+
+#. TRANSLATORS: documentation shown in the input gestures dialog for this script
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\firefox.py:162 addon\appModules\thunderbird.py:195
+msgid ""
+"Reads the last notification and it takes the system focus to it if it is "
+"possible. By pressing two times quickly shows the history of notifications."
+msgstr ""
+"Czyta ostatnie powiadomienie i przenosi punkt uwagi na powiadomienie, jeżeli "
+"jest to możliwe. wciskając dwa razy, przenosi do historii powiadomień."
+
+#. TRANSLATORS: documentation shown in the input gestures dialog for this script
+#: addon\appModules\firefox.py:187
+msgid "Brings the focus to the document"
+msgstr "Przenosi punkt uwagi do dokumentu"
+
+#. TRANSLATORS: opened tabs in tabs dialog
+#: addon\appModules\firefox.py:200
+msgid "Opened tabs"
+msgstr "Otwarte karty"
+
+#. TRANSLATORS: Toolbar buttons dialog
+#: addon\appModules\firefox.py:208
+msgid "Tool Bar Buttons"
+msgstr "Przyciski paska narzędzi"
+
+#. TRANSLATORS: go button in toolbar buttons dialog
+#: addon\appModules\firefox.py:239
+msgid "&Go"
+msgstr "&Idź"
+
+#. TRANSLATORS: options button in toolbar buttons dialog
+#: addon\appModules\firefox.py:244
+msgid "&Options"
+msgstr "&Opcję"
+
+#. TRANSLATORS: close button in toolbar buttons dialog
+#. TRANSLATORS: close button in the columns dialog
+#: addon\appModules\firefox.py:248 addon\appModules\thunderbird.py:477
+msgid "Close"
+msgstr "Zamknij"
+
+#. TRANSLATORS: category for Thunderbird input gestures
+#: addon\appModules\thunderbird.py:28 addon\appModules\thunderbird.py:395
+msgid "mozilla Thunderbird"
+msgstr "mozilla Thunderbird"
+
+#. TRANSLATORS: additional description for the search field
+#: addon\appModules\thunderbird.py:41
+msgid "(Press down arrow to display more options)"
+msgstr "(Aby wyświetlić więcej opcji, naciśnij strzałkę w dół)"
+
+#. TRANSLATORS: empty object name
+#: addon\appModules\thunderbird.py:91 addon\appModules\thunderbird.py:250
+#: addon\appModules\thunderbird.py:409
+msgid "empty"
+msgstr "Puste"
+
+#. TRANSLATORS: cannot find subject
+#. TRANSLATORS: cannot find date
+#. TRANSLATORS: cannot find sender address
+#: addon\appModules\thunderbird.py:99 addon\appModules\thunderbird.py:115
+#: addon\appModules\thunderbird.py:211
+msgid "Not found"
+msgstr "Nie znaleziono"
+
+#. TRANSLATORS: message spoken if you try to read the subject out of a message window
+#. TRANSLATORS: message spoken if you try to read the date out of a message window
+#. TRANSLATORS: message spoken if you try to read the sender address out of a message window
+#: addon\appModules\thunderbird.py:102 addon\appModules\thunderbird.py:118
+#: addon\appModules\thunderbird.py:220
+msgid "you are not in a message window"
+msgstr "Nie znajdujesz się w oknie wiadomości"
+
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\thunderbird.py:104
+msgid "Reads the subject of the message."
+msgstr "Czyta tytuł wiadomości."
+
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\thunderbird.py:120
+msgid "Reads date of the message."
+msgstr "Czyta datę wiadomości."
+
+#. TRANSLATORS: message spoken if you want to manage columns out of messages list
+#: addon\appModules\thunderbird.py:130
+msgid "You are not in a list of messages"
+msgstr "Nie znajdujesz się na liście wiadomości"
+
+#. TRANSLATORS: this is a message list without column headers
+#: addon\appModules\thunderbird.py:134
+msgid "Column headers not found"
+msgstr "Nie znaleziono nagłówków kolumn"
+
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\thunderbird.py:145
+msgid "Allows you to change the order of the columns in the messages list"
+msgstr "Umożliwia zmianę porządku kolumn w liście wiadomości"
+
+#. TRANSLATORS: there are no attachments in this message
+#: addon\appModules\thunderbird.py:154
+msgid "There are No attachments"
+msgstr "Nie ma załączników"
+
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\thunderbird.py:166
+msgid "Brings the focus to the list of attachments, if any."
+msgstr "Otwiera listę załączników, jeżeli są."
+
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\thunderbird.py:174
+msgid "Brings the focus to the text of the open message."
+msgstr "Sprowadza punkt uwagi do tekstu otwartej wiadomości."
+
+#. TRANSLATORS: Thunderbird search box name
+#: addon\appModules\thunderbird.py:297 addon\appModules\thunderbird.py:306
+#: addon\appModules\thunderbird.py:330 addon\appModules\thunderbird.py:340
+msgid "Search in "
+msgstr "Szukaj w"
+
+#. TRANSLATORS: message spoken when leaving the search box in Thunderbird
+#: addon\appModules\thunderbird.py:311
+msgid "Leaving search box"
+msgstr "Opuszczam pole wyszukiwania"
+
+#. TRANSLATORS: a button has been unchecked
+#: addon\appModules\thunderbird.py:358
+msgid "uncheck"
+msgstr "nie zaznaczone"
+
+#. TRANSLATORS: a button has been checked
+#: addon\appModules\thunderbird.py:361
+msgid "check"
+msgstr "Zaznaczone"
+
+#. TRANSLATORS: a button is checked
+#: addon\appModules\thunderbird.py:371
+msgid "checked"
+msgstr "Zaznaczone"
+
+#. TRANSLATORS: a button is not checked
+#: addon\appModules\thunderbird.py:374
+msgid "not checked"
+msgstr "Nie zaznaczone"
+
+#. TRANSLATORS: message spoken when there aren't more columns in the tree
+#: addon\appModules\thunderbird.py:404
+msgid "There are not more columns"
+msgstr "Nie ma więcej kolumn"
+
+#. TRANSLATORS: message spoken when a conversation is collapsed
+#: addon\appModules\thunderbird.py:422
+msgid "Expand the conversation to display messages"
+msgstr "Rozszerz wątek, aby wyświetlić konwersację"
+
+#. TRANSLATORS: the preview pane is not available yet
+#: addon\appModules\thunderbird.py:425
+msgid "Preview pane is not active or message has not been loaded yet"
+msgstr ""
+"Pasek podglądu nie jest aktywny, lub wiadomośc się jeszcze nie wczytałą"
+
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\thunderbird.py:427
+msgid "In message list, reads the selected message without leaving the list."
+msgstr "W list ywiadomości, czyta wiadomość bez opuszczania listy."
+
+#. TRANSLATORS: manage columns dialog title
+#: addon\appModules\thunderbird.py:458
+msgid "Manage columns"
+msgstr "Zarządzaj kolumnami"
+
+#. TRANSLATORS: up button in columns dialog
+#: addon\appModules\thunderbird.py:466
+msgid "&up"
+msgstr "&Do góry"
+
+#. TRANSLATORS: down button in columns dialog
+#: addon\appModules\thunderbird.py:470
+msgid "&down"
+msgstr "Do doł&u"
+
+#. TRANSLATORS: options button in the columns dialog
+#: addon\appModules\thunderbird.py:474
+msgid "&options"
+msgstr "&Opcję"
+
+#. TRANSLATORS: the column can't be moved, it is already in the first position
+#: addon\appModules\thunderbird.py:501
+#, python-format
+msgid "Can't move %s, it is already the first column."
+msgstr "Nie można przenieść %s, jest to już pierwsza kolumna."
+
+#. TRANSLATORS: the selected column moves before another column
+#: addon\appModules\thunderbird.py:509
+#, python-format
+msgid "%s before %s"
+msgstr "%s przed %s"
+
+#. TRANSLATOR: this is the last column and can't be moved
+#: addon\appModules\thunderbird.py:517
+#, python-format
+msgid "Can't move %s, it is already the last column."
+msgstr "Nie można przenieść %s, jest to już ostatnia kolumna."
+
+#. TRANSLATORS: a column goes after another column
+#: addon\appModules\thunderbird.py:525
+#, python-format
+msgid "%s after %s"
+msgstr "%s po %s"
+
+#. TRANSLATORS: the folder content has changed while this dialog was opened
+#: addon\appModules\thunderbird.py:541
+#, python-format
+msgid ""
+"Folder has changed, return to %s to manage columns or restart this dialog"
+msgstr ""
+"Folder jest zmieniony. Wróć to %s aby zarządzać kolumnami lub ponownie "
+"uruchom ten dialog"
+
+#. Add-on summary, usually the user visible name of the addon.
+#. Translators: Summary for this add-on to be shown on installation and add-on information.
+#: buildVars.py:17
+msgid "Mozilla Apps Enhancements"
+msgstr "Mozilla Apps Enhancements"
+
+#. Add-on description
+#. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
+#: buildVars.py:20
+msgid "Provides accessibility features for Mozilla Firefox and Thunderbird"
+msgstr "Dodaje funkce dostępności do Mozilli Firefox i Thunderbirda"
