@@ -27,9 +27,31 @@ class AppModule(thunderbird.AppModule):
 	#TRANSLATORS: category for Thunderbird input gestures
 	scriptCategory = _("mozilla Thunderbird")
 
-	lastIndex = 0
-	Dialog = None
-	notificationHistory = []
+	def __init__(self, *args, **kwargs):
+		super(thunderbird.AppModule, self).__init__(*args, **kwargs)
+		self.lastIndex = 0
+		self.Dialog = None
+		self.notificationHistory = []
+		originalFunction = globalCommands.commands.script_reportStatusLine
+		def substituteFunction(*args, **kwargs):
+			try:
+				if api.getForegroundObject().appModule.appModuleName == "thunderbird":
+					if self.script_statusBar(*args, **kwargs):
+						return
+			except:
+				pass
+			originalFunction(*args, **kwargs)
+		substituteFunction.__doc__ = originalFunction.__doc__
+		substituteFunction.__name__ = originalFunction.__name__
+		globalCommands.commands.script_reportStatusLine = substituteFunction
+
+	def _get_statusBar(self):
+		try:
+			fg = api.getForegroundObject()
+			statusBar = filter(lambda o: o.role == controlTypes.ROLE_STATUSBAR, fg.children)[0]
+		except:
+			statusBar = None
+		return statusBar
 
 	def chooseNVDAObjectOverlayClasses(self, obj, clsList):
 		# Overlay search box in fast filtering bar
@@ -193,6 +215,19 @@ class AppModule(thunderbird.AppModule):
 			ui.message(_("There is no notification"))
 	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_notifications.__doc__ = _("Reads the last notification and it takes the system focus to it if it is possible. By pressing two times quickly shows the history of notifications.")
+
+	def script_statusBar(self, gesture):
+		try:
+			for obj in self.statusBar.children:
+				if obj.name: ui.message(obj.name)
+				if obj.role != controlTypes.ROLE_LABEL:
+					ui.message("(%s)" % controlTypes.roleLabels[obj.role])
+				sleep(0.25)
+		except:
+			return False
+		else:
+			api.setNavigatorObject(self.statusBar.firstChild)
+			return True
 
 	def addressField(self, index, rightClick):
 		if self.isDocument():
