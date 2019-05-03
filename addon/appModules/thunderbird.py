@@ -196,6 +196,10 @@ class AppModule(thunderbird.AppModule):
 	script_focusDocument.__doc__ = _("Brings the focus to the text of the open message.")
 
 	def script_notifications(self, gesture):
+		#@ Testing
+		shared.notificationsDialog.thunderbirdPage()
+		return
+		#@ End testing
 		obj = self.getPropertyPage().simpleLastChild.simplePrevious
 		if obj.role == controlTypes.ROLE_ALERT:
 			if api.getFocusObject().parent == obj: # Already focused

@@ -9,6 +9,9 @@ import speech
 import controlTypes
 import api
 import re
+import wx
+import gui
+from gui import guiHelper
 import addonHandler
 
 addonHandler.initTranslation()
@@ -95,3 +98,143 @@ def searchAmongTheChildren(id, into):
 		obj = obj.next
 	return(obj)
 
+class TabPanel(wx.Panel):
+
+	def __init__(self, parent, lbLabel):
+		wx.Panel.__init__(self, parent=parent)
+		sizer = guiHelper.BoxSizerHelper(self, wx.VERTICAL)
+		self.listBox  = sizer.addLabeledControl(lbLabel, wx.ListBox)
+		self.text = wx.TextCtrl(self, style=wx.TE_MULTILINE | wx.TE_READONLY, value = "Testing notification history dialog")
+		sizer.addItem(self.text)
+		self.listBox.Bind(wx.EVT_LISTBOX, self.onListBox)
+		self.listBox.Bind(wx.EVT_KEY_DOWN, self.onKeyDown)
+		self.text.Bind(wx.EVT_KEY_DOWN, self.onKeyDown)
+		self.Parent.Bind(wx.EVT_KEY_DOWN, self.onKeyDown)
+		self.TopLevelParent.Bind(wx.EVT_ACTIVATE, self.onActivate)
+
+	def onMenuRefresh(self, event):
+		self.updateList()
+
+	def onMenuDelete(self, event):
+		self._deleteCurrentItem()
+
+	def onMenuClear(self, event):
+		self.TopLevelParent.history[self.Parent.GetPageText(self.Parent.Selection)] = []
+		self.updateList()
+
+	def onActivate(self, event):
+		if event.GetActive():
+			self.updateList()
+		event.Skip()
+
+	def onKeyDown(self, event):
+		# Refresh list
+		if event.GetKeyCode() == wx.WXK_F5:
+			self.updateList()
+		# Context menu
+		elif event.GetKeyCode() == wx.WXK_WINDOWS_MENU and event.EventObject == self.listBox:
+			menu = wx.Menu()
+			item = menu.Append(wx.ID_ANY, _("Refresh	F5"))
+			self.Bind(wx.EVT_MENU, self.onMenuRefresh, item)
+			item = menu.Append(wx.ID_ANY, _("Delete item	Supr"))
+			self.Bind(wx.EVT_MENU, self.onMenuDelete, item)
+			item = menu.Append(wx.ID_ANY, _("Clear all"))
+			self.Bind(wx.EVT_MENU, self.onMenuClear, item)
+			self.listBox.PopupMenu(menu, self.listBox.ScreenPosition)
+		# Delete list item
+		elif event.GetKeyCode() == wx.WXK_DELETE and event.EventObject == self.listBox:
+			self._deleteCurrentItem()
+		# Close window
+		elif event.GetKeyCode() == wx.WXK_ESCAPE:
+			self.TopLevelParent.Hide()
+		event.Skip()
+
+	def onListBox(self, event):
+		index = self.listBox.Selection
+		self.text.Clear()
+		try:
+			self.text.SetValue("Item %d\n%s" % (index, self.TopLevelParent.history[self.Parent.GetPageText(self.Parent.Selection)][index][1]))
+		except IndexError:
+			pass
+
+	def updateList(self):
+		if not self.TopLevelParent.history[self.Parent.GetPageText(self.Parent.Selection)]:
+			self.listBox.SetItems(["There are no notifications"])
+			self.text.Clear()
+			self.text.Enabled = False
+		else:
+			self.listBox.SetItems(["%s, %s" % (elapsedFromTimestamp(i[0]), i[1]) for i in self.TopLevelParent.history[self.Parent.GetPageText(self.Parent.Selection)]])
+			self.text.Enabled = True
+		self.listBox.SetSelection(0)
+		self.listBox.SetFocus()
+
+	def _deleteCurrentItem(self):
+		index = self.listBox.Selection
+		try:
+			self.TopLevelParent.history[self.Parent.GetPageText(self.Parent.Selection)].pop(index)
+		except IndexError:
+			pass
+		self.listBox.Delete(index)
+		self.text.Clear()
+		try:
+			self.listBox.SetSelection(index)
+		except:
+			index = index-1
+			self.listBox.SetSelection(index)
+		if self.listBox.IsEmpty():
+			self.updateList()
+		else:
+			self.text.SetValue("Item %d\n%s" % (index, self.TopLevelParent.history[self.Parent.GetPageText(self.Parent.Selection)][index][1]))
+
+class NotificationsHistoryDialog(wx.Dialog):
+
+	def __init__(self, parent):
+		super(NotificationsHistoryDialog, self).__init__(parent, title=_("Notifications history"))
+		self.history = {"Firefox":[], "Thunderbird":[]}
+		self.notebook = wx.Notebook(self, style=wx.NB_TOP)
+		firefoxPage = TabPanel(self.notebook, lbLabel = _("Firefox notifications"))
+		self.notebook.AddPage(firefoxPage, "Firefox")
+		thunderbirdPage = TabPanel(self.notebook, lbLabel = _("Thunderbird notifications"))
+		self.notebook.AddPage(thunderbirdPage, "Thunderbird")
+		sizer = guiHelper.BoxSizerHelper(self, wx.VERTICAL)
+		sizer.addItem(self.notebook)
+		self.notebook.SetSelection(0)
+		self.notebook.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED, self.onPageChanged)
+		# The dialog is created but remains hidden until it is invoked.
+		self.Show(False)
+
+	def onPageChanged(self, event):
+		self.notebook.CurrentPage.updateList()
+		event.Skip()
+
+	def registerFirefoxNotification(self, item):
+		self.history["Firefox"].append(item)
+
+	def registerThunderbirdNotification(self, item):
+		self.history["Thunderbird"].append(item)
+
+	def firefoxPage(self):
+		self._showPage(0)
+
+	def thunderbirdPage(self):
+		self._showPage(1)
+
+	def _showPage(self, page=0):
+		self.notebook.SetSelection(page)
+		gui.mainFrame.prePopup()
+		self.Show(True)
+		self.Centre()
+		gui.mainFrame.postPopup()
+
+notificationsDialog = NotificationsHistoryDialog(gui.mainFrame)
+
+#@ Test
+from time import time
+# Firefox testing items
+notificationsDialog.registerFirefoxNotification((datetime.fromtimestamp(time()-290),"This is a test. First Firefox item."))
+notificationsDialog.registerFirefoxNotification((datetime.fromtimestamp(time()-102),"This is a test. Second Firefox item."))
+notificationsDialog.registerFirefoxNotification((datetime.fromtimestamp(time()-832),"This is a test. Third Firefox item."))
+# Thunderbird testing items
+notificationsDialog.registerThunderbirdNotification((datetime.fromtimestamp(time()-633),"Thunderbird first item. Testing."))
+notificationsDialog.registerThunderbirdNotification((datetime.fromtimestamp(time()-1335),"Thunderbird second item. Testing."))
+#@ End test

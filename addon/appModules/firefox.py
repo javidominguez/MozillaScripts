@@ -140,6 +140,10 @@ class AppModule(firefox.AppModule):
 
 
 	def script_notifications(self, gesture):
+		#@ Testing
+		shared.notificationsDialog.firefoxPage()
+		return
+		#@ End Testing
 		obj = api.getForegroundObject().simpleFirstChild
 		if obj.role == controlTypes.ROLE_ALERT:
 			if api.getFocusObject().parent == obj: # Already focused
