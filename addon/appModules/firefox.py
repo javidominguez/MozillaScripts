@@ -17,6 +17,7 @@ import gui
 import wx
 from datetime import datetime
 from threading import Timer
+from urlparse import urlparse
 import re
 import shared
 
@@ -25,7 +26,6 @@ addonHandler.initTranslation()
 class AppModule(firefox.AppModule):
 
 	tbDialog = None
-	notificationHistory = []
 
 	#TRANSLATORS: category for Firefox input gestures
 	scriptCategory = _("mozilla Firefox")
@@ -49,10 +49,15 @@ class AppModule(firefox.AppModule):
 				if shared.focusAlertPopup(obj):
 					Timer(0.75, nextHandler)
 					return
-			alertText = "%s" % shared.getAlertText(obj)
-			notificationLog = (datetime.now(), alertText.replace("\n", "\t"))
-			if notificationLog not in self.notificationHistory:
-				self.notificationHistory.append(notificationLog)
+			alertText = shared.getAlertText(obj)
+			# Appends the domain of the page where it was when the alert originated.
+			path = (("id", "nav-bar"), ("id", "urlbar"), ("class", "urlbar-input textbox-input",))
+			url = shared.searchObject(path)
+			if url and url.value:
+				url = url.value if "://" in url.value else "None://"+url.value
+				domain = urlparse(url).hostname if url else ""
+				if domain and domain not in alertText: alertText = "%s\n\n%s" % (alertText, domain)
+			shared.notificationsDialog.registerFirefoxNotification((datetime.now(), alertText))
 		nextHandler()
 
 	def script_status(self, gesture):
@@ -140,10 +145,6 @@ class AppModule(firefox.AppModule):
 
 
 	def script_notifications(self, gesture):
-		#@ Testing
-		shared.notificationsDialog.firefoxPage()
-		return
-		#@ End Testing
 		obj = api.getForegroundObject().simpleFirstChild
 		if obj.role == controlTypes.ROLE_ALERT:
 			if api.getFocusObject().parent == obj: # Already focused
@@ -153,15 +154,19 @@ class AppModule(firefox.AppModule):
 			if shared.focusAlertPopup(obj):
 				speech.speakObject(api.getFocusObject())
 				return
-		if self.notificationHistory:
+		if not shared.notificationsDialog.isEmpty():
 			if scriptHandler.getLastScriptRepeatCount() == 1:
-				ui.browseableMessage("\n".join(["%s: %s" % (shared.elapsedFromTimestamp(notification[0]), notification[1]) for notification in self.notificationHistory]), "%s - Firefox" % _("Notification History"))
+				# Gesture repeated twice shows the complete history in a dialog box.
+				shared.notificationsDialog.firefoxPage()
+				return
 			else:
-				#TRANSLATORS: read the last notification
-				ui.message(_("Last alert, %s: %s") % (shared.elapsedFromTimestamp(self.notificationHistory[-1][0]), self.notificationHistory[-1][1]))
-		else:
-			#TRANSLATORS: there is no recent notification in Firefox
-			ui.message(_("There is no notification"))
+				# Gesture once says the last notification
+				if shared.notificationsDialog.history["Firefox"]:
+					timestamp, message = shared.notificationsDialog.history["Firefox"][0]
+					ui.message("%s, %s" % (shared.elapsedFromTimestamp(timestamp), message))
+					return
+		# There is no notification in Firefox or Thunderbird
+		ui.message(_("There is no notification"))
 	#TRANSLATORS: documentation shown in the input gestures dialog for this script
 	script_notifications.__doc__ = _("Reads the last notification and it takes the system focus to it if it is possible. By pressing two times quickly shows the history of notifications.")
 

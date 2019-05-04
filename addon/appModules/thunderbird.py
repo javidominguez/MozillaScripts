@@ -31,7 +31,6 @@ class AppModule(thunderbird.AppModule):
 		super(thunderbird.AppModule, self).__init__(*args, **kwargs)
 		self.lastIndex = 0
 		self.Dialog = None
-		self.notificationHistory = []
 		originalFunction = globalCommands.commands.script_reportStatusLine
 		def substituteFunction(*args, **kwargs):
 			try:
@@ -83,10 +82,10 @@ class AppModule(thunderbird.AppModule):
 			alertText = obj.name if obj.name else obj.description if obj.description else obj.displayText if obj.displayText else ""
 			if shared.focusAlertPopup(obj, False if  self.isComposing() else True):
 				return
-			notificationLog = (datetime.now(), alertText.replace("\n", "\t"))
-			if notificationLog not in self.notificationHistory:
+			notificationLog = (datetime.now(), alertText)
+			if notificationLog not in shared.notificationsDialog.history["Thunderbird"]:
 				# Sometimes there are duplicate notifications. Is checked before storing in the history.
-				self.notificationHistory.append(notificationLog)
+				shared.notificationsDialog.registerThunderbirdNotification(notificationLog )
 		nextHandler()
 
 	def script_readAddressField(self, gesture):
@@ -196,10 +195,6 @@ class AppModule(thunderbird.AppModule):
 	script_focusDocument.__doc__ = _("Brings the focus to the text of the open message.")
 
 	def script_notifications(self, gesture):
-		#@ Testing
-		shared.notificationsDialog.thunderbirdPage()
-		return
-		#@ End testing
 		obj = self.getPropertyPage().simpleLastChild.simplePrevious
 		if obj.role == controlTypes.ROLE_ALERT:
 			if api.getFocusObject().parent == obj: # Already focused
@@ -208,15 +203,19 @@ class AppModule(thunderbird.AppModule):
 				return
 			if shared.focusAlertPopup(obj):
 				return
-		if self.notificationHistory:
+		if not shared.notificationsDialog.isEmpty():
 			if scriptHandler.getLastScriptRepeatCount() == 1:
-				ui.browseableMessage("\n".join(["%s: %s" % (shared.elapsedFromTimestamp(notification[0]), notification[1]) for notification in self.notificationHistory]), "%s - Thunderbird" % _("Notification History"))
+				# Gesture repeated twice shows the complete history in a dialog box.
+				shared.notificationsDialog.thunderbirdPage()
+				return
 			else:
-				#TRANSLATORS: read the last notification
-				ui.message(_("Last alert, %s: %s") % (shared.elapsedFromTimestamp(self.notificationHistory[-1][0]), self.notificationHistory[-1][1]))
-		else:
-			#TRANSLATORS: there is no recent notification in Thunderbird
-			ui.message(_("There is no notification"))
+				# Gesture once says the last notification
+				if shared.notificationsDialog.history["Thunderbird"]:
+					timestamp, message = shared.notificationsDialog.history["Thunderbird"][0]
+					ui.message("%s, %s" % (shared.elapsedFromTimestamp(timestamp), message))
+					return
+		# There is no notification in Firefox or Thunderbird
+		ui.message(_("There is no notification"))
 	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_notifications.__doc__ = _("Reads the last notification and it takes the system focus to it if it is possible. By pressing two times quickly shows the history of notifications.")
 

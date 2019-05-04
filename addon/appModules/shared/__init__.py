@@ -103,8 +103,8 @@ class TabPanel(wx.Panel):
 	def __init__(self, parent, lbLabel):
 		wx.Panel.__init__(self, parent=parent)
 		sizer = guiHelper.BoxSizerHelper(self, wx.VERTICAL)
-		self.listBox  = sizer.addLabeledControl(lbLabel, wx.ListBox)
-		self.text = wx.TextCtrl(self, style=wx.TE_MULTILINE | wx.TE_READONLY, value = "Testing notification history dialog")
+		self.listBox  = sizer.addLabeledControl(lbLabel, wx.ListBox, size=(300,60))
+		self.text = wx.TextCtrl(self, style=wx.TE_MULTILINE | wx.TE_READONLY, size=(300, 75), value = "")
 		sizer.addItem(self.text)
 		self.listBox.Bind(wx.EVT_LISTBOX, self.onListBox)
 		self.listBox.Bind(wx.EVT_KEY_DOWN, self.onKeyDown)
@@ -153,18 +153,19 @@ class TabPanel(wx.Panel):
 		index = self.listBox.Selection
 		self.text.Clear()
 		try:
-			self.text.SetValue("Item %d\n%s" % (index, self.TopLevelParent.history[self.Parent.GetPageText(self.Parent.Selection)][index][1]))
+			self.text.SetValue(self.TopLevelParent.history[self.Parent.GetPageText(self.Parent.Selection)][index][1])
 		except IndexError:
 			pass
 
 	def updateList(self):
 		if not self.TopLevelParent.history[self.Parent.GetPageText(self.Parent.Selection)]:
-			self.listBox.SetItems(["There are no notifications"])
+			self.listBox.SetItems([_("There is no notification")])
 			self.text.Clear()
 			self.text.Enabled = False
 		else:
-			self.listBox.SetItems(["%s, %s" % (elapsedFromTimestamp(i[0]), i[1]) for i in self.TopLevelParent.history[self.Parent.GetPageText(self.Parent.Selection)]])
+			self.listBox.SetItems(["%s, %s" % (elapsedFromTimestamp(i[0]), i[1].split("\n")[0]) for i in self.TopLevelParent.history[self.Parent.GetPageText(self.Parent.Selection)]])
 			self.text.Enabled = True
+		self.text.SetValue(self.TopLevelParent.history[self.Parent.GetPageText(self.Parent.Selection)][0][1])
 		self.listBox.SetSelection(0)
 		self.listBox.SetFocus()
 
@@ -184,12 +185,12 @@ class TabPanel(wx.Panel):
 		if self.listBox.IsEmpty():
 			self.updateList()
 		else:
-			self.text.SetValue("Item %d\n%s" % (index, self.TopLevelParent.history[self.Parent.GetPageText(self.Parent.Selection)][index][1]))
+			self.text.SetValue(self.TopLevelParent.history[self.Parent.GetPageText(self.Parent.Selection)][index][1])
 
 class NotificationsHistoryDialog(wx.Dialog):
 
 	def __init__(self, parent):
-		super(NotificationsHistoryDialog, self).__init__(parent, title=_("Notifications history"))
+		super(NotificationsHistoryDialog, self).__init__(parent, title=_("Mozilla notifications"))
 		self.history = {"Firefox":[], "Thunderbird":[]}
 		self.notebook = wx.Notebook(self, style=wx.NB_TOP)
 		firefoxPage = TabPanel(self.notebook, lbLabel = _("Firefox notifications"))
@@ -208,10 +209,21 @@ class NotificationsHistoryDialog(wx.Dialog):
 		event.Skip()
 
 	def registerFirefoxNotification(self, item):
-		self.history["Firefox"].append(item)
+		if item not in self.history["Firefox"]:
+			self.history["Firefox"].insert(0, item)
+			return True
+		return False
 
 	def registerThunderbirdNotification(self, item):
-		self.history["Thunderbird"].append(item)
+		if item not in self.history["Thunderbird"]:
+			self.history["Thunderbird"].insert(0, item)
+			return True
+		return False
+
+	def isEmpty(self):
+		for k in self.history:
+			if self.history[k]: return False
+		return True
 
 	def firefoxPage(self):
 		self._showPage(0)
@@ -227,14 +239,3 @@ class NotificationsHistoryDialog(wx.Dialog):
 		gui.mainFrame.postPopup()
 
 notificationsDialog = NotificationsHistoryDialog(gui.mainFrame)
-
-#@ Test
-from time import time
-# Firefox testing items
-notificationsDialog.registerFirefoxNotification((datetime.fromtimestamp(time()-290),"This is a test. First Firefox item."))
-notificationsDialog.registerFirefoxNotification((datetime.fromtimestamp(time()-102),"This is a test. Second Firefox item."))
-notificationsDialog.registerFirefoxNotification((datetime.fromtimestamp(time()-832),"This is a test. Third Firefox item."))
-# Thunderbird testing items
-notificationsDialog.registerThunderbirdNotification((datetime.fromtimestamp(time()-633),"Thunderbird first item. Testing."))
-notificationsDialog.registerThunderbirdNotification((datetime.fromtimestamp(time()-1335),"Thunderbird second item. Testing."))
-#@ End test
