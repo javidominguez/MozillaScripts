@@ -1,20 +1,24 @@
 # Mozilla Apps Enhancements add-on for NVDA
 #This file is covered by the GNU General Public License.
 #See the file COPYING.txt for more details.
-#Copyright (C) 2017 Javi Dominguez <fjavids@gmail.com>
+#Copyright (C) 2017-2019 Javi Dominguez <fjavids@gmail.com>
 
+from logHandler import log
 import addonHandler
 try: # Compatibility with the DeveloperToolkit addon
 	dtk = filter(lambda a: a.name == "DeveloperToolkit", addonHandler.getRunningAddons())[0]
 except IndexError: # DeveloperToolkit is not running. Then, the firefox class is imported from the core
 	from nvdaBuiltin.appModules.firefox import AppModule
 else: # DeveloperToolkit is running. Try to import the class from the DeveloperToolkit folder.
+	log.warning("The Developer toolkit addon has been detected.")
 	import appModules
 	appModules.__path__.insert(0, dtk.path+"\\appModules")
 	try:
 		from dtkFirefox import AppModule
+		log.warning("Compatibility OK")
 	except ImportError: # The version of DeveloperToolkit that is running is not ready for compatibility with this addon.
 		from nvdaBuiltin.appModules.firefox import AppModule
+		raise Warning ("Compatibility failed. Not found dtkFirefox from Developer toolkit\nIt is likely that Mozilla Apps Enhancements and Developer's toolkit does not work well together")
 	appModules.__path__.pop(0)
 
 from NVDAObjects.IAccessible.mozilla import Dialog, IAccessible
