@@ -3,6 +3,7 @@
 #See the file COPYING.txt for more details.
 #Copyright (C) 2017 Javi Dominguez <fjavids@gmail.com>
 
+from .py3compatibility import *
 from nvdaBuiltin.appModules import thunderbird
 from time import time, sleep
 from datetime import datetime
@@ -18,7 +19,7 @@ import speech
 import gui
 import wx
 import globalCommands
-import shared
+from . import shared
 
 addonHandler.initTranslation()
 

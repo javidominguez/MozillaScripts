@@ -1,8 +1,9 @@
 # Mozilla Apps Enhancements add-on for NVDA
 #This file is covered by the GNU General Public License.
 #See the file COPYING.txt for more details.
-#Copyright (C) 2017-2019 Javi Dominguez <fjavids@gmail.com>
+#~ #Copyright (C) 2017-2019 Javi Dominguez <fjavids@gmail.com>
 
+from .py3compatibility import *
 from logHandler import log
 import addonHandler
 try: # Compatibility with the DeveloperToolkit addon
@@ -33,9 +34,12 @@ import gui
 import wx
 from datetime import datetime
 from threading import Timer
-from urlparse import urlparse
+if py3flag:
+	from urllib.parse  import urlparse
+else:
+	from urlparse import urlparse
 import re
-import shared
+from . import shared
 
 addonHandler.initTranslation()
 
