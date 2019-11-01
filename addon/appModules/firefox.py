@@ -114,20 +114,27 @@ class AppModule(AppModule):
 			#TRANSLATORS: message spoken by NVDA when the focus is not in the main Firefox window
 			ui.message(_("Not available here"))
 			return
-		path = (("id", "nav-bar"), ("id", "urlbar"), ("id", "identity-box",))
+		ffVersion = int(self.productVersion.split(".")[0])
+		if ffVersion < 70:
+			path = (("id", "nav-bar"), ("id", "urlbar"), ("id", "identity-box",))
+		else:
+			path = (("id", "nav-bar"), ("id", "identity-box"), ("id", "identity-icon"))
 		secInfoButton = shared.searchObject(path)
 		if secInfoButton:
 			securInfo = secInfoButton.description # This has changed in FF 57. Keeping this line for compatibility with earlier versions.
 			try: # This one is for FF 57 and later.
-				securInfo = secInfoButton.firstChild.next.name if secInfoButton.firstChild.next.IA2Attributes["id"] == "connection-icon" else ""
-				if securInfo:
-					owner = " ".join([o.name for o in filter(lambda o: o.role == controlTypes.ROLE_STATICTEXT, secInfoButton.recursiveDescendants)])
-					securInfo = "%s, %s" % (owner, securInfo) if owner else securInfo
+				try: # FF 57 to 69
+					securInfo = secInfoButton.firstChild.next.name if secInfoButton.firstChild.next.IA2Attributes["id"] == "connection-icon" else ""
+					if securInfo:
+						owner = " ".join([o.name for o in filter(lambda o: o.role == controlTypes.ROLE_STATICTEXT, secInfoButton.recursiveDescendants)])
+						securInfo = "%s, %s" % (owner, securInfo) if owner else securInfo
+				except AttributeError: # FF 70 and above 
+					securInfo = secInfoButton.name
 			except:
 				pass
 			#TRANSLATORS: this connection is using http, not https
 			securInfo  = _("Insecure connection") if not securInfo   else securInfo  
-			url = secInfoButton.next.value
+			url = secInfoButton.next.value if ffVersion < 70 else secInfoButton.parent.next.firstChild.value
 			ui.message("%s (%s)" % (url, securInfo))
 			if scriptHandler.getLastScriptRepeatCount() == 1:
 				if api.copyToClip(url):
