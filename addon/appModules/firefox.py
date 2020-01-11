@@ -244,12 +244,18 @@ class AppModule(AppModule):
 		return buttons, _("Tool Bar Buttons")
 
 	def inMainWindow(self):
+		fg = api.getForegroundObject()
 		try:
-			if api.getForegroundObject().IA2Attributes["id"] != "main-window":
-				return False
+			if fg.IA2Attributes["id"] == "main-window":
+				return True
 		except (AttributeError, KeyError):
-			return False
-		return True
+			pass
+		# As of Firefox 72, the IA2Attributes["id"]:"main-window" is no longer used
+		try:
+			if fg.IA2Attributes["tag"] == "body":
+				return True
+		except (AttributeError, KeyError):
+			pass
 
 	__gestures = {
 		"kb(desktop):NVDA+End": "status",
