@@ -147,16 +147,29 @@ class AppModule(AppModule):
 	script_url.__doc__ = _("Reads the page address. If pressed twice quickly, copies it to clipboard.")
 
 	def script_toolsBar(self, gesture):
+		if scriptHandler.getLastScriptRepeatCount() == 0:
+			self.showToolbarDialog(False)
+		elif scriptHandler.getLastScriptRepeatCount() == 1:
+			self.showToolbarDialog(True)
+	#TRANSLATORS: documentation shown in the input gestures dialog for this script
+	script_toolsBar.__doc__ = _("Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool bar.")
+
+	def script_toolsBar2(self, gesture):
+		self.showToolbarDialog(True)
+	#TRANSLATORS: documentation shown in the input gestures dialog for this script
+	script_toolsBar2.__doc__ = _("Shows buttons of tool bar.")
+
+	def showToolbarDialog(self, twice):
 		if not self.inMainWindow() and api.getForegroundObject().appModule.productName != "NVDA":
 			#TRANSLATORS: message spoken by NVDA when the focus is not in the main Firefox window
 			ui.message(_("Not available here"))
 			return
 		if not self.tbDialog:
 			self.tbDialog = toolsBarDialog(gui.mainFrame)
-		if scriptHandler.getLastScriptRepeatCount() == 0:
-			items, title = self.getTabsDialog()
-		elif scriptHandler.getLastScriptRepeatCount() == 1: 
+		if twice:
 			items, title = self.getButtonsDialog()
+		else:
+			items, title = self.getTabsDialog()
 		if items:
 			self.tbDialog.update(items, title)
 			if not self.tbDialog.IsShown():
@@ -167,9 +180,6 @@ class AppModule(AppModule):
 			return
 		#TRANSLATORS: message spoken when Firefox toolbar is not found
 		ui.message (_("Tool bar not found"))
-	#TRANSLATORS: documentation shown in the input gestures dialog for this script
-	script_toolsBar.__doc__ = _("Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool bar.")
-
 
 	def script_notifications(self, gesture):
 		obj = api.getForegroundObject().simpleFirstChild
@@ -238,8 +248,8 @@ class AppModule(AppModule):
 	def getButtonsDialog(self):
 		fg = api.getForegroundObject()
 		buttons = []
-		for toolBar in filter(lambda o: o.role == controlTypes.ROLE_TOOLBAR, fg.children):
-			buttons = buttons + filter(lambda o: o.role == controlTypes.ROLE_BUTTON, toolBar.children)
+		for toolBar in filter(lambda o: o.role == controlTypes.ROLE_TOOLBAR and "id" in o.IA2Attributes and o.IA2Attributes["id"] != "TabsToolbar", fg.children):
+			buttons = buttons + filter(lambda o: o.role == controlTypes.ROLE_BUTTON and controlTypes.STATE_OFFSCREEN not in o.states, toolBar.children)
 		#TRANSLATORS: Toolbar buttons dialog
 		return buttons, _("Tool Bar Buttons")
 

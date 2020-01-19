@@ -548,8 +548,8 @@ class manageColumnsDialog(wx.Dialog):
 			return False
 		self.Hide()
 		try:
-			x = self.columns[hIndex1].location[0]+self.columns[hIndex1].location[2]/2
-			y = self.columns[hIndex1].location[1]+self.columns[hIndex1].location[3]/2
+			x = int(self.columns[hIndex1].location[0]+self.columns[hIndex1].location[2]/2)
+			y = int(self.columns[hIndex1].location[1]+self.columns[hIndex1].location[3]/2)
 		except TypeError:
 			return False 
 		if api.getDesktopObject().objectFromPoint(x,y) != self.columns[hIndex1]:
