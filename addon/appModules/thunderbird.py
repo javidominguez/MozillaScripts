@@ -37,13 +37,11 @@ class AppModule(thunderbird.AppModule):
 		# Overlay search box in fast filtering bar
 		if obj.role == controlTypes.ROLE_EDITABLETEXT:
 			try:
-				if obj.IA2Attributes["xml-roles"] == "searchbox":
+				if ("xml-roles" in obj.IA2Attributes and obj.IA2Attributes["xml-roles"] == "searchbox") or ("class" in obj.parent.IA2Attributes  and obj.parent.IA2Attributes["class"] == "searchBox"):
 					setattr(obj, "pointedObj", None)
 					#TRANSLATORS: additional description for the search field
 					obj.description = _("(Press down arrow to display more options)")
 					clsList.insert(0, SearchBox)
-			except KeyError:
-				pass
 			except AttributeError:
 				pass
 		# Overlay list of messages
@@ -211,13 +209,19 @@ class AppModule(thunderbird.AppModule):
 			if index >= len(fields):
 				return
 			try:
+				if int(self.productVersion.split(".")[0]) >= 68:
+					ui.message(fields[index].parent.parent.name)
 				ui.message(",".join([o.name for o in fields[index].parent.children]))
 			except (IndexError, AttributeError):
 				#TRANSLATORS: cannot find sender address
 				ui.message(_("Not found"))
 			if rightClick:
-				api.moveMouseToNVDAObject(fields[index].firstChild.firstChild.next)
-				api.setMouseObject(fields[index].firstChild.firstChild.next)
+				if int(self.productVersion.split(".")[0]) < 68:
+					obj = fields[index].firstChild.firstChild.next
+				else:
+					obj = fields[index].firstChild.firstChild
+				api.moveMouseToNVDAObject(obj)
+				api.setMouseObject(obj)
 				winUser.mouse_event(winUser.MOUSEEVENTF_RIGHTDOWN,0,0,None,None)
 				winUser.mouse_event(winUser.MOUSEEVENTF_RIGHTUP,0,0,None,None)
 				speech.pauseSpeech(True)
