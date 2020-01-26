@@ -72,7 +72,7 @@ class AppModule(thunderbird.AppModule):
 			index = int(gesture.keyName[-1])-1
 		except AttributeError:
 			index = int(gesture.mainKeyName[-1])-1
-		twice = True if scriptHandler.getLastScriptRepeatCount() == 1 and index == self.lastIndex else False
+		twice = True if (scriptHandler.getLastScriptRepeatCount() == 1 and index == self.lastIndex) or "alt" in gesture.modifierNames else False
 		if self.isComposing():
 			self.addressFieldOnComposing(index, twice)
 		else:
@@ -287,6 +287,10 @@ class AppModule(thunderbird.AppModule):
 		"kb:Control+Shift+4": "readAddressField",
 		"kb:Control+Shift+5": "messageSubject",
 		"kb:Control+Shift+6": "messageDate",
+		"kb:Alt+Control+Shift+1": "readAddressField",
+		"kb:Alt+Control+Shift+2": "readAddressField",
+		"kb:Alt+Control+Shift+3": "readAddressField",
+		"kb:Alt+Control+Shift+4": "readAddressField",
 		"kb:NVDA+H": "manageColumns",
 		"kb:Control+Shift+A": "attachments",
 		"kb:NVDA+F6": "focusDocument",

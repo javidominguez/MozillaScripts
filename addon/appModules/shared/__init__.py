@@ -88,11 +88,11 @@ def searchAmongTheChildren(id, into):
 		return(None)
 	key, value = id
 	obj = into.firstChild
-	if key in obj.IA2Attributes.keys():
+	if hasattr(obj, "IA2Attributes") and key in obj.IA2Attributes.keys():
 		if re.match(value, obj.IA2Attributes[key]):
 			return(obj)
 	while obj:
-		if key in obj.IA2Attributes.keys():
+		if hasattr(obj, "IA2Attributes") and key in obj.IA2Attributes.keys():
 			if re.match(value, obj.IA2Attributes[key]):
 				break
 		obj = obj.next
