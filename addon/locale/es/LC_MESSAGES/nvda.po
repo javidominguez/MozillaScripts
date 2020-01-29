@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-12 21:47+0100\n"
-"PO-Revision-Date: 2017-12-12 21:48+0100\n"
+"POT-Creation-Date: 2020-01-29 21:34+0100\n"
+"PO-Revision-Date: 2020-01-29 21:41+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -18,58 +18,44 @@ msgstr ""
 "X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: sources.py:28
+#: messages.py:51
 msgid "mozilla Firefox"
 msgstr "Mozilla Firefox"
 
-#: sources.py:61 sources.py:85 sources.py:110 sources.py:151
+#: messages.py:86 messages.py:115 messages.py:165 messages.py:213
 msgid "Not available here"
 msgstr "No disponible aquí"
 
-#: sources.py:72
-#, python-format
-msgid "Status bar: %s"
-msgstr "Barra de estado: %s "
-
-#: sources.py:74 sources.py:80
+#: messages.py:100 messages.py:108
 msgid "Status bar not found"
 msgstr "No se encontró la barra de estado"
 
-#: sources.py:78 sources.py:103
+#: messages.py:105 messages.py:142
 msgid "Copied to clipboard"
 msgstr "Copiado al portapapeles"
 
-#: sources.py:81
+#: messages.py:110
 msgid "Reads the status bar. If pressed twice quickly, copies it to clipboard."
 msgstr ""
 "Lee la barra de estado. Si se pulsa dos veces rápidamente, la copia al "
 "portapapeles. "
 
-#: sources.py:98
+#: messages.py:136
 msgid "Insecure connection"
 msgstr "conexión insegura"
 
-#: sources.py:100
-#, python-format
-msgid "Page address is: %s (%s)"
-msgstr "La dirección de la página es: %s (%s) "
-
-#: sources.py:105
+#: messages.py:145
 msgid "Address not found"
 msgstr "Dirección no encontrada"
 
-#: sources.py:106
+#: messages.py:147
 msgid ""
 "Reads the page address. If pressed twice quickly, copies it to clipboard."
 msgstr ""
 "Lee la dirección de la página. Si se pulsa dos veces rápidamente, la copia "
 "al portapapeles. "
 
-#: sources.py:126
-msgid "Tool bar not found"
-msgstr "No se encuentra la barra de herramientas"
-
-#: sources.py:127
+#: messages.py:155
 msgid ""
 "Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool "
 "bar."
@@ -77,20 +63,19 @@ msgstr ""
 "Muestra una lista de pestañas abiertas. Si se pulsa dos veces rápidamente, "
 "muestra los botones de la barra de herramientas. "
 
-#: sources.py:142 sources.py:456
-msgid "Notification History"
-msgstr "Historial de notificaciones"
+#: messages.py:160
+msgid "Shows buttons of tool bar."
+msgstr "Muestra los botones de la barra de herramientas"
 
-#: sources.py:144 sources.py:458
-#, python-format
-msgid "Last alert, %s: %s"
-msgstr "Ultima alerta %s %s"
+#: messages.py:182
+msgid "Tool bar not found"
+msgstr "No se encuentra la barra de herramientas"
 
-#: sources.py:146 sources.py:460
+#: messages.py:206 messages.py:546 messages.py:1107
 msgid "There is no notification"
 msgstr "No hay ninguna notificación"
 
-#: sources.py:147 sources.py:461
+#: messages.py:208 messages.py:548
 msgid ""
 "Reads the last notification and it takes the system focus to it if it is "
 "possible. By pressing two times quickly shows the history of notifications."
@@ -98,161 +83,161 @@ msgstr ""
 "Lee la última notificación y lleva el foco del sistema a ella si es posible. "
 "Pulsando dos veces rápidamente muestra el historial de notificaciones."
 
-#: sources.py:170
+#: messages.py:233
 msgid "Brings the focus to the document"
 msgstr "Lleva el foco al documento"
 
-#: sources.py:182
+#: messages.py:246
 msgid "Opened tabs"
 msgstr "Pestañas abiertas"
 
-#: sources.py:189
+#: messages.py:254
 msgid "Tool Bar Buttons"
 msgstr "Botones de la barra de herramientas"
 
-#: sources.py:242
+#: messages.py:291
 msgid "&Go"
 msgstr "&Ir"
 
-#: sources.py:246
+#: messages.py:296
 msgid "&Options"
 msgstr "&Opciones"
 
-#: sources.py:249 sources.py:690
+#: messages.py:300 messages.py:840
 msgid "Close"
 msgstr "Cerrar"
 
-#: sources.py:324 sources.py:619
+#: messages.py:378 messages.py:758
 msgid "mozilla Thunderbird"
 msgstr "Mozilla Thunderbird"
 
-#: sources.py:336
+#: messages.py:392
 msgid "(Press down arrow to display more options)"
 msgstr "Pulsa flecha abajo para mostrar más opciones"
 
-#: sources.py:381 sources.py:392 sources.py:476
-msgid "Not found"
-msgstr "No encontrado"
-
-#: sources.py:383 sources.py:394 sources.py:484
-msgid "you are not in a message window"
-msgstr "No estás en una ventana de mensaje "
-
-#: sources.py:384
-msgid "Reads the subject of the message."
-msgstr "Lee el asunto del mensaje. "
-
-#: sources.py:395
-msgid "Reads date of the message."
-msgstr "Lee la fecha del mensaje. "
-
-#: sources.py:404
-msgid "You are not in a list of messages"
-msgstr "No está en una lista de mensajes"
-
-#: sources.py:407
-msgid "Column headers not found"
-msgstr "No se encuentran encabezados de columna"
-
-#: sources.py:417
-msgid "Allows you to change the order of the columns in the messages list"
-msgstr "Permite cambiar el orden de las columnas en la lista de mensajes"
-
-#: sources.py:425
-msgid "There are No attachments"
-msgstr "No hay adjuntos"
-
-#: sources.py:436
-msgid "Brings the focus to the list of attachments, if any."
-msgstr "Lleva el foco a la lista de adjuntos si los hay."
-
-#: sources.py:443
-msgid "Brings the focus to the text of the open message."
-msgstr "Lleva el foco al texto del mensaje abierto."
-
-#: sources.py:528 sources.py:537 sources.py:560 sources.py:569
-msgid "Search in "
-msgstr "Buscar en "
-
-#: sources.py:541
-msgid "Leaving search box"
-msgstr "Dejando la caja de búsqueda "
-
-#: sources.py:586
-msgid "uncheck"
-msgstr "Desmarcar"
-
-#: sources.py:588
-msgid "check"
-msgstr "Marcar"
-
-#: sources.py:597
-msgid "checked"
-msgstr "Marcado"
-
-#: sources.py:599
-msgid "not checked"
-msgstr "No marcado"
-
-#: sources.py:627
-msgid "There are not more columns"
-msgstr "No hay más columnas"
-
-#: sources.py:631
+#: messages.py:440 messages.py:609 messages.py:772
 msgid "empty"
 msgstr "Vacía"
 
-#: sources.py:643
+#: messages.py:448 messages.py:464 messages.py:566
+msgid "Not found"
+msgstr "No encontrado"
+
+#: messages.py:451 messages.py:467 messages.py:579
+msgid "you are not in a message window"
+msgstr "No estás en una ventana de mensaje "
+
+#: messages.py:453
+msgid "Reads the subject of the message."
+msgstr "Lee el asunto del mensaje. "
+
+#: messages.py:469
+msgid "Reads date of the message."
+msgstr "Lee la fecha del mensaje. "
+
+#: messages.py:479
+msgid "You are not in a list of messages"
+msgstr "No está en una lista de mensajes"
+
+#: messages.py:483
+msgid "Column headers not found"
+msgstr "No se encuentran encabezados de columna"
+
+#: messages.py:494
+msgid "Allows you to change the order of the columns in the messages list"
+msgstr "Permite cambiar el orden de las columnas en la lista de mensajes"
+
+#: messages.py:503
+msgid "There are No attachments"
+msgstr "No hay adjuntos"
+
+#: messages.py:515
+msgid "Brings the focus to the list of attachments, if any."
+msgstr "Lleva el foco a la lista de adjuntos si los hay."
+
+#: messages.py:523
+msgid "Brings the focus to the text of the open message."
+msgstr "Lleva el foco al texto del mensaje abierto."
+
+#: messages.py:660 messages.py:669 messages.py:693 messages.py:703
+msgid "Search in "
+msgstr "Buscar en "
+
+#: messages.py:674
+msgid "Leaving search box"
+msgstr "Dejando la caja de búsqueda "
+
+#: messages.py:721
+msgid "uncheck"
+msgstr "Desmarcar"
+
+#: messages.py:724
+msgid "check"
+msgstr "Marcar"
+
+#: messages.py:734
+msgid "checked"
+msgstr "Marcado"
+
+#: messages.py:737
+msgid "not checked"
+msgstr "No marcado"
+
+#: messages.py:767
+msgid "There are not more columns"
+msgstr "No hay más columnas"
+
+#: messages.py:785
 msgid "Expand the conversation to display messages"
 msgstr "Expande la conversación para ver los mensajes"
 
-#: sources.py:645
+#: messages.py:788
 msgid "Preview pane is not active or message has not been loaded yet"
 msgstr ""
 "El panel de vista previa no está activo o el mensaje no se ha cargado aún"
 
-#: sources.py:646
+#: messages.py:790
 msgid "In message list, reads the selected message without leaving the list."
 msgstr ""
 "En la lista de mensajes, lee el mensaje seleccionado sin salir de la lista."
 
-#: sources.py:675
+#: messages.py:821
 msgid "Manage columns"
 msgstr "Organizar columnas"
 
-#: sources.py:682
+#: messages.py:829
 msgid "&up"
 msgstr "&Subir"
 
-#: sources.py:685
+#: messages.py:833
 msgid "&down"
 msgstr "&Bajar"
 
-#: sources.py:688
+#: messages.py:837
 msgid "&options"
 msgstr "&Opciones"
 
-#: sources.py:713
+#: messages.py:864
 #, python-format
 msgid "Can't move %s, it is already the first column."
 msgstr "No se puede mover %s, ya es la primera columna."
 
-#: sources.py:720
+#: messages.py:872
 #, python-format
 msgid "%s before %s"
 msgstr "%s antes de %s"
 
-#: sources.py:727
+#: messages.py:880
 #, python-format
 msgid "Can't move %s, it is already the last column."
 msgstr "No se puede mover %s, ya es la última columna"
 
-#: sources.py:734
+#: messages.py:888
 #, python-format
 msgid "%s after %s"
 msgstr "%s después de  %s"
 
-#: sources.py:749
+#: messages.py:904
 #, python-format
 msgid ""
 "Folder has changed, return to %s to manage columns or restart this dialog"
@@ -260,45 +245,81 @@ msgstr ""
 "Ha cambiado la carpeta, regrese a %s para gestionar las columnas o reinicie "
 "este cuadro de diálogo"
 
-#: sources.py:808
+#: messages.py:987
 msgid "Yesterday"
 msgstr "Ayer"
 
-#: sources.py:810
+#: messages.py:990
 #, python-format
 msgid "%d days ago"
 msgstr "Hace %d días"
 
-#: sources.py:814
+#: messages.py:995
 msgid "About an hour ago"
 msgstr "Hace una hora"
 
-#: sources.py:816
+#: messages.py:998
 #, python-format
 msgid "About %d hours ago"
 msgstr "Hace unas %d horas"
 
-#: sources.py:818
+#: messages.py:1001
 msgid "About a minute ago"
 msgstr "Hace un minuto"
 
-#: sources.py:820
+#: messages.py:1004
 #, python-format
 msgid "About %d minutes ago"
 msgstr "Hace unos %d minutos"
 
-#: sources.py:822
+#: messages.py:1007
 msgid "a second ago"
 msgstr "Hace un segundo"
 
-#: sources.py:824
+#: messages.py:1010
 #, python-format
 msgid "%d seconds ago"
 msgstr "Hace %d segundos"
 
-#: sources.py:835
+#: messages.py:1021
 msgid "Couldn't capture the text of this notification"
 msgstr "No se pudo capturar el texto de esta notificación"
+
+#: messages.py:1082
+msgid "Refresh\tF5"
+msgstr "Actualizar\tF5"
+
+#: messages.py:1084
+msgid "Delete item\tSupr"
+msgstr "Borrar elemento\tSupr"
+
+#: messages.py:1086
+msgid "Clear all"
+msgstr "Borrar todo"
+
+#: messages.py:1138
+msgid "Mozilla notifications"
+msgstr "Notificaciones de Mozilla"
+
+#: messages.py:1141
+msgid "Firefox notifications"
+msgstr "Notificaciones de Firefox"
+
+#: messages.py:1143
+msgid "Thunderbird notifications"
+msgstr "Notificaciones de Thunderbird"
+
+#~ msgid "Status bar: %s"
+#~ msgstr "Barra de estado: %s "
+
+#~ msgid "Page address is: %s (%s)"
+#~ msgstr "La dirección de la página es: %s (%s) "
+
+#~ msgid "Notification History"
+#~ msgstr "Historial de notificaciones"
+
+#~ msgid "Last alert, %s: %s"
+#~ msgstr "Ultima alerta %s %s"
 
 #~ msgid "If there is any notification opens"
 #~ msgstr "Abre la notificación si la hay"
