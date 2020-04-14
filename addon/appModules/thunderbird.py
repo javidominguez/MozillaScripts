@@ -148,7 +148,7 @@ class AppModule(thunderbird.AppModule):
 		doc = self.isDocument()
 		if doc and controlTypes.STATE_READONLY in doc.states:
 			try:
-				attachmentToggleButton = filter(lambda o: o.IA2Attributes["id"] == "attachmentToggle", self.getPropertyPage().children)[0]
+				attachmentToggleButton = filter(lambda o: "id" in o.IA2Attributes and o.IA2Attributes["id"] == "attachmentToggle", self.getPropertyPage().children)[0]
 			except IndexError:
 				#TRANSLATORS: there are no attachments in this message
 				ui.message(_("There are No attachments"))
