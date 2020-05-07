@@ -117,8 +117,10 @@ class AppModule(AppModule):
 		ffVersion = int(self.productVersion.split(".")[0])
 		if ffVersion < 70:
 			path = (("id", "nav-bar"), ("id", "urlbar"), ("id", "identity-box",))
-		else:
+		elif ffVersion < 76:
 			path = (("id", "nav-bar"), ("id", "identity-box"), ("id", "identity-icon"))
+		else:
+			path = (("id", "nav-bar"), ("id", "identity-box"))
 		secInfoButton = shared.searchObject(path)
 		if secInfoButton:
 			securInfo = secInfoButton.description # This has changed in FF 57. Keeping this line for compatibility with earlier versions.
@@ -134,8 +136,12 @@ class AppModule(AppModule):
 				pass
 			#TRANSLATORS: this connection is using http, not https
 			securInfo  = _("Insecure connection") if not securInfo   else securInfo  
-			url = secInfoButton.next.value if ffVersion < 70 else secInfoButton.parent.next.firstChild.value
-			ui.message("%s (%s)" % (url, securInfo))
+			if ffVersion < 76:
+				url = secInfoButton.next.value if ffVersion < 70 else secInfoButton.parent.next.firstChild.value
+				ui.message("%s (%s)" % (url, securInfo))
+			else:
+				url = secInfoButton.next.firstChild.value
+				ui.message(url)
 			if scriptHandler.getLastScriptRepeatCount() == 1:
 				if api.copyToClip(url):
 					#TRANSLATORS: message spoken when an item hast just been copied to the clipboard
