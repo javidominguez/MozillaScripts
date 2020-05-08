@@ -1,0 +1,342 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-01-29 21:34+0100\n"
+"PO-Revision-Date: 2020-04-18 08:22+0300\n"
+"Last-Translator: \n"
+"Language-Team: cagrid@hotmail.com\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: messages.py:51
+msgid "mozilla Firefox"
+msgstr "Mozilla Firefox"
+
+#: messages.py:86 messages.py:115 messages.py:165 messages.py:213
+msgid "Not available here"
+msgstr "Burada mevcut değil"
+
+#: messages.py:100 messages.py:108
+msgid "Status bar not found"
+msgstr "Durum çubuğu bulunamadı"
+
+#: messages.py:105 messages.py:142
+msgid "Copied to clipboard"
+msgstr "Panoya kopyalandı"
+
+#: messages.py:110
+msgid "Reads the status bar. If pressed twice quickly, copies it to clipboard."
+msgstr "Durum çubuğunu oku. Hızlıca iki kez, panoya kopyala."
+
+#: messages.py:136
+msgid "Insecure connection"
+msgstr "güvenli olmayan bağlantı"
+
+#: messages.py:145
+msgid "Address not found"
+msgstr "Adres bulunamadı"
+
+#: messages.py:147
+msgid ""
+"Reads the page address. If pressed twice quickly, copies it to clipboard."
+msgstr "Sayfa adresini oku. Hızlıca iki kez, panoya kopyala."
+
+#: messages.py:155
+msgid ""
+"Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool "
+"bar."
+msgstr ""
+"Açık sekmeleri listele. Hızlıca iki kez, araç çubuğundaki düğmeleri göster."
+
+#: messages.py:160
+msgid "Shows buttons of tool bar."
+msgstr "Araç çubuğundaki düğmeleri göster"
+
+#: messages.py:182
+msgid "Tool bar not found"
+msgstr "Araç çubuğu bulunamadı"
+
+#: messages.py:206 messages.py:546 messages.py:1107
+msgid "There is no notification"
+msgstr "Bildirim yok"
+
+#: messages.py:208 messages.py:548
+msgid ""
+"Reads the last notification and it takes the system focus to it if it is "
+"possible. By pressing two times quickly shows the history of notifications."
+msgstr ""
+"En son bildirimi oku ve mümkünse sistem odağını taşı. Hızlıca iki kez, "
+"bildirim geçmişini görüntüle."
+
+#: messages.py:233
+msgid "Brings the focus to the document"
+msgstr "Odağı belgeye taşı"
+
+#: messages.py:246
+msgid "Opened tabs"
+msgstr "Açık sekmeler"
+
+#: messages.py:254
+msgid "Tool Bar Buttons"
+msgstr "Araç çubuğu düğmeleri"
+
+#: messages.py:291
+msgid "&Go"
+msgstr "&Git"
+
+#: messages.py:296
+msgid "&Options"
+msgstr "&seçenekler"
+
+#: messages.py:300 messages.py:840
+msgid "Close"
+msgstr "Kapat"
+
+#: messages.py:378 messages.py:758
+msgid "mozilla Thunderbird"
+msgstr "Mozilla Thunderbird"
+
+#: messages.py:392
+msgid "(Press down arrow to display more options)"
+msgstr "Daha fazla seçenek için aşağı oka basın"
+
+#: messages.py:440 messages.py:609 messages.py:772
+msgid "empty"
+msgstr "Boş"
+
+#: messages.py:448 messages.py:464 messages.py:566
+msgid "Not found"
+msgstr "Bulunamadı"
+
+#: messages.py:451 messages.py:467 messages.py:579
+msgid "you are not in a message window"
+msgstr "İleti penceresinde değilsiniz"
+
+#: messages.py:453
+msgid "Reads the subject of the message."
+msgstr "İleti konusunu oku."
+
+#: messages.py:469
+msgid "Reads date of the message."
+msgstr "İleti tarihini oku."
+
+#: messages.py:479
+msgid "You are not in a list of messages"
+msgstr "İleti listesinde değilsiniz"
+
+#: messages.py:483
+msgid "Column headers not found"
+msgstr "Sütun başlıkları bulunamadı"
+
+#: messages.py:494
+msgid "Allows you to change the order of the columns in the messages list"
+msgstr "İleti listesindeki sütunların sırasını değiştirmenizi sağlar"
+
+#: messages.py:503
+msgid "There are No attachments"
+msgstr "Ek yok"
+
+#: messages.py:515
+msgid "Brings the focus to the list of attachments, if any."
+msgstr "Varsa, odağı ek listesine taşı."
+
+#: messages.py:523
+msgid "Brings the focus to the text of the open message."
+msgstr "Odağı açık iletinin metin kısmına taşı."
+
+#: messages.py:660 messages.py:669 messages.py:693 messages.py:703
+msgid "Search in "
+msgstr "İçinde ara"
+
+#: messages.py:674
+msgid "Leaving search box"
+msgstr "Arama kutusundan çıkılıyor"
+
+#: messages.py:721
+msgid "uncheck"
+msgstr "işareti kaldır"
+
+#: messages.py:724
+msgid "check"
+msgstr "işaretle"
+
+#: messages.py:734
+msgid "checked"
+msgstr "işaretli"
+
+#: messages.py:737
+msgid "not checked"
+msgstr "İşaretli değil"
+
+#: messages.py:767
+msgid "There are not more columns"
+msgstr "Başka sütun yok"
+
+#: messages.py:785
+msgid "Expand the conversation to display messages"
+msgstr "İletileri görüntülemek için ileti dizisini genişlet"
+
+#: messages.py:788
+msgid "Preview pane is not active or message has not been loaded yet"
+msgstr "Önizleme bölmesi etkin değil veya ileti henüz yüklenmedi"
+
+#: messages.py:790
+msgid "In message list, reads the selected message without leaving the list."
+msgstr "İleti listesinde, seçili iletiyi listeden ayrılmadan oku."
+
+#: messages.py:821
+msgid "Manage columns"
+msgstr "Sütunları düzenle"
+
+#: messages.py:829
+msgid "&up"
+msgstr "Y&ukarı"
+
+#: messages.py:833
+msgid "&down"
+msgstr "&aşağı"
+
+#: messages.py:837
+msgid "&options"
+msgstr "&seçenekler"
+
+#: messages.py:864
+#, python-format
+msgid "Can't move %s, it is already the first column."
+msgstr "%s taşınamıyor, zaten ilk sütun."
+
+#: messages.py:872
+#, python-format
+msgid "%s before %s"
+msgstr "önde %s arkada %s"
+
+#: messages.py:880
+#, python-format
+msgid "Can't move %s, it is already the last column."
+msgstr "%s taşınamıyor, zaten son sütun."
+
+#: messages.py:888
+#, python-format
+msgid "%s after %s"
+msgstr "arkada %s önde %s"
+
+#: messages.py:904
+#, python-format
+msgid ""
+"Folder has changed, return to %s to manage columns or restart this dialog"
+msgstr ""
+"Klasör değişti, sütunları yönetmek veya bu iletişim kutusunu yeniden "
+"başlatmak için %s'e geri dönün"
+
+#: messages.py:987
+msgid "Yesterday"
+msgstr "dün"
+
+#: messages.py:990
+#, python-format
+msgid "%d days ago"
+msgstr "%d gün önce"
+
+#: messages.py:995
+msgid "About an hour ago"
+msgstr "Yaklaşık bir saat önce"
+
+#: messages.py:998
+#, python-format
+msgid "About %d hours ago"
+msgstr "Yaklaşık %d saat önce"
+
+#: messages.py:1001
+msgid "About a minute ago"
+msgstr "Bir dakika önce"
+
+#: messages.py:1004
+#, python-format
+msgid "About %d minutes ago"
+msgstr "Yaklaşık %d dakika önce"
+
+#: messages.py:1007
+msgid "a second ago"
+msgstr "Bir saniye önce"
+
+#: messages.py:1010
+#, python-format
+msgid "%d seconds ago"
+msgstr "%d saniye önce"
+
+#: messages.py:1021
+msgid "Couldn't capture the text of this notification"
+msgstr "Bu bildirimin metni alınamadı"
+
+#: messages.py:1082
+msgid "Refresh\tF5"
+msgstr "Güncelle\tF5"
+
+#: messages.py:1084
+msgid "Delete item\tSupr"
+msgstr "Öğeyi sil\tSupr"
+
+#: messages.py:1086
+msgid "Clear all"
+msgstr "Tümünü sil"
+
+#: messages.py:1138
+msgid "Mozilla notifications"
+msgstr "Mozilla Bildirimleri"
+
+#: messages.py:1141
+msgid "Firefox notifications"
+msgstr "Firefox bildirimleri"
+
+#: messages.py:1143
+msgid "Thunderbird notifications"
+msgstr "Thunderbird Bildirimleri"
+
+#~ msgid "Status bar: %s"
+#~ msgstr "Barra de estado: %s "
+
+#~ msgid "Page address is: %s (%s)"
+#~ msgstr "La dirección de la página es: %s (%s) "
+
+#~ msgid "Notification History"
+#~ msgstr "Historial de notificaciones"
+
+#~ msgid "Last alert, %s: %s"
+#~ msgstr "Ultima alerta %s %s"
+
+#~ msgid "If there is any notification opens"
+#~ msgstr "Abre la notificación si la hay"
+
+#~ msgid ""
+#~ "Reads the sender and recipients of the message. If pressed twice quickly, "
+#~ "opens the options menu."
+#~ msgstr ""
+#~ "Lee el remitente y los destinatarios del mensaje. Si se pulsa dos veces "
+#~ "rápidamente, abre el menú de opciones. "
+
+#~ msgid "Property page not found"
+#~ msgstr "No se encontró la página de propiedades"
+
+#~ msgid ""
+#~ "Reads the sender of the message. If pressed twice quickly, opens the "
+#~ "options menu."
+#~ msgstr ""
+#~ "Lee el remitente del mensaje. Si se pulsa dos veces rápidamente, abre el "
+#~ "menú de opciones. "
+
+#~ msgid ""
+#~ "Reads the recipient of the message. If pressed twice quickly, opens the "
+#~ "options menu."
+#~ msgstr ""
+#~ "Lee el destinatario del mensaje. Si se pulsa dos veces rápidamente, abre "
+#~ "el menú de opciones. "
