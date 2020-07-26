@@ -85,15 +85,28 @@ class AppModule(thunderbird.AppModule):
 			("id","MsgHeadersToolbar"),
 			("id","msgSubject"),
 			("class","textbox-input")))
+			if not subject:
+				# Thunderbird versions higher than 68
+				MsgHeadersToolbar = filter(lambda o: o.role == controlTypes.ROLE_TOOLBAR and o.IA2Attributes["id"] == "MsgHeadersToolbar", api.getForegroundObject().children)[0]
+				subject = filter(lambda o: o.role == controlTypes.ROLE_EDITABLETEXT and o.IA2Attributes["id"] == "msgSubject", MsgHeadersToolbar.children)[0]
 			if scriptHandler.getLastScriptRepeatCount() == 1:
 				subject.setFocus()
 			else:
 				ui.message("%s %s" % (subject.name, subject.value if subject.value else _("empty")))
 			return
 		if self.isDocument():
-			obj = filter(lambda o: o.role == controlTypes.ROLE_UNKNOWN, self.getPropertyPage().children)[1]
 			try:
-				ui.message(obj.firstChild.name)
+				if int(self.productVersion.split(".")[0]) <= 68:
+					obj = filter(lambda o: o.role == controlTypes.ROLE_UNKNOWN, self.getPropertyPage().children)[1]
+					ui.message(obj.firstChild.name)
+				else:
+					obj = shared.searchObject((
+					("id","tabpanelcontainer"), # Group
+					("id","mailContent"), # PropertyPage
+					("id","expandedHeaders2"), # Table
+					("id","expandedsubjectRow"), # Row
+					("display","table-cell"))) # Cell
+					ui.message(obj.simpleNext.name)
 			except (IndexError, AttributeError):
 				#TRANSLATORS: cannot find subject
 				ui.message(_("Not found"))
@@ -201,11 +214,18 @@ class AppModule(thunderbird.AppModule):
 	def addressField(self, index, rightClick):
 		if self.isDocument():
 			fields = []
-			for item in filter(lambda o: o.role == controlTypes.ROLE_UNKNOWN, self.getPropertyPage().children):
-				try:
-					fields.append(item.children[0].children[0])
-				except IndexError:
-					pass
+			if int(self.productVersion.split(".")[0]) > 68:
+				for table in filter(lambda o: o.role == controlTypes.ROLE_TABLE, self.getPropertyPage().children):
+					try:
+						fields = fields + filter(lambda o: o.role == controlTypes.ROLE_LABEL and o.firstChild.role == controlTypes.ROLE_UNKNOWN, table.recursiveDescendants)
+					except IndexError:
+						pass
+			else:
+				for item in filter(lambda o: o.role == controlTypes.ROLE_UNKNOWN, self.getPropertyPage().children):
+					try:
+						fields.append(item.children[0].children[0])
+					except IndexError:
+						pass
 			if index >= len(fields):
 				return
 			try:
@@ -244,7 +264,11 @@ class AppModule(thunderbird.AppModule):
 			addressingWidget = shared.searchObject((
 			("id","MsgHeadersToolbar"),
 			("id","addressingWidget")))
-			recipients = filter(lambda o: o.role == controlTypes.ROLE_COMBOBOX and o.firstChild.role == controlTypes.ROLE_EDITABLETEXT, addressingWidget.recursiveDescendants)
+			if addressingWidget:
+				recipients = filter(lambda o: o.role == controlTypes.ROLE_COMBOBOX and o.firstChild.role == controlTypes.ROLE_EDITABLETEXT, addressingWidget.recursiveDescendants)
+			else:
+				addressingWidget = filter(lambda o: o.role == controlTypes.ROLE_TOOLBAR and o.IA2Attributes["id"] == "MsgHeadersToolbar", api.getForegroundObject().children)[0]
+				recipients = filter(lambda o: o.role == controlTypes.ROLE_UNKNOWN, addressingWidget.children)
 			if index > len(recipients):
 				return
 			if focus and controlTypes.STATE_FOCUSED not in recipients[index-1].firstChild.states:
@@ -257,7 +281,10 @@ class AppModule(thunderbird.AppModule):
 				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,0,None,None)
 				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
 			else:
-				ui.message("%s %s" % (recipients[index-1].name, recipients[index-1].firstChild.value if recipients[index-1].firstChild.value else _("empty")))
+				if int(self.productVersion.split(".")[0]) <= 68:
+					ui.message("%s %s" % (recipients[index-1].name, recipients[index-1].firstChild.value if recipients[index-1].firstChild.value else _("empty")))
+				else:
+					ui.message(recipients[index-1].firstChild.name)
 
 	def isDocument(self):
 		doc = None
@@ -274,9 +301,15 @@ class AppModule(thunderbird.AppModule):
 	def getPropertyPage(self):
 		fg = api.getForegroundObject()
 		try:
+			# Thunderbird 68 and earlier
 			propertyPages = filter(lambda o: o.role == controlTypes.ROLE_PROPERTYPAGE, filter(lambda o: o.role == controlTypes.ROLE_GROUPING, fg.children)[0].children)
 			return propertyPages[0]
 		except IndexError:
+			# Thunderbird 78
+			propertyPage = shared.searchObject((
+			("id","tabpanelcontainer"),
+			("id","mailContent")))
+			if propertyPage : 				return propertyPage 
 			# When message is opened in a new window there are not a property page. Address fields hang directly from foreground.
 			return fg
 
