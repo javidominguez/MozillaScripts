@@ -106,7 +106,17 @@ class AppModule(thunderbird.AppModule):
 					("id","expandedHeaders2"), # Table
 					("id","expandedsubjectRow"), # Row
 					("display","table-cell"))) # Cell
-					ui.message(obj.simpleNext.name)
+					if obj:
+						ui.message(obj.simpleNext.name)
+					else:
+						# Maybe message in a new window
+									obj = shared.searchObject((
+					("id","expandedHeaders2"), # Table
+					("id","expandedsubjectRow"), # Row
+					("display","table-cell"))) # Cell
+					if obj:
+						ui.message(obj.simpleNext.name)
+
 			except (IndexError, AttributeError):
 				#TRANSLATORS: cannot find subject
 				ui.message(_("Not found"))
