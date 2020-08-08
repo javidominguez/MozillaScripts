@@ -49,6 +49,7 @@ class AppModule(thunderbird.AppModule):
 						if ("id" in o.IA2Attributes and "qfb" in o.IA2Attributes["id"]):
 							qfb = True
 							break
+						o = o.previous
 				if qfb:
 					setattr(obj, "pointedObj", None)
 					#TRANSLATORS: additional description for the search field
