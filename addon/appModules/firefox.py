@@ -9,7 +9,10 @@ import addonHandler
 try: # Compatibility with the DeveloperToolkit addon
 	dtk = filter(lambda a: a.name == "DeveloperToolkit", addonHandler.getRunningAddons())[0]
 except IndexError: # DeveloperToolkit is not running. Then, the firefox class is imported from the core
-	from nvdaBuiltin.appModules.firefox import AppModule
+	try:
+		from nvdaBuiltin.appModules.firefox import AppModule
+	except ModuleNotFoundError:
+		from appModuleHandler import AppModule
 else: # DeveloperToolkit is running. Try to import the class from the DeveloperToolkit folder.
 	log.warning("The Developer toolkit addon has been detected.")
 	import appModules
@@ -22,7 +25,10 @@ else: # DeveloperToolkit is running. Try to import the class from the DeveloperT
 		raise Warning ("Compatibility failed. Not found dtkFirefox from Developer toolkit\nIt is likely that Mozilla Apps Enhancements and Developer's toolkit does not work well together")
 	appModules.__path__.pop(0)
 
-from NVDAObjects.IAccessible.mozilla import Dialog, IAccessible
+try:
+	from NVDAObjects.IAccessible.mozilla import Dialog, IAccessible
+except ImportError:
+	from NVDAObjects.IAccessible import Dialog, IAccessible
 import scriptHandler
 import globalCommands
 import controlTypes

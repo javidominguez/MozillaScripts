@@ -7,7 +7,10 @@ from .py3compatibility import *
 from nvdaBuiltin.appModules import thunderbird
 from time import time, sleep
 from datetime import datetime
-from NVDAObjects.IAccessible.mozilla import BrokenFocusedState
+try:
+	from NVDAObjects.IAccessible.mozilla import BrokenFocusedState as IAccessible
+except ImportError:
+	from NVDAObjects.IAccessible import IAccessible
 from tones import beep
 import addonHandler
 import controlTypes
@@ -37,7 +40,16 @@ class AppModule(thunderbird.AppModule):
 		# Overlay search box in fast filtering bar
 		if obj.role == controlTypes.ROLE_EDITABLETEXT:
 			try:
+				qfb = False
 				if ("xml-roles" in obj.IA2Attributes and obj.IA2Attributes["xml-roles"] == "searchbox") or ("class" in obj.parent.IA2Attributes  and obj.parent.IA2Attributes["class"] == "searchBox"):
+					qfb = True
+				else:
+					o = obj.previous
+					while o:
+						if ("id" in o.IA2Attributes and "qfb" in o.IA2Attributes["id"]):
+							qfb = True
+							break
+				if qfb:
 					setattr(obj, "pointedObj", None)
 					#TRANSLATORS: additional description for the search field
 					obj.description = _("(Press down arrow to display more options)")
@@ -340,11 +352,14 @@ class AppModule(thunderbird.AppModule):
 		"kb:NVDA+Control+N": "notifications"
 	}
 
-class SearchBox(BrokenFocusedState):
+class SearchBox(IAccessible):
 
 	def script_nextOption(self, gesture):
 		if not self.pointedObj:
-			self.pointedObj = self.parent.parent.firstChild
+			if int(self.appModule.productVersion.split(".")[0]) <= 68:
+				self.pointedObj = self.parent.parent.firstChild
+			else:
+				self.pointedObj = self.parent.firstChild
 		self.pointedObj = self.pointedObj.simpleNext
 		isToolBarButton = False
 		try:
@@ -447,7 +462,7 @@ class SearchBox(BrokenFocusedState):
 	"kb:Enter": "pressButton"
 	}
 
-class ThreadTree(BrokenFocusedState):
+class ThreadTree(IAccessible):
 	#TRANSLATORS: category for Thunderbird input gestures
 	scriptCategory = _("mozilla Thunderbird")
 
