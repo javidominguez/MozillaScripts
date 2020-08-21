@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: 'Mozilla' '1.0'\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-26 21:12+0100\n"
-"PO-Revision-Date: 2017-11-26 21:12+0100\n"
-"Last-Translator: Ruslan Kolodyazhni <eye0@rambler.ru>\n"
+"PO-Revision-Date: 2020-08-17 10:14+0300\n"
+"Last-Translator: Artem Plaksin <admin@maniyax.ru>\n"
 "Language-Team: Translators\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -21,15 +21,15 @@ msgstr ""
 
 #: source:27
 msgid "mozilla Firefox"
-msgstr ""
+msgstr "Mozilla Firefox"
 
 #: source:40
 msgid "Couldn't capture the text of this notification"
-msgstr ""
+msgstr "Не смог захватить текст этого уведомления "
 
 #: source:50 source:74 source:91 source:113 source:155
 msgid "Not available here"
-msgstr ""
+msgstr "Не доступно здесь"
 
 #: source:61
 #, python-format
@@ -42,7 +42,7 @@ msgstr "Строка состояния не найдена"
 
 #: source:67 source:84
 msgid "Copied to clipboard"
-msgstr "Скопировано в буфер"
+msgstr "Скопировано в буфер обмена"
 
 #: source:70
 msgid "Reads the status bar. If pressed twice quickly, copies it to clipboard."
@@ -67,7 +67,7 @@ msgstr ""
 
 #: source:107
 msgid "Tool bar not found"
-msgstr ""
+msgstr "Панель инструментов не найдена"
 
 #: source:108
 msgid ""
@@ -79,53 +79,55 @@ msgstr ""
 
 #: source:134
 msgid "About an hour ago"
-msgstr ""
+msgstr "Около часа назад "
 
 #: source:136
 #, python-format
 msgid "About %d hours ago"
-msgstr ""
+msgstr "Около %d часов назад"
 
 #: source:138
 msgid "About a minute ago"
-msgstr ""
+msgstr "Около минуты назад "
 
 #: source:140
 #, python-format
 msgid "About %d minutes ago"
-msgstr ""
+msgstr "Около %d минут назад"
 
 #: source:142
 msgid "a second ago"
-msgstr ""
+msgstr "Секунду назад"
 
 #: source:144
 #, python-format
 msgid "%d seconds ago"
-msgstr ""
+msgstr "%d секунд назад"
 
 #: source:146
 msgid "Notification History"
-msgstr ""
+msgstr "История уведомлений"
 
 #: source:148
 #, python-format
 msgid "Last alert, %s: %s"
-msgstr ""
+msgstr "Последнее предупреждение, %s: %s"
 
 #: source:150
 msgid "There is no notification"
-msgstr ""
+msgstr "Нет уведомлений"
 
 #: source:151
 msgid ""
 "Reads the last notification and it takes the system focus to it if it is "
 "possible. By pressing two times quickly shows the history of notifications."
 msgstr ""
+"Читает последние уведомления и устанавливает системный фокус на него, если "
+"это возможно. Быстрое нажатие два раза показывает историю уведомлений. "
 
 #: source:174
 msgid "Brings the focus to the document"
-msgstr ""
+msgstr "Перемещает фокус к документу"
 
 #: source:198
 msgid "Opened tabs"
@@ -149,11 +151,11 @@ msgstr "Закрыть"
 
 #: source:349 source:617
 msgid "mozilla Thunderbird"
-msgstr ""
+msgstr "Mozilla Thunderbird"
 
 #: source:359
 msgid "(Press down arrow to display more options)"
-msgstr ""
+msgstr "(Нажмите стрелку вниз, чтобы отобразить дополнительные параметры) "
 
 #: source:394 source:405 source:471
 msgid "Not found"
@@ -173,113 +175,116 @@ msgstr "Читает дату сообщения."
 
 #: source:417
 msgid "You are not in a list of messages"
-msgstr ""
+msgstr "Вы не в списке сообщений "
 
 #: source:420
 msgid "Column headers not found"
-msgstr ""
+msgstr "Заголовки столбцов не найдены"
 
 #: source:430
 msgid "Allows you to change the order of the columns in the messages list"
-msgstr ""
+msgstr "Позволяет изменить порядок столбцов в списке сообщений "
 
 #: source:438
 msgid "There are No attachments"
-msgstr ""
+msgstr "Нет вложений"
 
 #: source:449
 msgid "Brings the focus to the list of attachments, if any."
-msgstr ""
+msgstr "Перемещает фокус к списку вложений, если таковые имеются. "
 
 #: source:456
 msgid "Brings the focus to the text of the open message."
-msgstr ""
+msgstr "Перемещает фокус к тексту открытого сообщения. "
 
 #: source:522 source:533 source:556 source:567
 msgid "Search in "
-msgstr ""
+msgstr "Искать в "
 
 #: source:537
 msgid "Leaving search box"
-msgstr ""
+msgstr "Покинуть поле поиска"
 
 #: source:584
 msgid "uncheck"
-msgstr ""
+msgstr "снять"
 
 #: source:586
 msgid "check"
-msgstr ""
+msgstr "установить"
 
 #: source:595
 msgid "checked"
-msgstr ""
+msgstr "Отмечено"
 
 #: source:597
 msgid "not checked"
-msgstr ""
+msgstr "Неотмечено"
 
 #: source:625
 msgid "There are not more columns"
-msgstr ""
+msgstr "Нет больше столбцов"
 
 #: source:629
 msgid "empty"
-msgstr ""
+msgstr "Пусто"
 
 #: source:641
 msgid "Expand the conversation to display messages"
-msgstr ""
+msgstr "Разверните беседу для отображения сообщений"
 
 #: source:643
 msgid "Preview pane is not active or message has not been loaded yet"
 msgstr ""
+"Область предварительного просмотра не активна, или сообщение еще не загружено"
 
 #: source:644
 msgid "In message list, reads the selected message without leaving the list."
-msgstr ""
+msgstr "Читать сообщение в списке сообщений"
 
 #: source:673
 msgid "Manage columns"
-msgstr ""
+msgstr "Управление столбцами"
 
 #: source:680
 msgid "&up"
-msgstr ""
+msgstr "Вв&ерх"
 
 #: source:683
 msgid "&down"
-msgstr ""
+msgstr "Вн&из"
 
 #: source:686
 msgid "&options"
-msgstr ""
+msgstr "&Настройки"
 
 #: source:711
 #, python-format
 msgid "Can't move %s, it is already the first column."
-msgstr ""
+msgstr "Нельзя переместиться %s, это первый столбец"
 
 #: source:718
 #, python-format
 msgid "%s before %s"
-msgstr ""
+msgstr "%s перед %s"
 
 #: source:725
 #, python-format
 msgid "Can't move %s, it is already the last column."
-msgstr ""
+msgstr "Нельзя переместиться %s, это последний столбец"
 
 #: source:732
 #, python-format
 msgid "%s after %s"
-msgstr ""
+msgstr "%s после %s"
 
 #: source:747
 #, python-format
 msgid ""
 "Folder has changed, return to %s to manage columns or restart this dialog"
 msgstr ""
+"Папка была изменена вернитесь к %s для управления столбцами, или "
+"перезапустите этот диалог"
 
 #~ msgid ""
 #~ "Reads the sender and recipients of the message. If pressed twice quickly, "
