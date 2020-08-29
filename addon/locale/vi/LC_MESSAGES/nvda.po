@@ -1,0 +1,365 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Mozilla Apps Enhancements 1.10\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-08-22 16:45+0200\n"
+"PO-Revision-Date: 2020-08-29 11:17+0700\n"
+"Last-Translator: Dang Manh Cuong <dangmanhcuong@gmail.com>\n"
+"Language-Team: Vietnamese <dangmanhcuong@gmail.com>\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.11\n"
+
+#: codigo.py:57
+msgid "mozilla Firefox"
+msgstr "mozilla Firefox"
+
+#: codigo.py:92 codigo.py:121 codigo.py:177 codigo.py:225
+msgid "Not available here"
+msgstr "Không sẵn sàng ở đây"
+
+#: codigo.py:106 codigo.py:114
+msgid "Status bar not found"
+msgstr "Không tìm thấy thanh trạng thái"
+
+#: codigo.py:111 codigo.py:154
+msgid "Copied to clipboard"
+msgstr "Đã chép vào bộ nhớ tạm"
+
+#: codigo.py:116
+msgid "Reads the status bar. If pressed twice quickly, copies it to clipboard."
+msgstr "Đọc thanh trạng thái. Bấm nhanh hai lần để chép vào bộ nhớ tạm."
+
+#: codigo.py:144
+msgid "Insecure connection"
+msgstr "Kết nối không an toàn"
+
+#: codigo.py:157
+msgid "Address not found"
+msgstr "Không tìm thấy địa chỉ"
+
+#: codigo.py:159
+msgid ""
+"Reads the page address. If pressed twice quickly, copies it to clipboard."
+msgstr "Đọc địa chỉ trang web. Bấm nhanh hai lần để chép vào bộ nhớ tạm."
+
+#: codigo.py:167
+msgid ""
+"Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool "
+"bar."
+msgstr ""
+"Hiển thị danh sách các thẻ được mở. Bấm nhanh hai lần sẽ hiển thị các nút "
+"trên thanh công cụ."
+
+#: codigo.py:172
+msgid "Shows buttons of tool bar."
+msgstr "Hiện các nút của thanh công cụ."
+
+#: codigo.py:194
+msgid "Tool bar not found"
+msgstr "Không tìm thấy thanh công cụ"
+
+#: codigo.py:218 codigo.py:594 codigo.py:1162
+msgid "There is no notification"
+msgstr "Không có thông báo nào"
+
+#: codigo.py:220 codigo.py:596
+msgid ""
+"Reads the last notification and it takes the system focus to it if it is "
+"possible. By pressing two times quickly shows the history of notifications."
+msgstr ""
+"Đọc thông báo cuối cùng và đưa con trỏ đến đó nếu có thể. Bấm nhanh hai lần  "
+"để hiển thị lịch sử thông báo."
+
+#: codigo.py:245
+msgid "Brings the focus to the document"
+msgstr "Đưa con trỏ đến tài liệu."
+
+#: codigo.py:258
+msgid "Opened tabs"
+msgstr "Các thẻ đã mở"
+
+#: codigo.py:266
+msgid "Tool Bar Buttons"
+msgstr "Các nút thanh công cụ"
+
+#: codigo.py:303
+msgid "&Go"
+msgstr "&Đi"
+
+#: codigo.py:308
+msgid "&Options"
+msgstr "&Tùy chỉnh"
+
+#: codigo.py:312 codigo.py:911
+msgid "Close"
+msgstr "Đóng"
+
+#: codigo.py:393 codigo.py:829
+msgid "mozilla Thunderbird"
+msgstr "mozilla Thunderbird"
+
+#: codigo.py:417
+msgid "(Press down arrow to display more options)"
+msgstr "(Bấm mũi tên xuống để hiển thị thêm tùy chọn)"
+
+#: codigo.py:469 codigo.py:669 codigo.py:843
+msgid "empty"
+msgstr "rỗng"
+
+#: codigo.py:496 codigo.py:512 codigo.py:621
+msgid "Not found"
+msgstr "Không tìm thấy"
+
+#: codigo.py:499 codigo.py:515 codigo.py:634
+msgid "you are not in a message window"
+msgstr "Bạn không ở cửa sổ nội dung thư"
+
+#: codigo.py:501
+msgid "Reads the subject of the message."
+msgstr "Đọc tiêu đề của thư."
+
+#: codigo.py:517
+msgid "Reads date of the message."
+msgstr "Đọc ngày gửi thư."
+
+#: codigo.py:527
+msgid "You are not in a list of messages"
+msgstr "Bạn không ở trong danh sách thư"
+
+#: codigo.py:531
+msgid "Column headers not found"
+msgstr "Không tìm thấy tiêu đề cột"
+
+#: codigo.py:542
+msgid "Allows you to change the order of the columns in the messages list"
+msgstr "Cho phép bạn thay đổi cách sắp xếp các cột trong danh sách thư"
+
+#: codigo.py:551
+msgid "There are No attachments"
+msgstr "Không có tệp đính kèm nào"
+
+#: codigo.py:563
+msgid "Brings the focus to the list of attachments, if any."
+msgstr "Đưa con trỏ đến danh sách tệp đính kèm nếu có."
+
+#: codigo.py:571
+msgid "Brings the focus to the text of the open message."
+msgstr "Đưa con trỏ đến nội dung của thư đang mở."
+
+#: codigo.py:731 codigo.py:740 codigo.py:764 codigo.py:774
+msgid "Search in "
+msgstr "Tìm trong "
+
+#: codigo.py:745
+msgid "Leaving search box"
+msgstr "Rời khỏi hộp tìm kiếm"
+
+#: codigo.py:792
+msgid "uncheck"
+msgstr "không chọn"
+
+#: codigo.py:795
+msgid "check"
+msgstr "chọn"
+
+#: codigo.py:805
+msgid "checked"
+msgstr "đã chọn"
+
+#: codigo.py:808
+msgid "not checked"
+msgstr "bỏ chọn"
+
+#: codigo.py:838
+msgid "There are not more columns"
+msgstr "Không có thêm cột nào"
+
+#: codigo.py:856
+msgid "Expand the conversation to display messages"
+msgstr "Mở rộng cuộc hội thoại để hiện các thư"
+
+#: codigo.py:859
+msgid "Preview pane is not active or message has not been loaded yet"
+msgstr "Bản xem trước không hoạt động hoặc thư chưa mở"
+
+#: codigo.py:861
+msgid "In message list, reads the selected message without leaving the list."
+msgstr "Trong danh sách thư, đọc thư đã chọn mà không rời khỏi danh sách."
+
+#: codigo.py:892
+msgid "Manage columns"
+msgstr "Quản lý cột"
+
+#: codigo.py:900
+msgid "&up"
+msgstr "&lên"
+
+#: codigo.py:904
+msgid "&down"
+msgstr "&xuống"
+
+#: codigo.py:908
+msgid "&options"
+msgstr "&tùy chỉnh"
+
+#: codigo.py:935
+#, python-format
+msgid "Can't move %s, it is already the first column."
+msgstr "Không thể di chuyển %s, Nó đã là cột đầu tiên."
+
+#: codigo.py:943
+#, python-format
+msgid "%s before %s"
+msgstr "%s trước %s"
+
+#: codigo.py:951
+#, python-format
+msgid "Can't move %s, it is already the last column."
+msgstr "Không thể di chuyển %s, Nó đã là cột cuối cùng."
+
+#: codigo.py:959
+#, python-format
+msgid "%s after %s"
+msgstr "%s sau %s"
+
+#: codigo.py:975
+#, python-format
+msgid ""
+"Folder has changed, return to %s to manage columns or restart this dialog"
+msgstr ""
+"Thư mục đã thay đổi. Hãy trở về %s để quản lý các cột hoặc khởi động lại hộp "
+"thoại này"
+
+#: codigo.py:1042
+msgid "Yesterday"
+msgstr "Hôm qua"
+
+#: codigo.py:1045
+#, python-format
+msgid "%d days ago"
+msgstr "%d ngày trước"
+
+#: codigo.py:1050
+msgid "About an hour ago"
+msgstr "khoảng một giờ trước"
+
+#: codigo.py:1053
+#, python-format
+msgid "About %d hours ago"
+msgstr "khoảng %d giờ trước"
+
+#: codigo.py:1056
+msgid "About a minute ago"
+msgstr "Khoảng một phút trước"
+
+#: codigo.py:1059
+#, python-format
+msgid "About %d minutes ago"
+msgstr "Khoảng %d giờ trước"
+
+#: codigo.py:1062
+msgid "a second ago"
+msgstr "một giây trước"
+
+#: codigo.py:1065
+#, python-format
+msgid "%d seconds ago"
+msgstr "%d giây trước"
+
+#: codigo.py:1076
+msgid "Couldn't capture the text of this notification"
+msgstr "Không thể lấy nội dung của thông báo này"
+
+#: codigo.py:1137
+msgid "Refresh\tF5"
+msgstr "Làm mới\tF5"
+
+#: codigo.py:1139
+msgid "Delete item\tSupr"
+msgstr "Xóa thành phần\tSupr"
+
+#: codigo.py:1141
+msgid "Clear all"
+msgstr "Xóa tất cả"
+
+#: codigo.py:1193
+msgid "Mozilla notifications"
+msgstr "Các thông báo của Mozilla"
+
+#: codigo.py:1196
+msgid "Firefox notifications"
+msgstr "Các thông báo của Firefox"
+
+#: codigo.py:1198
+msgid "Thunderbird notifications"
+msgstr "Các thông báo của Thunderbird"
+
+#~ msgid "[[!meta title=\"Mozilla Apps Enhancements\"]]\n"
+#~ msgstr "[[!meta title=\"Mozilla Apps Enhancements\"]]\n"
+
+#~ msgid "Author: Javi Dominguez"
+#~ msgstr "Tác giả: Javi Dominguez"
+
+#~ msgid "download [stable version][1]"
+#~ msgstr "Tải về [bản chính thức][1]"
+
+#~ msgid "This add-on provides NVDA enhancements for Mozilla aps."
+#~ msgstr "add-on này là sự cải thiện của NVDA cho các ứng dụng của Mozilla ."
+
+#~ msgid ""
+#~ "* In a message window:\n"
+#~ "\t* Control+Shift+(1-4) Reads the sender and recipients of the message. "
+#~ "If pressed twice quickly, opens the options menu.\n"
+#~ "\t* Control+Shift+5 Reads the subject of the message.\n"
+#~ "\t* Control+Shift+6 Reads date of the message.\n"
+#~ "\t* Control+Shift+A Brings the focus to the list of attachments, if any.\n"
+#~ "(These scripts are also available in the list of messages if you activate "
+#~ "the preview pane.)\n"
+#~ "* In the bar of fast filtering:\n"
+#~ "\t* Press down Arrow to display more options, enter to check/unchek the "
+#~ "selected option.\n"
+#~ "* In messages list:\n"
+#~ "\t* If the preview pane is active, press NVDA+downArrow (desktop) or NVDA"
+#~ "+A (laptop) to read the message without leaving the list.\n"
+#~ "\t* Control+NVDA+1-9 moves between columns.\n"
+#~ "\t* NVDA+H Displays a dialog in which you can change the order of the "
+#~ "columns in the message list.\n"
+#~ msgstr ""
+#~ "* ở một thư đang mở:\n"
+#~ "\t* Control+Shift+(1-4) đọc tên người gửi và nhận thư. Bấm nhanh hai lần "
+#~ "để mở trình đơn options.\n"
+#~ "\t* Control+Shift+5 đọc tiêu đề của thư.\n"
+#~ "\t* Control+Shift+6 đọc ngày giờ gửi thư.\n"
+#~ "\t* Control+Shift+A đưa con trỏ đến danh sách tệp đính kèm nếu có.\n"
+#~ "(Các kịch bản này cũng hoạt động trong danh sách thư nếu bật chế độ "
+#~ "preview pane.)\n"
+#~ "* Ở phần fast filtering:\n"
+#~ "\t* Bấm mũi tên xuống để hiện thêm các tùy chọn, enter để đánh dấu / bỏ "
+#~ "đánh dấu thành phần được chọn.\n"
+#~ "* Ở danh sách thư:\n"
+#~ "\t* Nếu bật chế độ preview pane, bấm NVDA+downArrow (desktop) hay NVDA+A "
+#~ "(laptop) để đọc nội dung thư mà không phải rời khỏi danh sách này.\n"
+#~ "\t* Control+NVDA+1-9 di chuyển giữa các cột.\n"
+#~ "\t* NVDA+H hiện hộp thoại cho phép thay đổi cách sắp xếp các cột trong "
+#~ "danh sách thư.\n"
+
+#~ msgid ""
+#~ "Keystrokes can be customized in  Preferences  of NVDA > Input gestures "
+#~ "when Firefox or Thunderbird are open.\n"
+#~ msgstr ""
+#~ "Các phím tắt có thể tùy chỉnh trong cài đặt của NVDA > quản lý thao tác "
+#~ "khi đang mở Firefox hay Thunderbird.\n"
+
+#~ msgid "[[!tag dev stable]]\n"
+#~ msgstr "[[!tag dev stable]]\n"
+
+#~ msgid "[1]: https://addons.nvda-project.org/files/get.php?file=moz"
+#~ msgstr "[1]: https://addons.nvda-project.org/files/get.php?file=moz"
