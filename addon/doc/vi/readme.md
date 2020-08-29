@@ -27,4 +27,4 @@
 	* Control+NVDA+1-9 di chuyển giữa các cột.
 	* NVDA+H hiện hộp thoại cho phép thay đổi cách sắp xếp các cột trong danh sách thư.
 
-Các phím tắt có thể tùy chỉnh trong cài đặt của NVDA > quản lý thao tác khi đang chạy Firefox hay Thunderbird đang.
+Các phím tắt có thể tùy chỉnh trong cài đặt của NVDA > quản lý thao tác khi đang chạy Firefox hay Thunderbird.

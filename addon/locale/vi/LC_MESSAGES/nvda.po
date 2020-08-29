@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Mozilla Apps Enhancements 1.10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-22 16:45+0200\n"
-"PO-Revision-Date: 2020-08-23 00:17+0700\n"
+"PO-Revision-Date: 2020-08-29 11:17+0700\n"
 "Last-Translator: Dang Manh Cuong <dangmanhcuong@gmail.com>\n"
 "Language-Team: Vietnamese <dangmanhcuong@gmail.com>\n"
 "Language: vi\n"
@@ -68,7 +68,7 @@ msgstr "Không tìm thấy thanh công cụ"
 
 #: codigo.py:218 codigo.py:594 codigo.py:1162
 msgid "There is no notification"
-msgstr "Không có thông báo"
+msgstr "Không có thông báo nào"
 
 #: codigo.py:220 codigo.py:596
 msgid ""
@@ -144,7 +144,7 @@ msgstr "Cho phép bạn thay đổi cách sắp xếp các cột trong danh sác
 
 #: codigo.py:551
 msgid "There are No attachments"
-msgstr "Không có tệp đính kèm"
+msgstr "Không có tệp đính kèm nào"
 
 #: codigo.py:563
 msgid "Brings the focus to the list of attachments, if any."
