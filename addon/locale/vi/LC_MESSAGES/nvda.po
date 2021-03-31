@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Mozilla Apps Enhancements 1.10\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-22 16:45+0200\n"
-"PO-Revision-Date: 2020-08-29 11:17+0700\n"
+"Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
+"POT-Creation-Date: 2021-03-31 10:27+0700\n"
+"PO-Revision-Date: 2021-03-31 10:33+0700\n"
 "Last-Translator: Dang Manh Cuong <dangmanhcuong@gmail.com>\n"
 "Language-Team: Vietnamese <dangmanhcuong@gmail.com>\n"
 "Language: vi\n"
@@ -17,40 +17,51 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.6.11\n"
 
-#: codigo.py:57
+#. TRANSLATORS: category for Firefox input gestures
+#: addon\appModules\firefox.py:57
 msgid "mozilla Firefox"
 msgstr "mozilla Firefox"
 
-#: codigo.py:92 codigo.py:121 codigo.py:177 codigo.py:225
+#. TRANSLATORS: message spoken by NVDA when the focus is not in the main Firefox window
+#: addon\appModules\firefox.py:92 addon\appModules\firefox.py:121
+#: addon\appModules\firefox.py:182 addon\appModules\firefox.py:230
 msgid "Not available here"
 msgstr "Không sẵn sàng ở đây"
 
-#: codigo.py:106 codigo.py:114
+#. TRANSLATORS: message spoken when there is no status bar in Firefox
+#. TRANSLATORS: Firefox status bar not found
+#: addon\appModules\firefox.py:106 addon\appModules\firefox.py:114
 msgid "Status bar not found"
 msgstr "Không tìm thấy thanh trạng thái"
 
-#: codigo.py:111 codigo.py:154
+#. TRANSLATORS: message spoken when an item hast just been copied to the clipboard
+#: addon\appModules\firefox.py:111 addon\appModules\firefox.py:159
 msgid "Copied to clipboard"
 msgstr "Đã chép vào bộ nhớ tạm"
 
-#: codigo.py:116
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\firefox.py:116
 msgid "Reads the status bar. If pressed twice quickly, copies it to clipboard."
 msgstr "Đọc thanh trạng thái. Bấm nhanh hai lần để chép vào bộ nhớ tạm."
 
-#: codigo.py:144
+#. TRANSLATORS: this connection is using http, not https
+#: addon\appModules\firefox.py:146
 msgid "Insecure connection"
 msgstr "Kết nối không an toàn"
 
-#: codigo.py:157
+#. TRANSLATORS: message spoken when addres bar could not be found
+#: addon\appModules\firefox.py:162
 msgid "Address not found"
 msgstr "Không tìm thấy địa chỉ"
 
-#: codigo.py:159
+#. TRANSLATORS: description shown in input gestures dialog for this script
+#: addon\appModules\firefox.py:164
 msgid ""
 "Reads the page address. If pressed twice quickly, copies it to clipboard."
 msgstr "Đọc địa chỉ trang web. Bấm nhanh hai lần để chép vào bộ nhớ tạm."
 
-#: codigo.py:167
+#. TRANSLATORS: documentation shown in the input gestures dialog for this script
+#: addon\appModules\firefox.py:172
 msgid ""
 "Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool "
 "bar."
@@ -58,19 +69,24 @@ msgstr ""
 "Hiển thị danh sách các thẻ được mở. Bấm nhanh hai lần sẽ hiển thị các nút "
 "trên thanh công cụ."
 
-#: codigo.py:172
+#. TRANSLATORS: documentation shown in the input gestures dialog for this script
+#: addon\appModules\firefox.py:177
 msgid "Shows buttons of tool bar."
 msgstr "Hiện các nút của thanh công cụ."
 
-#: codigo.py:194
+#. TRANSLATORS: message spoken when Firefox toolbar is not found
+#: addon\appModules\firefox.py:199
 msgid "Tool bar not found"
 msgstr "Không tìm thấy thanh công cụ"
 
-#: codigo.py:218 codigo.py:594 codigo.py:1162
+#. There is no notification in Firefox or Thunderbird
+#: addon\appModules\firefox.py:223 addon\appModules\thunderbird.py:233
 msgid "There is no notification"
 msgstr "Không có thông báo nào"
 
-#: codigo.py:220 codigo.py:596
+#. TRANSLATORS: documentation shown in the input gestures dialog for this script
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\firefox.py:225 addon\appModules\thunderbird.py:235
 msgid ""
 "Reads the last notification and it takes the system focus to it if it is "
 "possible. By pressing two times quickly shows the history of notifications."
@@ -78,159 +94,206 @@ msgstr ""
 "Đọc thông báo cuối cùng và đưa con trỏ đến đó nếu có thể. Bấm nhanh hai lần  "
 "để hiển thị lịch sử thông báo."
 
-#: codigo.py:245
+#. TRANSLATORS: documentation shown in the input gestures dialog for this script
+#: addon\appModules\firefox.py:250
 msgid "Brings the focus to the document"
 msgstr "Đưa con trỏ đến tài liệu."
 
-#: codigo.py:258
+#. TRANSLATORS: opened tabs in tabs dialog
+#: addon\appModules\firefox.py:263
 msgid "Opened tabs"
 msgstr "Các thẻ đã mở"
 
-#: codigo.py:266
+#. TRANSLATORS: Toolbar buttons dialog
+#: addon\appModules\firefox.py:271
 msgid "Tool Bar Buttons"
 msgstr "Các nút thanh công cụ"
 
-#: codigo.py:303
+#. TRANSLATORS: go button in toolbar buttons dialog
+#: addon\appModules\firefox.py:308
 msgid "&Go"
 msgstr "&Đi"
 
-#: codigo.py:308
+#. TRANSLATORS: options button in toolbar buttons dialog
+#: addon\appModules\firefox.py:313
 msgid "&Options"
 msgstr "&Tùy chỉnh"
 
-#: codigo.py:312 codigo.py:911
+#. TRANSLATORS: close button in toolbar buttons dialog
+#. TRANSLATORS: close button in the columns dialog
+#: addon\appModules\firefox.py:317 addon\appModules\thunderbird.py:550
 msgid "Close"
 msgstr "Đóng"
 
-#: codigo.py:393 codigo.py:829
+#. TRANSLATORS: category for Thunderbird input gestures
+#: addon\appModules\thunderbird.py:32 addon\appModules\thunderbird.py:468
 msgid "mozilla Thunderbird"
 msgstr "mozilla Thunderbird"
 
-#: codigo.py:417
+#. TRANSLATORS: additional description for the search field
+#: addon\appModules\thunderbird.py:56
 msgid "(Press down arrow to display more options)"
 msgstr "(Bấm mũi tên xuống để hiển thị thêm tùy chọn)"
 
-#: codigo.py:469 codigo.py:669 codigo.py:843
+#. TRANSLATORS: empty object name
+#: addon\appModules\thunderbird.py:108 addon\appModules\thunderbird.py:308
+#: addon\appModules\thunderbird.py:482
 msgid "empty"
 msgstr "rỗng"
 
-#: codigo.py:496 codigo.py:512 codigo.py:621
+#. TRANSLATORS: cannot find subject
+#. TRANSLATORS: cannot find date
+#. TRANSLATORS: cannot find sender address
+#: addon\appModules\thunderbird.py:135 addon\appModules\thunderbird.py:151
+#: addon\appModules\thunderbird.py:260
 msgid "Not found"
 msgstr "Không tìm thấy"
 
-#: codigo.py:499 codigo.py:515 codigo.py:634
+#. TRANSLATORS: message spoken if you try to read the subject out of a message window
+#. TRANSLATORS: message spoken if you try to read the date out of a message window
+#. TRANSLATORS: message spoken if you try to read the sender address out of a message window
+#: addon\appModules\thunderbird.py:138 addon\appModules\thunderbird.py:154
+#: addon\appModules\thunderbird.py:273
 msgid "you are not in a message window"
 msgstr "Bạn không ở cửa sổ nội dung thư"
 
-#: codigo.py:501
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\thunderbird.py:140
 msgid "Reads the subject of the message."
 msgstr "Đọc tiêu đề của thư."
 
-#: codigo.py:517
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\thunderbird.py:156
 msgid "Reads date of the message."
 msgstr "Đọc ngày gửi thư."
 
-#: codigo.py:527
+#. TRANSLATORS: message spoken if you want to manage columns out of messages list
+#: addon\appModules\thunderbird.py:166
 msgid "You are not in a list of messages"
 msgstr "Bạn không ở trong danh sách thư"
 
-#: codigo.py:531
+#. TRANSLATORS: this is a message list without column headers
+#: addon\appModules\thunderbird.py:170
 msgid "Column headers not found"
 msgstr "Không tìm thấy tiêu đề cột"
 
-#: codigo.py:542
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\thunderbird.py:181
 msgid "Allows you to change the order of the columns in the messages list"
 msgstr "Cho phép bạn thay đổi cách sắp xếp các cột trong danh sách thư"
 
-#: codigo.py:551
+#. TRANSLATORS: there are no attachments in this message
+#: addon\appModules\thunderbird.py:190
 msgid "There are No attachments"
 msgstr "Không có tệp đính kèm nào"
 
-#: codigo.py:563
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\thunderbird.py:202
 msgid "Brings the focus to the list of attachments, if any."
 msgstr "Đưa con trỏ đến danh sách tệp đính kèm nếu có."
 
-#: codigo.py:571
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\thunderbird.py:210
 msgid "Brings the focus to the text of the open message."
 msgstr "Đưa con trỏ đến nội dung của thư đang mở."
 
-#: codigo.py:731 codigo.py:740 codigo.py:764 codigo.py:774
+#. TRANSLATORS: Thunderbird search box name
+#: addon\appModules\thunderbird.py:370 addon\appModules\thunderbird.py:379
+#: addon\appModules\thunderbird.py:403 addon\appModules\thunderbird.py:413
 msgid "Search in "
 msgstr "Tìm trong "
 
-#: codigo.py:745
+#. TRANSLATORS: message spoken when leaving the search box in Thunderbird
+#: addon\appModules\thunderbird.py:384
 msgid "Leaving search box"
 msgstr "Rời khỏi hộp tìm kiếm"
 
-#: codigo.py:792
+#. TRANSLATORS: a button has been unchecked
+#: addon\appModules\thunderbird.py:431
 msgid "uncheck"
 msgstr "không chọn"
 
-#: codigo.py:795
+#. TRANSLATORS: a button has been checked
+#: addon\appModules\thunderbird.py:434
 msgid "check"
 msgstr "chọn"
 
-#: codigo.py:805
+#. TRANSLATORS: a button is checked
+#: addon\appModules\thunderbird.py:444
 msgid "checked"
 msgstr "đã chọn"
 
-#: codigo.py:808
+#. TRANSLATORS: a button is not checked
+#: addon\appModules\thunderbird.py:447
 msgid "not checked"
 msgstr "bỏ chọn"
 
-#: codigo.py:838
+#. TRANSLATORS: message spoken when there aren't more columns in the tree
+#: addon\appModules\thunderbird.py:477
 msgid "There are not more columns"
 msgstr "Không có thêm cột nào"
 
-#: codigo.py:856
+#. TRANSLATORS: message spoken when a conversation is collapsed
+#: addon\appModules\thunderbird.py:495
 msgid "Expand the conversation to display messages"
 msgstr "Mở rộng cuộc hội thoại để hiện các thư"
 
-#: codigo.py:859
+#. TRANSLATORS: the preview pane is not available yet
+#: addon\appModules\thunderbird.py:498
 msgid "Preview pane is not active or message has not been loaded yet"
 msgstr "Bản xem trước không hoạt động hoặc thư chưa mở"
 
-#: codigo.py:861
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\thunderbird.py:500
 msgid "In message list, reads the selected message without leaving the list."
 msgstr "Trong danh sách thư, đọc thư đã chọn mà không rời khỏi danh sách."
 
-#: codigo.py:892
+#. TRANSLATORS: manage columns dialog title
+#: addon\appModules\thunderbird.py:531
 msgid "Manage columns"
 msgstr "Quản lý cột"
 
-#: codigo.py:900
+#. TRANSLATORS: up button in columns dialog
+#: addon\appModules\thunderbird.py:539
 msgid "&up"
 msgstr "&lên"
 
-#: codigo.py:904
+#. TRANSLATORS: down button in columns dialog
+#: addon\appModules\thunderbird.py:543
 msgid "&down"
 msgstr "&xuống"
 
-#: codigo.py:908
+#. TRANSLATORS: options button in the columns dialog
+#: addon\appModules\thunderbird.py:547
 msgid "&options"
 msgstr "&tùy chỉnh"
 
-#: codigo.py:935
+#. TRANSLATORS: the column can't be moved, it is already in the first position
+#: addon\appModules\thunderbird.py:574
 #, python-format
 msgid "Can't move %s, it is already the first column."
 msgstr "Không thể di chuyển %s, Nó đã là cột đầu tiên."
 
-#: codigo.py:943
+#. TRANSLATORS: the selected column moves before another column
+#: addon\appModules\thunderbird.py:582
 #, python-format
 msgid "%s before %s"
 msgstr "%s trước %s"
 
-#: codigo.py:951
+#. TRANSLATOR: this is the last column and can't be moved
+#: addon\appModules\thunderbird.py:590
 #, python-format
 msgid "Can't move %s, it is already the last column."
 msgstr "Không thể di chuyển %s, Nó đã là cột cuối cùng."
 
-#: codigo.py:959
+#. TRANSLATORS: a column goes after another column
+#: addon\appModules\thunderbird.py:598
 #, python-format
 msgid "%s after %s"
 msgstr "%s sau %s"
 
-#: codigo.py:975
+#. TRANSLATORS: the folder content has changed while this dialog was opened
+#: addon\appModules\thunderbird.py:614
 #, python-format
 msgid ""
 "Folder has changed, return to %s to manage columns or restart this dialog"
@@ -238,72 +301,62 @@ msgstr ""
 "Thư mục đã thay đổi. Hãy trở về %s để quản lý các cột hoặc khởi động lại hộp "
 "thoại này"
 
-#: codigo.py:1042
-msgid "Yesterday"
-msgstr "Hôm qua"
+#. Add-on summary, usually the user visible name of the addon.
+#. Translators: Summary for this add-on to be shown on installation and add-on information.
+#: buildVars.py:17
+msgid "Mozilla Apps Enhancements"
+msgstr "Cải thiện cho các ứng dụng của Mozilla"
 
-#: codigo.py:1045
-#, python-format
-msgid "%d days ago"
-msgstr "%d ngày trước"
+#. Add-on description
+#. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
+#: buildVars.py:20
+msgid "Provides accessibility features for Mozilla Firefox and Thunderbird"
+msgstr "Cung cấp các tính năng tiếp cận cho Mozilla Firefox và Thunderbird"
 
-#: codigo.py:1050
-msgid "About an hour ago"
-msgstr "khoảng một giờ trước"
+#~ msgid "Yesterday"
+#~ msgstr "Hôm qua"
 
-#: codigo.py:1053
-#, python-format
-msgid "About %d hours ago"
-msgstr "khoảng %d giờ trước"
+#~ msgid "%d days ago"
+#~ msgstr "%d ngày trước"
 
-#: codigo.py:1056
-msgid "About a minute ago"
-msgstr "Khoảng một phút trước"
+#~ msgid "About an hour ago"
+#~ msgstr "khoảng một giờ trước"
 
-#: codigo.py:1059
-#, python-format
-msgid "About %d minutes ago"
-msgstr "Khoảng %d giờ trước"
+#~ msgid "About %d hours ago"
+#~ msgstr "khoảng %d giờ trước"
 
-#: codigo.py:1062
-msgid "a second ago"
-msgstr "một giây trước"
+#~ msgid "About a minute ago"
+#~ msgstr "Khoảng một phút trước"
 
-#: codigo.py:1065
-#, python-format
-msgid "%d seconds ago"
-msgstr "%d giây trước"
+#~ msgid "About %d minutes ago"
+#~ msgstr "Khoảng %d giờ trước"
 
-#: codigo.py:1076
-msgid "Couldn't capture the text of this notification"
-msgstr "Không thể lấy nội dung của thông báo này"
+#~ msgid "a second ago"
+#~ msgstr "một giây trước"
 
-#: codigo.py:1137
-msgid "Refresh\tF5"
-msgstr "Làm mới\tF5"
+#~ msgid "%d seconds ago"
+#~ msgstr "%d giây trước"
 
-#: codigo.py:1139
-msgid "Delete item\tSupr"
-msgstr "Xóa thành phần\tSupr"
+#~ msgid "Couldn't capture the text of this notification"
+#~ msgstr "Không thể lấy nội dung của thông báo này"
 
-#: codigo.py:1141
-msgid "Clear all"
-msgstr "Xóa tất cả"
+#~ msgid "Refresh\tF5"
+#~ msgstr "Làm mới\tF5"
 
-#: codigo.py:1193
-msgid "Mozilla notifications"
-msgstr "Các thông báo của Mozilla"
+#~ msgid "Delete item\tSupr"
+#~ msgstr "Xóa thành phần\tSupr"
 
-#: codigo.py:1196
-msgid "Firefox notifications"
-msgstr "Các thông báo của Firefox"
+#~ msgid "Clear all"
+#~ msgstr "Xóa tất cả"
 
-#: codigo.py:1198
-msgid "Thunderbird notifications"
-msgstr "Các thông báo của Thunderbird"
+#~ msgid "Mozilla notifications"
+#~ msgstr "Các thông báo của Mozilla"
 
-#~ msgid "[[!meta title=\"Mozilla Apps Enhancements\"]]\n"
-#~ msgstr "[[!meta title=\"Mozilla Apps Enhancements\"]]\n"
+#~ msgid "Firefox notifications"
+#~ msgstr "Các thông báo của Firefox"
+
+#~ msgid "Thunderbird notifications"
+#~ msgstr "Các thông báo của Thunderbird"
 
 #~ msgid "Author: Javi Dominguez"
 #~ msgstr "Tác giả: Javi Dominguez"
