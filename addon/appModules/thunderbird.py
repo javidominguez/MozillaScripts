@@ -482,7 +482,8 @@ class ThreadTree(IAccessible):
 			obj.name = _("empty")
 		obj.states = None
 		api.setNavigatorObject(obj)
-		speech.speakObject(obj, reason=controlTypes.REASON_FOCUS)
+		REASON = controlTypes.REASON_FOCUS  if hasattr(controlTypes, "REASON_FOCUS") else controlTypes.OutputReason.FOCUS
+		speech.speakObject(obj, reason=REASON)
 
 	def script_readPreviewPane(self, gesture):
 		doc = self.getDocument()
