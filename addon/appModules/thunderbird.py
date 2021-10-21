@@ -580,7 +580,7 @@ class manageColumnsDialog(wx.Dialog):
 			self.Show()
 			self.Center()
 			#TRANSLATORS: the selected column moves before another column
-			ui.message(_("%s before %s") % (self.columns[c-1].name, self.columns[c].name))
+			ui.message(_("{col1} before {col2}").format(col1=self.columns[c - 1].name, col2=self.columns[c].name))
 		else:
 			beep(150, 100)
 
@@ -596,7 +596,7 @@ class manageColumnsDialog(wx.Dialog):
 			self.Show()
 			self.Center()
 			#TRANSLATORS: a column goes after another column
-			ui.message(_("%s after %s") % (self.columns[c+1].name, self.columns[c].name))
+			ui.message(_("{col1} after {col2").format(col1=self.columns[c + 1].name, col2=self.columns[c].name))
 		else:
 			beep(150, 100)
 
