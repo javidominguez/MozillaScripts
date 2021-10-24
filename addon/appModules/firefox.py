@@ -34,11 +34,11 @@ import globalCommands
 import controlTypes
 # controlTypes module compatibility with old versions of NVDA
 if not hasattr(controlTypes, "Role"):
-	setattr(controlTypes, Role, type('Enum', (), dict(
+	setattr(controlTypes, "Role", type('Enum', (), dict(
 	[(x.split("ROLE_")[1], getattr(controlTypes, x)) for x in dir(controlTypes) if x.startswith("ROLE_")])))
-if not hasattr(controlTypes, "State"):
-	setattr(controlTypes, State, type('Enum', (), dict(
+	setattr(controlTypes, "State", type('Enum', (), dict(
 	[(x.split("STATE_")[1], getattr(controlTypes, x)) for x in dir(controlTypes) if x.startswith("STATE_")])))
+	setattr(controlTypes, "role", type("role", (), {"roleLabels": controlTypes.role._roleLabels}))
 # End of compatibility fixes
 import api
 import ui
@@ -251,7 +251,7 @@ class AppModule(AppModule):
 					doc.treeInterceptor.passThrough = False
 				except AttributeError:
 					pass
-				ui.message("%s %s" % (controlTypes.roleLabels[doc.role], doc.name))
+				ui.message("%s %s" % (controlTypes.role._roleLabels[doc.role], doc.name))
 			except NameError:
 				pass
 	#TRANSLATORS: documentation shown in the input gestures dialog for this script
