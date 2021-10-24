@@ -14,6 +14,14 @@ except ImportError:
 from tones import beep
 import addonHandler
 import controlTypes
+# controlTypes module compatibility with old versions of NVDA
+if not hasattr(controlTypes, "Role"):
+	setattr(controlTypes, Role, type('Enum', (), dict(
+	[(x.split("ROLE_")[1], getattr(controlTypes, x)) for x in dir(controlTypes) if x.startswith("ROLE_")])))
+if not hasattr(controlTypes, "State"):
+	setattr(controlTypes, State, type('Enum', (), dict(
+	[(x.split("STATE_")[1], getattr(controlTypes, x)) for x in dir(controlTypes) if x.startswith("STATE_")])))
+# End of compatibility fixes
 import api
 import ui
 import scriptHandler
@@ -38,7 +46,7 @@ class AppModule(thunderbird.AppModule):
 
 	def chooseNVDAObjectOverlayClasses(self, obj, clsList):
 		# Overlay search box in fast filtering bar
-		if obj.role == controlTypes.ROLE_EDITABLETEXT:
+		if obj.role == controlTypes.Role.EDITABLETEXT:
 			try:
 				qfb = False
 				if ("xml-roles" in obj.IA2Attributes and obj.IA2Attributes["xml-roles"] == "searchbox") or ("class" in obj.parent.IA2Attributes  and obj.parent.IA2Attributes["class"] == "searchBox"):
@@ -58,7 +66,7 @@ class AppModule(thunderbird.AppModule):
 			except AttributeError:
 				pass
 		# Overlay list of messages
-		if obj.role == controlTypes.ROLE_TREEVIEWITEM or obj.role == controlTypes.ROLE_TABLEROW:
+		if obj.role == controlTypes.Role.TREEVIEWITEM or obj.role == controlTypes.Role.TABLEROW:
 			try:
 				if obj.parent:
 					if obj.parent.IA2Attributes["id"] == "threadTree":
@@ -70,7 +78,7 @@ class AppModule(thunderbird.AppModule):
 				pass
 
 	def event_alert(self, obj, nextHandler):
-		if obj.role == controlTypes.ROLE_ALERT:
+		if obj.role == controlTypes.Role.ALERT:
 			alertText = obj.name if obj.name else obj.description if obj.description else obj.displayText if obj.displayText else ""
 			if shared.focusAlertPopup(obj, False if  self.isComposing() else True):
 				return
@@ -100,8 +108,8 @@ class AppModule(thunderbird.AppModule):
 			("class","textbox-input")))
 			if not subject:
 				# Thunderbird versions higher than 68
-				MsgHeadersToolbar = filter(lambda o: o.role == controlTypes.ROLE_TOOLBAR and o.IA2Attributes["id"] == "MsgHeadersToolbar", api.getForegroundObject().children)[0]
-				subject = filter(lambda o: o.role == controlTypes.ROLE_EDITABLETEXT and o.IA2Attributes["id"] == "msgSubject", MsgHeadersToolbar.children)[0]
+				MsgHeadersToolbar = filter(lambda o: o.role == controlTypes.Role.TOOLBAR and o.IA2Attributes["id"] == "MsgHeadersToolbar", api.getForegroundObject().children)[0]
+				subject = filter(lambda o: o.role == controlTypes.Role.EDITABLETEXT and o.IA2Attributes["id"] == "msgSubject", MsgHeadersToolbar.children)[0]
 			if scriptHandler.getLastScriptRepeatCount() == 1:
 				subject.setFocus()
 			else:
@@ -110,7 +118,7 @@ class AppModule(thunderbird.AppModule):
 		if self.isDocument():
 			try:
 				if int(self.productVersion.split(".")[0]) <= 68:
-					obj = filter(lambda o: o.role == controlTypes.ROLE_UNKNOWN, self.getPropertyPage().children)[1]
+					obj = filter(lambda o: o.role == controlTypes.Role.UNKNOWN, self.getPropertyPage().children)[1]
 					ui.message(obj.firstChild.name)
 				else:
 					obj = shared.searchObject((
@@ -144,7 +152,7 @@ class AppModule(thunderbird.AppModule):
 			return
 		if self.isDocument():
 			try:
-				obj = filter(lambda o: o.role == controlTypes.ROLE_EDITABLETEXT and controlTypes.STATE_READONLY in o.states, self.getPropertyPage().children)[0]
+				obj = filter(lambda o: o.role == controlTypes.Role.EDITABLETEXT and controlTypes.State.READONLY in o.states, self.getPropertyPage().children)[0]
 				ui.message(obj.value)
 			except (IndexError, AttributeError):
 				#TRANSLATORS: cannot find date
@@ -157,10 +165,10 @@ class AppModule(thunderbird.AppModule):
 
 	def script_manageColumns(self, gesture):
 		try:
-			columnHeaders = filter(lambda o: o.role == controlTypes.ROLE_TABLE, self.getPropertyPage().children)[0].firstChild.children
+			columnHeaders = filter(lambda o: o.role == controlTypes.Role.TABLE, self.getPropertyPage().children)[0].firstChild.children
 		except IndexError:
 			try:
-				columnHeaders = filter(lambda o: o.role == controlTypes.ROLE_TREEVIEW, self.getPropertyPage().children)[-1].firstChild.children
+				columnHeaders = filter(lambda o: o.role == controlTypes.Role.TREEVIEW, self.getPropertyPage().children)[-1].firstChild.children
 			except IndexError:
 				#TRANSLATORS: message spoken if you want to manage columns out of messages list
 				ui.message(_("You are not in a list of messages"))
@@ -182,7 +190,7 @@ class AppModule(thunderbird.AppModule):
 
 	def script_attachments (self, gesture):
 		doc = self.isDocument()
-		if doc and controlTypes.STATE_READONLY in doc.states:
+		if doc and controlTypes.State.READONLY in doc.states:
 			try:
 				attachmentToggleButton = filter(lambda o: "id" in o.IA2Attributes and o.IA2Attributes["id"] == "attachmentToggle", self.getPropertyPage().children)[0]
 			except IndexError:
@@ -190,7 +198,7 @@ class AppModule(thunderbird.AppModule):
 				ui.message(_("There are No attachments"))
 				return
 			ui.message(attachmentToggleButton.next.name)
-			if controlTypes.STATE_PRESSED not in attachmentToggleButton.states:
+			if controlTypes.State.PRESSED not in attachmentToggleButton.states:
 				api.moveMouseToNVDAObject(attachmentToggleButton)
 				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,0,None,None)
 				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
@@ -211,7 +219,7 @@ class AppModule(thunderbird.AppModule):
 
 	def script_notifications(self, gesture):
 		obj = self.getPropertyPage().simpleLastChild.simplePrevious
-		if obj.role == controlTypes.ROLE_ALERT:
+		if obj.role == controlTypes.Role.ALERT:
 			if api.getFocusObject().parent == obj: # Already focused
 				ui.message(shared.getAlertText(obj))
 				speech.speakObject(api.getFocusObject())
@@ -238,13 +246,13 @@ class AppModule(thunderbird.AppModule):
 		if self.isDocument():
 			fields = []
 			if int(self.productVersion.split(".")[0]) > 68:
-				for table in filter(lambda o: o.role == controlTypes.ROLE_TABLE, self.getPropertyPage().children):
+				for table in filter(lambda o: o.role == controlTypes.Role.TABLE, self.getPropertyPage().children):
 					try:
-						fields = fields + filter(lambda o: o.role == controlTypes.ROLE_LABEL and o.firstChild.role == controlTypes.ROLE_UNKNOWN, table.recursiveDescendants)
+						fields = fields + filter(lambda o: o.role == controlTypes.Role.LABEL and o.firstChild.role == controlTypes.Role.UNKNOWN, table.recursiveDescendants)
 					except IndexError:
 						pass
 			else:
-				for item in filter(lambda o: o.role == controlTypes.ROLE_UNKNOWN, self.getPropertyPage().children):
+				for item in filter(lambda o: o.role == controlTypes.Role.UNKNOWN, self.getPropertyPage().children):
 					try:
 						fields.append(item.children[0].children[0])
 					except IndexError:
@@ -288,14 +296,14 @@ class AppModule(thunderbird.AppModule):
 			("id","MsgHeadersToolbar"),
 			("id","addressingWidget")))
 			if addressingWidget:
-				recipients = filter(lambda o: o.role == controlTypes.ROLE_COMBOBOX and o.firstChild.role == controlTypes.ROLE_EDITABLETEXT, addressingWidget.recursiveDescendants)
+				recipients = filter(lambda o: o.role == controlTypes.Role.COMBOBOX and o.firstChild.role == controlTypes.Role.EDITABLETEXT, addressingWidget.recursiveDescendants)
 			else:
-				addressingWidget = filter(lambda o: o.role == controlTypes.ROLE_TOOLBAR and o.IA2Attributes["id"] == "MsgHeadersToolbar", api.getForegroundObject().children)[0]
-				recipients = filter(lambda o: o.role == controlTypes.ROLE_UNKNOWN, addressingWidget.children)
+				addressingWidget = filter(lambda o: o.role == controlTypes.Role.TOOLBAR and o.IA2Attributes["id"] == "MsgHeadersToolbar", api.getForegroundObject().children)[0]
+				recipients = filter(lambda o: o.role == controlTypes.Role.UNKNOWN, addressingWidget.children)
 			if index > len(recipients):
 				return
-			if focus and controlTypes.STATE_FOCUSED not in recipients[index-1].firstChild.states:
-				if controlTypes.STATE_EXPANDED in sender.states:
+			if focus and controlTypes.State.FOCUSED not in recipients[index-1].firstChild.states:
+				if controlTypes.State.EXPANDED in sender.states:
 				# When the list of senders is expanded it cover the recipient widget. It must be collapsed before click in recipients.
 					api.moveMouseToNVDAObject(sender)
 					winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,0,None,None)
@@ -311,9 +319,9 @@ class AppModule(thunderbird.AppModule):
 
 	def isDocument(self):
 		doc = None
-		for frame in filter(lambda o: o.role == controlTypes.ROLE_INTERNALFRAME, self.getPropertyPage().children):
+		for frame in filter(lambda o: o.role == controlTypes.Role.INTERNALFRAME, self.getPropertyPage().children):
 			try:
-				doc = filter(lambda o: o.role == controlTypes.ROLE_DOCUMENT, frame.children)[0]
+				doc = filter(lambda o: o.role == controlTypes.Role.DOCUMENT, frame.children)[0]
 			except IndexError:
 				pass
 		return doc
@@ -325,7 +333,7 @@ class AppModule(thunderbird.AppModule):
 		fg = api.getForegroundObject()
 		try:
 			# Thunderbird 68 and earlier
-			propertyPages = filter(lambda o: o.role == controlTypes.ROLE_PROPERTYPAGE, filter(lambda o: o.role == controlTypes.ROLE_GROUPING, fg.children)[0].children)
+			propertyPages = filter(lambda o: o.role == controlTypes.Role.PROPERTYPAGE, filter(lambda o: o.role == controlTypes.Role.GROUPING, fg.children)[0].children)
 			return propertyPages[0]
 		except IndexError:
 			# Thunderbird 78
@@ -379,7 +387,7 @@ class SearchBox(IAccessible):
 						self.pointedObj.name = _("Search in ")+self.pointedObj.name
 			except:
 				pass
-			if not self.pointedObj or self.pointedObj.role == controlTypes.ROLE_TREEVIEW:
+			if not self.pointedObj or self.pointedObj.role == controlTypes.Role.TREEVIEW:
 				#TRANSLATORS: message spoken when leaving the search box in Thunderbird
 				ui.message(_('Leaving search box'))
 				self.pointedObj = self.parent.parent.firstChild
@@ -426,7 +434,7 @@ class SearchBox(IAccessible):
 
 	def script_pressButton(self, gesture):
 		if self.pointedObj:
-			if controlTypes.STATE_PRESSED in self.pointedObj.states:
+			if controlTypes.State.PRESSED in self.pointedObj.states:
 				#TRANSLATORS: a button has been unchecked
 				ui.message(_("uncheck"))
 			else:
@@ -439,7 +447,7 @@ class SearchBox(IAccessible):
 			winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
 
 	def readCheckButton(self):
-		if controlTypes.STATE_PRESSED in self.pointedObj.states:
+		if controlTypes.State.PRESSED in self.pointedObj.states:
 			#TRANSLATORS: a button is checked
 			state = _("checked")
 		else:
@@ -491,7 +499,7 @@ class ThreadTree(IAccessible):
 			self.timeout = time() + 1.0
 			self.readPreviewPane(doc)
 		else:
-			if controlTypes.STATE_COLLAPSED in self.states:
+			if controlTypes.State.COLLAPSED in self.states:
 				#TRANSLATORS: message spoken when a conversation is collapsed
 				ui.message(_("Expand the conversation to display messages"))
 			else:
@@ -580,7 +588,7 @@ class manageColumnsDialog(wx.Dialog):
 			self.Show()
 			self.Center()
 			#TRANSLATORS: the selected column moves before another column
-			ui.message(_("%s before %s") % (self.columns[c-1].name, self.columns[c].name))
+			ui.message(_("{col1} before {col2}").format(col1=self.columns[c - 1].name, col2=self.columns[c].name))
 		else:
 			beep(150, 100)
 
@@ -596,7 +604,7 @@ class manageColumnsDialog(wx.Dialog):
 			self.Show()
 			self.Center()
 			#TRANSLATORS: a column goes after another column
-			ui.message(_("%s after %s") % (self.columns[c+1].name, self.columns[c].name))
+			ui.message(_("{col1} after {col2").format(col1=self.columns[c + 1].name, col2=self.columns[c].name))
 		else:
 			beep(150, 100)
 

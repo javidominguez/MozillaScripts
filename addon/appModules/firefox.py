@@ -32,6 +32,14 @@ except ImportError:
 import scriptHandler
 import globalCommands
 import controlTypes
+# controlTypes module compatibility with old versions of NVDA
+if not hasattr(controlTypes, "Role"):
+	setattr(controlTypes, Role, type('Enum', (), dict(
+	[(x.split("ROLE_")[1], getattr(controlTypes, x)) for x in dir(controlTypes) if x.startswith("ROLE_")])))
+if not hasattr(controlTypes, "State"):
+	setattr(controlTypes, State, type('Enum', (), dict(
+	[(x.split("STATE_")[1], getattr(controlTypes, x)) for x in dir(controlTypes) if x.startswith("STATE_")])))
+# End of compatibility fixes
 import api
 import ui
 import winUser
@@ -93,9 +101,9 @@ class AppModule(AppModule):
 			return
 		group = shared.searchAmongTheChildren(("tag", "tabpanels"), api.getForegroundObject())
 		if group:
-			for propertyPage in filter(lambda o: o.role == controlTypes.ROLE_PROPERTYPAGE, group.children):
+			for propertyPage in filter(lambda o: o.role == controlTypes.Role.PROPERTYPAGE, group.children):
 				try:
-					obj = filter(lambda o: o.role == controlTypes.ROLE_STATUSBAR, propertyPage.children)[0]
+					obj = filter(lambda o: o.role == controlTypes.Role.STATUSBAR, propertyPage.children)[0]
 					break
 				except IndexError:
 					pass
@@ -136,7 +144,7 @@ class AppModule(AppModule):
 				try: # FF 57 to 69
 					securInfo = secInfoButton.firstChild.next.name if secInfoButton.firstChild.next.IA2Attributes["id"] == "connection-icon" else ""
 					if securInfo:
-						owner = " ".join([o.name for o in filter(lambda o: o.role == controlTypes.ROLE_STATICTEXT, secInfoButton.recursiveDescendants)])
+						owner = " ".join([o.name for o in filter(lambda o: o.role == controlTypes.Role.STATICTEXT, secInfoButton.recursiveDescendants)])
 						securInfo = "%s, %s" % (owner, securInfo) if owner else securInfo
 				except AttributeError: # FF 70 and above 
 					securInfo = secInfoButton.name
@@ -200,7 +208,7 @@ class AppModule(AppModule):
 
 	def script_notifications(self, gesture):
 		obj = api.getForegroundObject().simpleFirstChild
-		if obj.role == controlTypes.ROLE_ALERT:
+		if obj.role == controlTypes.Role.ALERT:
 			if api.getFocusObject().parent == obj: # Already focused
 				speech.speakObject(obj)
 				speech.speakObject(api.getFocusObject())
@@ -231,9 +239,9 @@ class AppModule(AppModule):
 			return
 		group = shared.searchAmongTheChildren(("tag", "tabpanels"), api.getForegroundObject())
 		if group:
-			for propertyPage in filter(lambda o: o.role == controlTypes.ROLE_PROPERTYPAGE, group.children):
+			for propertyPage in filter(lambda o: o.role == controlTypes.Role.PROPERTYPAGE, group.children):
 				try:
-					doc = filter(lambda o: o.role == controlTypes.ROLE_INTERNALFRAME and controlTypes.STATE_FOCUSABLE in o.states, propertyPage.children)[0].children[0]
+					doc = filter(lambda o: o.role == controlTypes.Role.INTERNALFRAME and controlTypes.State.FOCUSABLE in o.states, propertyPage.children)[0].children[0]
 					break
 				except IndexError:
 					pass
@@ -252,21 +260,21 @@ class AppModule(AppModule):
 	def getTabsDialog(self):
 		tabs = ""
 		fg = api.getForegroundObject()
-		for toolBar in filter(lambda o: o.role == controlTypes.ROLE_TOOLBAR, fg.children):
+		for toolBar in filter(lambda o: o.role == controlTypes.Role.TOOLBAR, fg.children):
 			try:
-				tabControl = filter(lambda o: o.role == controlTypes.ROLE_TABCONTROL, toolBar.children)[0]
+				tabControl = filter(lambda o: o.role == controlTypes.Role.TABCONTROL, toolBar.children)[0]
 			except IndexError:
 				pass
 			else:
-				tabs = filter(lambda o: o.role == controlTypes.ROLE_TAB, tabControl.children)
+				tabs = filter(lambda o: o.role == controlTypes.Role.TAB, tabControl.children)
 		#TRANSLATORS: opened tabs in tabs dialog
 		return tabs, "%d %s" % (len(tabs), _("Opened tabs"))
 
 	def getButtonsDialog(self):
 		fg = api.getForegroundObject()
 		buttons = []
-		for toolBar in filter(lambda o: o.role == controlTypes.ROLE_TOOLBAR and "id" in o.IA2Attributes and o.IA2Attributes["id"] != "TabsToolbar", fg.children):
-			buttons = buttons + filter(lambda o: o.role == controlTypes.ROLE_BUTTON and controlTypes.STATE_OFFSCREEN not in o.states, toolBar.children)
+		for toolBar in filter(lambda o: o.role == controlTypes.Role.TOOLBAR and "id" in o.IA2Attributes and o.IA2Attributes["id"] != "TabsToolbar", fg.children):
+			buttons = buttons + filter(lambda o: o.role == controlTypes.Role.BUTTON and controlTypes.State.OFFSCREEN not in o.states, toolBar.children)
 		#TRANSLATORS: Toolbar buttons dialog
 		return buttons, _("Tool Bar Buttons")
 
@@ -326,7 +334,7 @@ class toolsBarDialog(wx.Dialog):
 		self.SetTitle(title)
 		self.listBox.SetItems([item.name for item in self.items])
 		try:
-			selected = [controlTypes.STATE_SELECTED in item.states for item in self.items].index(True)
+			selected = [controlTypes.State.SELECTED in item.states for item in self.items].index(True)
 		except ValueError:
 			selected = 0
 		self.listBox.Select(selected)
@@ -339,7 +347,7 @@ class toolsBarDialog(wx.Dialog):
 			return(obj)
 
 	def onListBox(self, event):
-		if self.getObjectFromList().role == controlTypes.ROLE_BUTTON:
+		if self.getObjectFromList().role == controlTypes.Role.BUTTON:
 			self.optionsButton.Enabled = False
 		else:
 			self.optionsButton.Enabled = True

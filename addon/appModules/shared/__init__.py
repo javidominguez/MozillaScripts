@@ -7,6 +7,14 @@ from datetime import datetime, timedelta
 from threading import Timer
 import speech
 import controlTypes
+# controlTypes module compatibility with old versions of NVDA
+if not hasattr(controlTypes, "Role"):
+	setattr(controlTypes, Role, type('Enum', (), dict(
+	[(x.split("ROLE_")[1], getattr(controlTypes, x)) for x in dir(controlTypes) if x.startswith("ROLE_")])))
+if not hasattr(controlTypes, "State"):
+	setattr(controlTypes, State, type('Enum', (), dict(
+	[(x.split("STATE_")[1], getattr(controlTypes, x)) for x in dir(controlTypes) if x.startswith("STATE_")])))
+# End of compatibility fixes
 import api
 import re
 import wx
@@ -17,7 +25,7 @@ import addonHandler
 addonHandler.initTranslation()
 
 def focusAlertPopup(alertPopup, SETFOCUS = True):
-	if alertPopup.role != controlTypes.ROLE_ALERT:
+	if alertPopup.role != controlTypes.Role.ALERT:
 		return False
 	obj = alertPopup.firstChild
 	while obj and not obj.isFocusable:
@@ -70,7 +78,7 @@ def getAlertText(alertPopup):
 	for obj in alertPopup.recursiveDescendants:
 		objText = obj.name if obj.name else obj.description if obj.description else obj.displayText if obj.displayText else ""
 		extendedAlertText = "%s %s" % (extendedAlertText, objText)
-		if obj.role == controlTypes.ROLE_STATICTEXT and objText not in alertText:
+		if obj.role == controlTypes.Role.STATICTEXT and objText not in alertText:
 			alertText = "%s %s" % (alertText, objText)
 	#TRANSLATORS: the notification text could not be read
 	return alertText if alertText else extendedAlertText if extendedAlertText else _("Couldn't capture the text of this notification")
