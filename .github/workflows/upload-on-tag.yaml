@@ -1,0 +1,33 @@
+name: Upload on new tags
+
+on:
+  push:
+    tags:
+      '*'
+
+jobs:
+  buildAndUpload:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        pip install scons markdown
+        sudo apt update
+        sudo apt install gettext
+    - name: Build add-on
+      run: scons
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        files: |
+          *.nvda-addon
+        body_path: changelog.md
+        prerelease: ${{ endsWith(github.ref, '-dev') }}

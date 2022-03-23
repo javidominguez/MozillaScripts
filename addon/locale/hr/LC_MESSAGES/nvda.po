@@ -1,0 +1,345 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-01-29 21:34+0100\n"
+"PO-Revision-Date: 2021-12-28 15:51+0100\n"
+"Last-Translator: Tarik Hadžirović <tarik.hadzirovic.official@gmail.com>\n"
+"Language-Team: Tarik Hadžirović <tarik.hadzirovic.official@gmail.com>\n"
+"Language: hr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: messages.py:51
+msgid "mozilla Firefox"
+msgstr "Mozilla Firefox"
+
+#: messages.py:86 messages.py:115 messages.py:165 messages.py:213
+msgid "Not available here"
+msgstr "Nije dostupno ovdje"
+
+#: messages.py:100 messages.py:108
+msgid "Status bar not found"
+msgstr "Statusna traka nije pronađena"
+
+#: messages.py:105 messages.py:142
+msgid "Copied to clipboard"
+msgstr "Kopirano u međuspremnik"
+
+#: messages.py:110
+msgid "Reads the status bar. If pressed twice quickly, copies it to clipboard."
+msgstr ""
+"Čita statusnu traku. Ako se brzo dvaput pritisne, kopira se u međuspremnik."
+
+#: messages.py:136
+msgid "Insecure connection"
+msgstr "Nesigurna veza"
+
+#: messages.py:145
+msgid "Address not found"
+msgstr "Adresa nije pronađena"
+
+#: messages.py:147
+msgid ""
+"Reads the page address. If pressed twice quickly, copies it to clipboard."
+msgstr ""
+"Čita adresu stranice. Ako se brzo dvaput pritisne, kopira se u međuspremnik."
+
+#: messages.py:155
+msgid ""
+"Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool "
+"bar."
+msgstr ""
+"Prikazuje popis otvorenih kartica. Ako se brzo dvaput pritisne, prikazuje "
+"gumbe na alatnoj traci."
+
+#: messages.py:160
+msgid "Shows buttons of tool bar."
+msgstr "Prikazuje gumbe alatne trake."
+
+#: messages.py:182
+msgid "Tool bar not found"
+msgstr "Alatna traka nije pronađena"
+
+#: messages.py:206 messages.py:546 messages.py:1107
+msgid "There is no notification"
+msgstr "Nema obavijesti"
+
+#: messages.py:208 messages.py:548
+msgid ""
+"Reads the last notification and it takes the system focus to it if it is "
+"possible. By pressing two times quickly shows the history of notifications."
+msgstr ""
+"Čita posljednju obavijest i usmjerava fokus sustava na nju ako je to moguće. "
+"Pritiskom dva puta brzo se prikazuje povijest obavijesti."
+
+#: messages.py:233
+msgid "Brings the focus to the document"
+msgstr "Dovodi fokus na dokument"
+
+#: messages.py:246
+msgid "Opened tabs"
+msgstr "Otvorene kartice"
+
+#: messages.py:254
+msgid "Tool Bar Buttons"
+msgstr "Gumbi alatne trake"
+
+#: messages.py:291
+msgid "&Go"
+msgstr "&Idi"
+
+#: messages.py:296
+msgid "&Options"
+msgstr "&Opcije"
+
+#: messages.py:300 messages.py:840
+msgid "Close"
+msgstr "Zatvori"
+
+#: messages.py:378 messages.py:758
+msgid "mozilla Thunderbird"
+msgstr "Mozilla Thunderbird"
+
+#: messages.py:392
+msgid "(Press down arrow to display more options)"
+msgstr "(Pritisnite strelicu prema dolje za prikaz više opcija)"
+
+#: messages.py:440 messages.py:609 messages.py:772
+msgid "empty"
+msgstr "Prazno"
+
+#: messages.py:448 messages.py:464 messages.py:566
+msgid "Not found"
+msgstr "Nije pronađen"
+
+#: messages.py:451 messages.py:467 messages.py:579
+msgid "you are not in a message window"
+msgstr "Niste u prozoru za poruke"
+
+#: messages.py:453
+msgid "Reads the subject of the message."
+msgstr "Čita predmet poruke"
+
+#: messages.py:469
+msgid "Reads date of the message."
+msgstr "Čita datum poruke"
+
+#: messages.py:479
+msgid "You are not in a list of messages"
+msgstr "Niste na popisu poruka"
+
+#: messages.py:483
+msgid "Column headers not found"
+msgstr "Zaglavlja stupaca nisu pronađena"
+
+#: messages.py:494
+msgid "Allows you to change the order of the columns in the messages list"
+msgstr "Omogućuje Vam promjenu redoslijeda stupaca na popisu poruka"
+
+#: messages.py:503
+msgid "There are No attachments"
+msgstr "Nema privitaka"
+
+#: messages.py:515
+msgid "Brings the focus to the list of attachments, if any."
+msgstr "Dovodi fokus na popis privitaka, ako ih ima."
+
+#: messages.py:523
+msgid "Brings the focus to the text of the open message."
+msgstr "Dovodi fokus na tekst otvorene poruke."
+
+#: messages.py:660 messages.py:669 messages.py:693 messages.py:703
+msgid "Search in "
+msgstr "Traži u "
+
+#: messages.py:674
+msgid "Leaving search box"
+msgstr "Napuštanje okvira za pretraživanje"
+
+#: messages.py:721
+msgid "uncheck"
+msgstr "poništi"
+
+#: messages.py:724
+msgid "check"
+msgstr "označi"
+
+#: messages.py:734
+msgid "checked"
+msgstr "označeno"
+
+#: messages.py:737
+msgid "not checked"
+msgstr "nije označeno"
+
+#: messages.py:767
+msgid "There are not more columns"
+msgstr "Nema više stupaca"
+
+#: messages.py:785
+msgid "Expand the conversation to display messages"
+msgstr "Proširite razgovor za prikaz poruka"
+
+#: messages.py:788
+msgid "Preview pane is not active or message has not been loaded yet"
+msgstr "Okno za pregled nije aktivno ili poruka još nije učitana"
+
+#: messages.py:790
+msgid "In message list, reads the selected message without leaving the list."
+msgstr "U popisu poruka, čita odabranu poruku bez napuštanja popisa."
+
+#: messages.py:821
+msgid "Manage columns"
+msgstr "Upravljanje stupcima"
+
+#: messages.py:829
+msgid "&up"
+msgstr "&gore"
+
+#: messages.py:833
+msgid "&down"
+msgstr "&dolje"
+
+#: messages.py:837
+msgid "&options"
+msgstr "&opcije"
+
+#: messages.py:864
+#, python-format
+msgid "Can't move %s, it is already the first column."
+msgstr "Nije moguće premjestiti %s, to je već prvi stupac."
+
+#: messages.py:872
+#, python-format
+msgid "%s before %s"
+msgstr "%s prije %s"
+
+#: messages.py:880
+#, python-format
+msgid "Can't move %s, it is already the last column."
+msgstr "Nije moguće premjestiti %s, to je već zadnji stupac."
+
+#: messages.py:888
+#, python-format
+msgid "%s after %s"
+msgstr "%s nakon %s"
+
+#: messages.py:904
+#, python-format
+msgid ""
+"Folder has changed, return to %s to manage columns or restart this dialog"
+msgstr ""
+"Mapa je promijenjena, vratite se na %s za upravljanje stupcima ili ponovno "
+"pokrenite ovaj dijaloški okvir"
+
+#: messages.py:987
+msgid "Yesterday"
+msgstr "Jučer"
+
+#: messages.py:990
+#, python-format
+msgid "%d days ago"
+msgstr "Prije %d dana"
+
+#: messages.py:995
+msgid "About an hour ago"
+msgstr "Prije otprilike sat vremena"
+
+#: messages.py:998
+#, python-format
+msgid "About %d hours ago"
+msgstr "Prije otprilike %d sati"
+
+#: messages.py:1001
+msgid "About a minute ago"
+msgstr "Prije otprilike minutu"
+
+#: messages.py:1004
+#, python-format
+msgid "About %d minutes ago"
+msgstr "Prije otprilike %d minuta"
+
+#: messages.py:1007
+msgid "a second ago"
+msgstr "prije sekundu"
+
+#: messages.py:1010
+#, python-format
+msgid "%d seconds ago"
+msgstr "Prije %d sekundi"
+
+#: messages.py:1021
+msgid "Couldn't capture the text of this notification"
+msgstr "Nije moguće snimiti tekst ove obavijesti"
+
+#: messages.py:1082
+msgid "Refresh\tF5"
+msgstr "Osvježi\\tF5"
+
+#: messages.py:1084
+msgid "Delete item\tSupr"
+msgstr "Izbriši stavku\\tSupr"
+
+#: messages.py:1086
+msgid "Clear all"
+msgstr "Očisti sve"
+
+#: messages.py:1138
+msgid "Mozilla notifications"
+msgstr "Mozilla obavijesti"
+
+#: messages.py:1141
+msgid "Firefox notifications"
+msgstr "Firefox obavijesti"
+
+#: messages.py:1143
+msgid "Thunderbird notifications"
+msgstr "Thunderbird obavijesti"
+
+#~ msgid "Status bar: %s"
+#~ msgstr "Barra de estado: %s "
+
+#~ msgid "Page address is: %s (%s)"
+#~ msgstr "La dirección de la página es: %s (%s) "
+
+#~ msgid "Notification History"
+#~ msgstr "Historial de notificaciones"
+
+#~ msgid "Last alert, %s: %s"
+#~ msgstr "Ultima alerta %s %s"
+
+#~ msgid "If there is any notification opens"
+#~ msgstr "Abre la notificación si la hay"
+
+#~ msgid ""
+#~ "Reads the sender and recipients of the message. If pressed twice quickly, "
+#~ "opens the options menu."
+#~ msgstr ""
+#~ "Lee el remitente y los destinatarios del mensaje. Si se pulsa dos veces "
+#~ "rápidamente, abre el menú de opciones. "
+
+#~ msgid "Property page not found"
+#~ msgstr "No se encontró la página de propiedades"
+
+#~ msgid ""
+#~ "Reads the sender of the message. If pressed twice quickly, opens the "
+#~ "options menu."
+#~ msgstr ""
+#~ "Lee el remitente del mensaje. Si se pulsa dos veces rápidamente, abre el "
+#~ "menú de opciones. "
+
+#~ msgid ""
+#~ "Reads the recipient of the message. If pressed twice quickly, opens the "
+#~ "options menu."
+#~ msgstr ""
+#~ "Lee el destinatario del mensaje. Si se pulsa dos veces rápidamente, abre "
+#~ "el menú de opciones. "
