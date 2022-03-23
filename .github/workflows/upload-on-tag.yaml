@@ -29,6 +29,5 @@ jobs:
       with:
         files: |
           *.nvda-addon
-        release_name: Mozilla Apps Enhancements {tag_name}
         body_path: changelog.md
         prerelease: ${{ endsWith(github.ref, '-dev') }}
