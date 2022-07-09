@@ -43,6 +43,7 @@ class AppModule(thunderbird.AppModule):
 		super(thunderbird.AppModule, self).__init__(*args, **kwargs)
 		self.lastIndex = 0
 		self.Dialog = None
+		self.messageHeadersCache = dict()
 
 	def chooseNVDAObjectOverlayClasses(self, obj, clsList):
 		# Overlay search box in fast filtering bar
@@ -243,7 +244,57 @@ class AppModule(thunderbird.AppModule):
 	script_notifications.__doc__ = _("Reads the last notification and it takes the system focus to it if it is possible. By pressing two times quickly shows the history of notifications.")
 
 	def addressField(self, index, rightClick):
-		if self.isDocument():
+		doc = self.isDocument()
+		if doc: 
+			if int(self.productVersion.split(".")[0]) >= 102:
+				from comtypes.gen.ISimpleDOM import ISimpleDOMDocument
+				url = doc.IAccessibleObject.QueryInterface(ISimpleDOMDocument).url
+				if url in self.messageHeadersCache:
+					addresses = self.messageHeadersCache[url]
+				else:
+					sender = shared.searchObject((
+					('id', 'tabpanelcontainer'),
+					('id', 'mailContent'),
+					('id', 'messageHeader'),
+					('id', 'headerSenderToolbarContainer'),
+					('id', 'expandedfromRow'),
+					('class', 'multi-recipient-row'),
+					('class', 'recipients-list'),
+					('id', 'fromRecipient0')))
+					toRecipients = shared.searchObject((
+					('id', 'tabpanelcontainer'),
+					('id', 'mailContent'),
+					('id', 'messageHeader'),
+					('id', 'expandedtoRow'),
+					('id', 'expandedtoBox'),
+					('class', 'recipients-list')))
+					addresses = [sender]+toRecipients.children if toRecipients else [sender]
+					ccRecipients = shared.searchObject((
+					('id', 'tabpanelcontainer'),
+					('id', 'mailContent'),
+					('id', 'messageHeader'),
+					('id', 'expandedccRow'),
+					('id', 'expandedccBox'),
+					('class', 'recipients-list')))
+					addresses = addresses+ccRecipients.children if ccRecipients else addresses
+					self.messageHeadersCache[url] = addresses
+				try:
+					o = addresses[index]
+				except IndexError:
+					ui.message(_("There are no more recipients"))
+					return
+				if o:
+					ui.message ("{} {}".format(o.parent.name, o.simpleFirstChild.name))
+				else:
+					ui.message(_("Not found"))
+				if rightClick:
+					api.moveMouseToNVDAObject(o)
+					api.setMouseObject(o)
+					winUser.mouse_event(winUser.MOUSEEVENTF_RIGHTDOWN,0,0,None,None)
+					winUser.mouse_event(winUser.MOUSEEVENTF_RIGHTUP,0,0,None,None)
+					speech.pauseSpeech(True)
+				return
+			# Thunderbird versions prior to 102.0
 			fields = []
 			if int(self.productVersion.split(".")[0]) > 68:
 				for table in filter(lambda o: o.role == controlTypes.Role.TABLE, self.getPropertyPage().children):
@@ -331,11 +382,11 @@ class AppModule(thunderbird.AppModule):
 
 	def getPropertyPage(self):
 		fg = api.getForegroundObject()
-		try:
+		if int(self.productVersion.split(".")[0]) <= 68:
 			# Thunderbird 68 and earlier
 			propertyPages = filter(lambda o: o.role == controlTypes.Role.PROPERTYPAGE, filter(lambda o: o.role == controlTypes.Role.GROUPING, fg.children)[0].children)
 			return propertyPages[0]
-		except IndexError:
+		else:
 			# Thunderbird 78
 			propertyPage = shared.searchObject((
 			("id","tabpanelcontainer"),
