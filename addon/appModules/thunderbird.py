@@ -252,32 +252,59 @@ class AppModule(thunderbird.AppModule):
 				if url in self.messageHeadersCache:
 					addresses = self.messageHeadersCache[url]
 				else:
-					sender = shared.searchObject((
+					messageHeader = shared.searchObject((
 					('id', 'tabpanelcontainer'),
 					('id', 'mailContent'),
-					('id', 'messageHeader'),
-					('id', 'headerSenderToolbarContainer'),
-					('id', 'expandedfromRow'),
-					('class', 'multi-recipient-row'),
-					('class', 'recipients-list'),
-					('id', 'fromRecipient0')))
-					toRecipients = shared.searchObject((
-					('id', 'tabpanelcontainer'),
-					('id', 'mailContent'),
-					('id', 'messageHeader'),
-					('id', 'expandedtoRow'),
-					('id', 'expandedtoBox'),
-					('class', 'recipients-list')))
-					addresses = [sender]+toRecipients.children if toRecipients else [sender]
-					ccRecipients = shared.searchObject((
-					('id', 'tabpanelcontainer'),
-					('id', 'mailContent'),
-					('id', 'messageHeader'),
-					('id', 'expandedccRow'),
-					('id', 'expandedccBox'),
-					('class', 'recipients-list')))
-					addresses = addresses+ccRecipients.children if ccRecipients else addresses
-					self.messageHeadersCache[url] = addresses
+					('id', 'messageHeader')))
+					if messageHeader:
+					# The message is in a tab
+						sender = shared.searchObject((
+						('id', 'headerSenderToolbarContainer'),
+						('id', 'expandedfromRow'),
+						('class', 'multi-recipient-row'),
+						('class', 'recipients-list'),
+						('id', 'fromRecipient0')),
+						messageHeader)
+						toRecipients = shared.searchObject((
+						('id', 'expandedtoRow'),
+						('id', 'expandedtoBox'),
+						('class', 'recipients-list')),
+						messageHeader)
+						addresses = [sender]+toRecipients.children if toRecipients else [sender]
+						ccRecipients = shared.searchObject((
+						('id', 'expandedccRow'),
+						('id', 'expandedccBox'),
+						('class', 'recipients-list')),
+						messageHeader)
+						addresses = addresses+ccRecipients.children if ccRecipients else addresses
+					else: # The message is in a separate window
+						# messageHeader = shared.searchObject((
+						# ('id', 'messageHeader')))
+						try:
+							messageHeader = filter(lambda o: 'id' in o.IA2Attributes and o.IA2Attributes['id'] == 'messageHeader', api.getForegroundObject().children)[0]
+						except IndexError:
+							ui.message(_("Not found"))
+							return
+						sender = shared.searchObject((
+						('id', 'headerSenderToolbarContainer'),
+						('id', 'expandedfromRow'),
+						('id', 'expandedfromBox'),
+						('class', 'recipients-list'),
+						('id', 'fromRecipient0')),
+						messageHeader)
+						toRecipients = shared.searchObject((
+						('id', 'expandedtoRow'),
+						('id', 'expandedtoBox'),
+						('class', 'recipients-list')),
+						messageHeader)
+						addresses = [sender]+toRecipients.children if toRecipients else [sender]
+						ccRecipients = shared.searchObject((
+						('id', 'expandedccRow'),
+						('id', 'expandedccBox'),
+						('class', 'recipients-list')),
+						messageHeader)
+						addresses = addresses+ccRecipients.children if ccRecipients else addresses
+					if addresses[0]: self.messageHeadersCache[url] = addresses
 				try:
 					o = addresses[index]
 				except IndexError:
@@ -369,6 +396,14 @@ class AppModule(thunderbird.AppModule):
 					ui.message(recipients[index-1].firstChild.name)
 
 	def isDocument(self):
+		if int(self.productVersion.split(".")[0]) >= 102:
+			obj = shared.searchObject((
+			('id', 'tabpanelcontainer'),
+			('id', 'mailContent'),
+			('id', 'messagepane')))
+			if obj and obj.firstChild and obj.firstChild.role == controlTypes.Role.DOCUMENT:
+				# When message is in a tab
+				return obj.firstChild
 		doc = None
 		for frame in filter(lambda o: o.role == controlTypes.Role.INTERNALFRAME, self.getPropertyPage().children):
 			try:
