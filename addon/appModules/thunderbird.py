@@ -249,8 +249,8 @@ class AppModule(thunderbird.AppModule):
 			if int(self.productVersion.split(".")[0]) >= 102:
 				from comtypes.gen.ISimpleDOM import ISimpleDOMDocument
 				url = doc.IAccessibleObject.QueryInterface(ISimpleDOMDocument).url
-				if url in self.messageHeadersCache:
-					addresses = self.messageHeadersCache[url]
+				if (url, doc.IA2UniqueID) in self.messageHeadersCache:
+					addresses = self.messageHeadersCache[(url, doc.IA2UniqueID)]
 				else:
 					messageHeader = shared.searchObject((
 					('id', 'tabpanelcontainer'),
@@ -304,7 +304,7 @@ class AppModule(thunderbird.AppModule):
 						('class', 'recipients-list')),
 						messageHeader)
 						addresses = addresses+ccRecipients.children if ccRecipients else addresses
-					if addresses[0]: self.messageHeadersCache[url] = addresses
+					if addresses[0]: self.messageHeadersCache[(url, doc.IA2UniqueID)] = addresses
 				try:
 					o = addresses[index]
 				except IndexError:
