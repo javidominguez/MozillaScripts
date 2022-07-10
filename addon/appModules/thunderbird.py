@@ -364,6 +364,44 @@ class AppModule(thunderbird.AppModule):
 			ui.message(_("you are not in a message window"))
 
 	def addressFieldOnComposing(self, index, focus):
+		if int(self.productVersion.split(".")[0]) >= 102:
+			# Thunderbird versions 102.0 and above
+			headers = shared.searchObject((
+			('id', 'composeContentBox'),
+			('id', 'MsgHeadersToolbar')))
+			if not headers:
+				ui.message(_("Not found"))
+				return
+			addresses = []
+			obj = headers.firstChild
+			while obj:
+				try:
+					if obj.labeledBy: addresses.append(obj)
+					if obj.labeledBy.IA2Attributes['id'] == 'subjectLabel': addresses.pop(-1)
+				except:
+					pass
+				try:
+					if obj.IA2Attributes['id'] == 'extraAddressRowsArea': addresses.extend(obj.children)
+				except:
+					pass
+				obj = obj.next
+			if index >= len(addresses):
+				ui.message(_("There are no more recipients"))
+				return
+			if focus:
+				obj = addresses[index]
+				try:
+					if addresses[index].previous.IA2Attributes['tag'] == 'mail-address-pill':
+						obj = addresses[index].previous
+				except:
+					pass
+				api.moveMouseToNVDAObject(obj)
+				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,0,None,None)
+				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
+			else:
+				speech.speakObject(addresses[index]) # , reason=controlTypes.REASON_FOCUS  if hasattr(controlTypes, "REASON_FOCUS") else controlTypes.OutputReason.FOCUS)
+			return
+		# Thunderbird versions prior to 102.0
 		sender = shared.searchObject((
 		("id","MsgHeadersToolbar"),
 		("id","msgIdentity")))
@@ -440,12 +478,22 @@ class AppModule(thunderbird.AppModule):
 		"kb:Control+Shift+2": "readAddressField",
 		"kb:Control+Shift+3": "readAddressField",
 		"kb:Control+Shift+4": "readAddressField",
-		"kb:Control+Shift+5": "messageSubject",
-		"kb:Control+Shift+6": "messageDate",
+		"kb:Control+Shift+5": "readAddressField",
+		"kb:Control+Shift+6": "readAddressField",
+		"kb:Control+Shift+7": "readAddressField",
+		"kb:Control+Shift+8": "readAddressField",
+		"kb:Control+Shift+9": "readAddressField",
+		"kb:Control+Shift+0": "messageSubject",
+		#@ "kb:Control+Shift+6": "messageDate",
 		"kb:Alt+Control+Shift+1": "readAddressField",
 		"kb:Alt+Control+Shift+2": "readAddressField",
 		"kb:Alt+Control+Shift+3": "readAddressField",
 		"kb:Alt+Control+Shift+4": "readAddressField",
+		"kb:Alt+Control+Shift+5": "readAddressField",
+		"kb:Alt+Control+Shift+6": "readAddressField",
+		"kb:Alt+Control+Shift+7": "readAddressField",
+		"kb:Alt+Control+Shift+8": "readAddressField",
+		"kb:Alt+Control+Shift+9": "readAddressField",
 		"kb:NVDA+H": "manageColumns",
 		"kb:Control+Shift+A": "attachments",
 		"kb:NVDA+F6": "focusDocument",
