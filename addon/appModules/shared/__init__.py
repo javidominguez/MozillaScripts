@@ -83,8 +83,8 @@ def getAlertText(alertPopup):
 	#TRANSLATORS: the notification text could not be read
 	return alertText if alertText else extendedAlertText if extendedAlertText else _("Couldn't capture the text of this notification")
 
-def searchObject(path):
-	obj = api.getForegroundObject()
+def searchObject(path, startAtObject=None):
+	obj = startAtObject if startAtObject else api.getForegroundObject()
 	for milestone in path:
 		obj = searchAmongTheChildren(milestone, obj)
 		if not obj:

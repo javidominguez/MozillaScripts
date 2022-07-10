@@ -97,15 +97,10 @@ class AppModule(thunderbird.AppModule):
 		except AttributeError:
 			index = int(gesture.mainKeyName[-1])-1
 		twice = True if (scriptHandler.getLastScriptRepeatCount() == 1 and index == self.lastIndex) or "alt" in gesture.modifierNames else False
-		if self.docCache and self.docCache.name:
-			doc = self.docCache
-		else:
-			doc = self.isDocument()
-			self.docCache = doc
-		if not doc and self.isComposing():
+		if  self.isComposing():
 			self.addressFieldOnComposing(index, twice)
 		else:
-			self.addressField(index, twice, doc)
+			self.addressField(index, twice)
 		self.lastIndex = index
 
 	def script_messageSubject (self, gesture):
@@ -250,7 +245,12 @@ class AppModule(thunderbird.AppModule):
 	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_notifications.__doc__ = _("Reads the last notification and it takes the system focus to it if it is possible. By pressing two times quickly shows the history of notifications.")
 
-	def addressField(self, index, rightClick, doc=None):
+	def addressField(self, index, rightClick):
+		if self.docCache and self.docCache.name:
+			doc = self.docCache
+		else:
+			doc = self.isDocument()
+			self.docCache = doc
 		if doc: 
 			if int(self.productVersion.split(".")[0]) >= 102:
 				url = doc.IAccessibleObject.QueryInterface(ISimpleDOMDocument).url
@@ -456,6 +456,13 @@ class AppModule(thunderbird.AppModule):
 		return doc
 
 	def isComposing(self):
+		if int(self.productVersion.split(".")[0]) >= 102:
+			# Thunderbird versions 102.0 and above
+			identity = shared.searchObject((
+			('id', 'composeContentBox'),
+			('id', 'MsgHeadersToolbar'),
+			('id', 'msgIdentity')))
+			return True if identity else False
 		return True if shared.searchAmongTheChildren(("id",".*compose.*"), api.getForegroundObject()) else False
 
 	def getPropertyPage(self):
