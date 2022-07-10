@@ -6,6 +6,7 @@
 from .py3compatibility import *
 from nvdaBuiltin.appModules import thunderbird
 from time import time, sleep
+from comtypes.gen.ISimpleDOM import ISimpleDOMDocument
 from datetime import datetime
 try:
 	from NVDAObjects.IAccessible.mozilla import BrokenFocusedState as IAccessible
@@ -44,6 +45,7 @@ class AppModule(thunderbird.AppModule):
 		self.lastIndex = 0
 		self.Dialog = None
 		self.messageHeadersCache = dict()
+		self.docCache = None
 
 	def chooseNVDAObjectOverlayClasses(self, obj, clsList):
 		# Overlay search box in fast filtering bar
@@ -95,10 +97,15 @@ class AppModule(thunderbird.AppModule):
 		except AttributeError:
 			index = int(gesture.mainKeyName[-1])-1
 		twice = True if (scriptHandler.getLastScriptRepeatCount() == 1 and index == self.lastIndex) or "alt" in gesture.modifierNames else False
-		if self.isComposing():
+		if self.docCache and self.docCache.name:
+			doc = self.docCache
+		else:
+			doc = self.isDocument()
+			self.docCache = doc
+		if not doc and self.isComposing():
 			self.addressFieldOnComposing(index, twice)
 		else:
-			self.addressField(index, twice)
+			self.addressField(index, twice, doc)
 		self.lastIndex = index
 
 	def script_messageSubject (self, gesture):
@@ -243,11 +250,9 @@ class AppModule(thunderbird.AppModule):
 	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_notifications.__doc__ = _("Reads the last notification and it takes the system focus to it if it is possible. By pressing two times quickly shows the history of notifications.")
 
-	def addressField(self, index, rightClick):
-		doc = self.isDocument()
+	def addressField(self, index, rightClick, doc=None):
 		if doc: 
 			if int(self.productVersion.split(".")[0]) >= 102:
-				from comtypes.gen.ISimpleDOM import ISimpleDOMDocument
 				url = doc.IAccessibleObject.QueryInterface(ISimpleDOMDocument).url
 				if (url, doc.IA2UniqueID) in self.messageHeadersCache:
 					addresses = self.messageHeadersCache[(url, doc.IA2UniqueID)]
