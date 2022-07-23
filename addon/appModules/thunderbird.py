@@ -5,6 +5,7 @@
 
 from .py3compatibility import *
 from nvdaBuiltin.appModules import thunderbird
+from scriptHandler import script
 from time import time, sleep
 from comtypes.gen.ISimpleDOM import ISimpleDOMDocument
 from datetime import datetime
@@ -32,6 +33,7 @@ import gui
 import wx
 import globalCommands
 from . import shared
+import treeInterceptorHandler
 
 addonHandler.initTranslation()
 
@@ -46,6 +48,7 @@ class AppModule(thunderbird.AppModule):
 		self.Dialog = None
 		self.messageHeadersCache = dict()
 		self.docCache = None
+		self.flagAutomaticMessageReading = True
 
 	def chooseNVDAObjectOverlayClasses(self, obj, clsList):
 		# Overlay search box in fast filtering bar
@@ -80,6 +83,23 @@ class AppModule(thunderbird.AppModule):
 			except AttributeError:
 				pass
 
+	def event_documentLoadComplete(self, obj, nextHandler):
+		focus = api.getFocusObject()
+		if isinstance(focus, ThreadTree) and self.flagAutomaticMessageReading:
+			api.setFocusObject(obj)
+			treeInterceptor = treeInterceptorHandler.getTreeInterceptor(obj)
+			api.setFocusObject(focus)
+			if treeInterceptor:
+				try:
+					info = treeInterceptor.makeTextInfo("all")
+				except:
+					pass
+				else:
+					ui.message(
+					text=info.text,
+					brailleText="\n".join((api.getFocusObject().name, info.text)))
+		nextHandler()
+
 	def event_alert(self, obj, nextHandler):
 		if obj.role == controlTypes.Role.ALERT:
 			alertText = obj.name if obj.name else obj.description if obj.description else obj.displayText if obj.displayText else ""
@@ -90,6 +110,12 @@ class AppModule(thunderbird.AppModule):
 				# Sometimes there are duplicate notifications. Is checked before storing in the history.
 				shared.notificationsDialog.registerThunderbirdNotification(notificationLog )
 		nextHandler()
+
+	@script(gesture="kb:NVDA+R")
+	def script_self_toggleAutomaticMessageReading(self, gesture):
+		self.flagAutomaticMessageReading = not self.flagAutomaticMessageReading
+		ui.message(_("Automatic reading of the message is {state}").format(
+		state = "on" if self.flagAutomaticMessageReading else "off"))
 
 	def script_readAddressField(self, gesture):
 		try:
@@ -642,27 +668,27 @@ class ThreadTree(IAccessible):
 	def script_readPreviewPane(self, gesture):
 		doc = self.getDocument()
 		if doc:
-			self.timeout = time() + 1.0
 			self.readPreviewPane(doc)
 		else:
-			if controlTypes.State.COLLAPSED in self.states:
-				#TRANSLATORS: message spoken when a conversation is collapsed
-				ui.message(_("Expand the conversation to display messages"))
-			else:
-				#TRANSLATORS: the preview pane is not available yet
-				ui.message(_("Preview pane is not active or message has not been loaded yet"))
+			#TRANSLATORS: the preview pane is not available yet
+			ui.message(_("Preview pane is not active or message has not been loaded yet"))
 	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_readPreviewPane.__doc__ = _("In message list, reads the selected message without leaving the list.")
 
 
 	def readPreviewPane(self, obj):
-		obj = obj.firstChild
-		while obj and time() < self.timeout:
-			if obj.firstChild:
-				self.readPreviewPane(obj)
-			elif obj.name:
-				ui.message(obj.name)
-			obj = obj.next
+		if controlTypes.State.COLLAPSED in self.states:
+			#TRANSLATORS: message spoken when a conversation is collapsed
+			ui.message(_("Expand the conversation to display messages"))
+			return
+		api.setFocusObject(obj)
+		api.setFocusObject(self)
+		try:
+			info= obj.treeInterceptor.makeTextInfo("all")
+		except:
+			pass
+		else:
+			ui.message(info.text)
 
 	__gestures = {
 		# read preview pane
