@@ -131,10 +131,16 @@ class AppModule(thunderbird.AppModule):
 
 	def script_messageSubject (self, gesture):
 		if self.isComposing():
-			subject = shared.searchObject((
-			("id","MsgHeadersToolbar"),
-			("id","msgSubject"),
-			("class","textbox-input")))
+			if int(self.productVersion.split(".")[0]) >= 102:
+				subject = shared.searchObject((
+				("id","composeContentBox"),
+				("id","MsgHeadersToolbar"),
+				("id","msgSubject")))
+			else:
+				subject = shared.searchObject((
+				("id","MsgHeadersToolbar"),
+				("id","msgSubject"),
+				("class","textbox-input")))
 			if not subject:
 				# Thunderbird versions higher than 68
 				MsgHeadersToolbar = filter(lambda o: o.role == controlTypes.Role.TOOLBAR and o.IA2Attributes["id"] == "MsgHeadersToolbar", api.getForegroundObject().children)[0]
@@ -146,7 +152,24 @@ class AppModule(thunderbird.AppModule):
 			return
 		if self.isDocument():
 			try:
-				if int(self.productVersion.split(".")[0]) <= 68:
+				if int(self.productVersion.split(".")[0]) >= 102:
+					obj = shared.searchObject((
+					("id","tabpanelcontainer"),
+					("id","mailContent"),
+					("id","messageHeader"),
+					("id","headerSubjectSecurityContainer"),
+					("id","expandedsubjectRow"),
+					("id","expandedsubjectBox")))
+					if obj:
+						ui.message(obj.name)
+					else:
+						obj = shared.searchObject((
+						("id","messageHeader"),
+						("id","headerSubjectSecurityContainer"),
+						("id","expandedsubjectRow"),
+						("id","expandedsubjectBox")))
+						ui.message(obj.name)
+				elif int(self.productVersion.split(".")[0]) <= 68:
 					obj = filter(lambda o: o.role == controlTypes.Role.UNKNOWN, self.getPropertyPage().children)[1]
 					ui.message(obj.firstChild.name)
 				else:
@@ -160,13 +183,12 @@ class AppModule(thunderbird.AppModule):
 						ui.message(obj.simpleNext.name)
 					else:
 						# Maybe message in a new window
-									obj = shared.searchObject((
-					("id","expandedHeaders2"), # Table
-					("id","expandedsubjectRow"), # Row
-					("display","table-cell"))) # Cell
+						obj = shared.searchObject((
+						("id","expandedHeaders2"), # Table
+						("id","expandedsubjectRow"), # Row
+						("display","table-cell"))) # Cell
 					if obj:
 						ui.message(obj.simpleNext.name)
-
 			except (IndexError, AttributeError):
 				#TRANSLATORS: cannot find subject
 				ui.message(_("Not found"))
