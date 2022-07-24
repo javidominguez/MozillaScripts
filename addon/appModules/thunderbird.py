@@ -85,7 +85,7 @@ class AppModule(thunderbird.AppModule):
 
 	def event_documentLoadComplete(self, obj, nextHandler):
 		focus = api.getFocusObject()
-		if isinstance(focus, ThreadTree) and self.flagAutomaticMessageReading:
+		if isinstance(focus, ThreadTree) and controlTypes.State.COLLAPSED not in focus.states and self.flagAutomaticMessageReading:
 			api.setFocusObject(obj)
 			treeInterceptor = treeInterceptorHandler.getTreeInterceptor(obj)
 			api.setFocusObject(focus)
@@ -677,10 +677,6 @@ class ThreadTree(IAccessible):
 
 
 	def readPreviewPane(self, obj):
-		if controlTypes.State.COLLAPSED in self.states:
-			#TRANSLATORS: message spoken when a conversation is collapsed
-			ui.message(_("Expand the conversation to display messages"))
-			return
 		api.setFocusObject(obj)
 		api.setFocusObject(self)
 		try:
@@ -688,7 +684,9 @@ class ThreadTree(IAccessible):
 		except:
 			pass
 		else:
-			ui.message(info.text)
+			ui.message("{title}{body}".format(
+			title = obj.name+"\n" if controlTypes.State.COLLAPSED in self.states else "",
+			body=info.text))
 
 	__gestures = {
 		# read preview pane
