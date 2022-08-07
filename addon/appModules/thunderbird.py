@@ -83,6 +83,9 @@ class AppModule(thunderbird.AppModule):
 			except AttributeError:
 				pass
 
+	def _get_statusBar(self):
+		return shared.searchObject((("container-live-role","status"),))
+
 	def event_documentLoadComplete(self, obj, nextHandler):
 		focus = api.getFocusObject()
 		if isinstance(focus, ThreadTree) and controlTypes.State.COLLAPSED not in focus.states and self.flagAutomaticMessageReading:
