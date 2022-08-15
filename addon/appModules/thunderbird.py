@@ -9,6 +9,7 @@ from scriptHandler import script
 from time import time, sleep
 from comtypes.gen.ISimpleDOM import ISimpleDOMDocument
 from datetime import datetime
+from keyboardHandler import KeyboardInputGesture
 try:
 	from NVDAObjects.IAccessible.mozilla import BrokenFocusedState as IAccessible
 except ImportError:
@@ -114,11 +115,12 @@ class AppModule(thunderbird.AppModule):
 				shared.notificationsDialog.registerThunderbirdNotification(notificationLog )
 		nextHandler()
 
-	@script(gesture="kb:NVDA+R")
-	def script_self_toggleAutomaticMessageReading(self, gesture):
+	def script_toggleAutomaticMessageReading(self, gesture):
 		self.flagAutomaticMessageReading = not self.flagAutomaticMessageReading
 		ui.message(_("Automatic reading of the message is {state}").format(
 		state = "on" if self.flagAutomaticMessageReading else "off"))
+	#TRANSLATORS: message shown in Input gestures dialog for this script
+	script_toggleAutomaticMessageReading.__doc__ = _("On/off automatic reading of the message preview panel.")
 
 	def script_readAddressField(self, gesture):
 		try:
@@ -201,8 +203,9 @@ class AppModule(thunderbird.AppModule):
 	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_messageSubject.__doc__ = _("Reads the subject of the message.")
 
+	@script(gesture=KeyboardInputGesture({(17, False), (16, False)}, 219, 12, True).identifiers[-1])
 	def script_messageDate (self, gesture):
-		if self.isComposing():
+		if self.isComposing() or int(self.productVersion.split(".")[0]) >= 102:
 			return
 		if self.isDocument():
 			try:
@@ -542,7 +545,6 @@ class AppModule(thunderbird.AppModule):
 		"kb:Control+Shift+8": "readAddressField",
 		"kb:Control+Shift+9": "readAddressField",
 		"kb:Control+Shift+0": "messageSubject",
-		#@ "kb:Control+Shift+6": "messageDate",
 		"kb:Alt+Control+Shift+1": "readAddressField",
 		"kb:Alt+Control+Shift+2": "readAddressField",
 		"kb:Alt+Control+Shift+3": "readAddressField",
@@ -799,7 +801,7 @@ class manageColumnsDialog(wx.Dialog):
 			self.Show()
 			self.Center()
 			#TRANSLATORS: a column goes after another column
-			ui.message(_("{col1} after {col2").format(col1=self.columns[c + 1].name, col2=self.columns[c].name))
+			ui.message(_("{col1} after {col2}").format(col1=self.columns[c + 1].name, col2=self.columns[c].name))
 		else:
 			beep(150, 100)
 
