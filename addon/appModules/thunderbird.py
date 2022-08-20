@@ -10,6 +10,8 @@ from time import time, sleep
 from comtypes.gen.ISimpleDOM import ISimpleDOMDocument
 from datetime import datetime
 from keyboardHandler import KeyboardInputGesture
+from gui import NVDASettingsDialog
+from gui.settingsDialogs import SettingsPanel
 try:
 	from NVDAObjects.IAccessible.mozilla import BrokenFocusedState as IAccessible
 except ImportError:
@@ -33,8 +35,14 @@ import speech
 import gui
 import wx
 import globalCommands
+import config
 from . import shared
 import treeInterceptorHandler
+
+confspec = {
+	"automaticMessageReading": "boolean(default=True)"
+}
+config.conf.spec['thunderbird']=confspec
 
 addonHandler.initTranslation()
 
@@ -49,7 +57,10 @@ class AppModule(thunderbird.AppModule):
 		self.Dialog = None
 		self.messageHeadersCache = dict()
 		self.docCache = None
-		self.flagAutomaticMessageReading = True
+		NVDASettingsDialog.categoryClasses.append(ThunderbirdPanel)
+
+	def terminate(self):
+		NVDASettingsDialog.categoryClasses.remove(ThunderbirdPanel)
 
 	def chooseNVDAObjectOverlayClasses(self, obj, clsList):
 		# Overlay search box in fast filtering bar
@@ -89,7 +100,7 @@ class AppModule(thunderbird.AppModule):
 
 	def event_documentLoadComplete(self, obj, nextHandler):
 		focus = api.getFocusObject()
-		if isinstance(focus, ThreadTree) and controlTypes.State.COLLAPSED not in focus.states and self.flagAutomaticMessageReading:
+		if isinstance(focus, ThreadTree) and controlTypes.State.COLLAPSED not in focus.states and config.conf["thunderbird"]["automaticMessageReading"]:
 			api.setFocusObject(obj)
 			treeInterceptor = treeInterceptorHandler.getTreeInterceptor(obj)
 			api.setFocusObject(focus)
@@ -116,9 +127,9 @@ class AppModule(thunderbird.AppModule):
 		nextHandler()
 
 	def script_toggleAutomaticMessageReading(self, gesture):
-		self.flagAutomaticMessageReading = not self.flagAutomaticMessageReading
+		config.conf["thunderbird"]["automaticMessageReading"] = not config.conf["thunderbird"]["automaticMessageReading"]
 		ui.message(_("Automatic reading of the message is {state}").format(
-		state = "on" if self.flagAutomaticMessageReading else "off"))
+		state = _("on") if config.conf["thunderbird"]["automaticMessageReading"] else _("off")))
 	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_toggleAutomaticMessageReading.__doc__ = _("On/off automatic reading of the message preview panel.")
 
@@ -843,3 +854,14 @@ class manageColumnsDialog(wx.Dialog):
 		self.columns[hIndex2] = tmp
 		self.update()
 		return True
+
+class ThunderbirdPanel(SettingsPanel):
+	#TRANSLATORS: Settings panel title
+	title=_("Mozilla Thunderbird")
+	def makeSettings(self, sizer):
+		self.automaticMessageReading =wx.CheckBox(self, wx.NewId(), label=_("Automatically read message preview pane"))
+		self.automaticMessageReading.SetValue(config.conf["thunderbird"]["automaticMessageReading"])
+		sizer.Add(self.automaticMessageReading,border=10,flag=wx.BOTTOM)
+
+	def onSave(self):
+		config.conf["thunderbird"]["automaticMessageReading"] = self.automaticMessageReading.GetValue()
