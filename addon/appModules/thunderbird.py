@@ -98,6 +98,15 @@ class AppModule(thunderbird.AppModule):
 	def _get_statusBar(self):
 		return shared.searchObject((("container-live-role","status"),))
 
+	def event_focusEntered(self, obj, nextHandler):
+		try:
+			if set(["containingDocument","containingApplication"]) < set([r.relationType for r in obj._IA2Relations]):
+				if obj.objectWithFocus().role == controlTypes.Role.DOCUMENT:
+					speech.cancelSpeech()
+		except NotImplementedError:
+			pass
+		nextHandler()
+
 	def event_documentLoadComplete(self, obj, nextHandler):
 		focus = api.getFocusObject()
 		if isinstance(focus, ThreadTree) and controlTypes.State.COLLAPSED not in focus.states and config.conf["thunderbird"]["automaticMessageReading"]:
