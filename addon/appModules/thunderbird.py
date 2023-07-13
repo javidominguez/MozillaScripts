@@ -513,13 +513,24 @@ class AppModule(thunderbird.AppModule):
 					ui.message(recipients[index-1].firstChild.name)
 
 	def isDocument(self):
-		if int(self.productVersion.split(".")[0]) >= 102:
+		version = int(self.productVersion.split(".")[0])
+		if version >= 115:
+			obj = shared.searchObject((
+			('id', 'tabpanelcontainer'),
+			('id', 'mailMessageTab*'),
+			('id', 'mailMessageTabBrowser*'),
+			('tag', 'body'), # grouping
+			('id', 'messagepane*')))
+			if obj and obj.firstChild and obj.firstChild.role == controlTypes.Role.DOCUMENT:
+				# Message is in a tab
+				return None if controlTypes.State.INVISIBLE in obj.firstChild.states else obj.firstChild
+		elif version >= 102:
 			obj = shared.searchObject((
 			('id', 'tabpanelcontainer'),
 			('id', 'mailContent'),
 			('id', 'messagepane')))
 			if obj and obj.firstChild and obj.firstChild.role == controlTypes.Role.DOCUMENT:
-				# When message is in a tab
+				# Message is in a tab
 				return obj.firstChild
 		doc = None
 		for frame in filter(lambda o: o.role == controlTypes.Role.INTERNALFRAME, self.getPropertyPage().children):
