@@ -3,12 +3,11 @@
 #See the file COPYING.txt for more details.
 #~ #Copyright (C) 2017-2019 Javi Dominguez <fjavids@gmail.com>
 
-from .py3compatibility import *
 from logHandler import log
 import addonHandler
 try: # Compatibility with the DeveloperToolkit addon
-	dtk = filter(lambda a: a.name == "DeveloperToolkit", addonHandler.getRunningAddons())[0]
-except IndexError: # DeveloperToolkit is not running. Then, the firefox class is imported from the core
+	dtk = next(filter(lambda a: a.name == "DeveloperToolkit", addonHandler.getRunningAddons()))
+except StopIteration: # DeveloperToolkit is not running. Then, the firefox class is imported from the core
 	try:
 		from nvdaBuiltin.appModules.firefox import AppModule
 	except ModuleNotFoundError:
@@ -48,10 +47,7 @@ import gui
 import wx
 from datetime import datetime
 from threading import Timer
-if py3flag:
-	from urllib.parse  import urlparse
-else:
-	from urlparse import urlparse
+from urllib.parse  import urlparse
 import re
 from . import shared
 
@@ -103,9 +99,9 @@ class AppModule(AppModule):
 		if group:
 			for propertyPage in filter(lambda o: o.role == controlTypes.Role.PROPERTYPAGE, group.children):
 				try:
-					obj = filter(lambda o: o.role == controlTypes.Role.STATUSBAR, propertyPage.children)[0]
+					obj = next(filter(lambda o: o.role == controlTypes.Role.STATUSBAR, propertyPage.children))
 					break
-				except IndexError:
+				except StopIteration:
 					pass
 			try:
 				ui.message(obj.name)
@@ -262,11 +258,11 @@ class AppModule(AppModule):
 		fg = api.getForegroundObject()
 		for toolBar in filter(lambda o: o.role == controlTypes.Role.TOOLBAR, fg.children):
 			try:
-				tabControl = filter(lambda o: o.role == controlTypes.Role.TABCONTROL, toolBar.children)[0]
-			except IndexError:
+				tabControl = next(filter(lambda o: o.role == controlTypes.Role.TABCONTROL, toolBar.children))
+			except StopIteration:
 				pass
 			else:
-				tabs = filter(lambda o: o.role == controlTypes.Role.TAB, tabControl.children)
+				tabs = list(filter(lambda o: o.role == controlTypes.Role.TAB, tabControl.children))
 		#TRANSLATORS: opened tabs in tabs dialog
 		return tabs, "%d %s" % (len(tabs), _("Opened tabs"))
 
@@ -274,7 +270,7 @@ class AppModule(AppModule):
 		fg = api.getForegroundObject()
 		buttons = []
 		for toolBar in filter(lambda o: o.role == controlTypes.Role.TOOLBAR and "id" in o.IA2Attributes and o.IA2Attributes["id"] != "TabsToolbar", fg.children):
-			buttons = buttons + filter(lambda o: o.role == controlTypes.Role.BUTTON and controlTypes.State.OFFSCREEN not in o.states, toolBar.children)
+			buttons = buttons + list(filter(lambda o: o.role == controlTypes.Role.BUTTON and controlTypes.State.OFFSCREEN not in o.states, toolBar.children))
 		#TRANSLATORS: Toolbar buttons dialog
 		return buttons, _("Tool Bar Buttons")
 

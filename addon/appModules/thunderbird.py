@@ -3,7 +3,6 @@
 #See the file COPYING.txt for more details.
 #Copyright (C) 2017 Javi Dominguez <fjavids@gmail.com>
 
-from .py3compatibility import *
 from nvdaBuiltin.appModules import thunderbird
 from scriptHandler import script
 from time import time, sleep
@@ -170,8 +169,8 @@ class AppModule(thunderbird.AppModule):
 				("class","textbox-input")))
 			if not subject:
 				# Thunderbird versions higher than 68
-				MsgHeadersToolbar = filter(lambda o: o.role == controlTypes.Role.TOOLBAR and o.IA2Attributes["id"] == "MsgHeadersToolbar", api.getForegroundObject().children)[0]
-				subject = filter(lambda o: o.role == controlTypes.Role.EDITABLETEXT and o.IA2Attributes["id"] == "msgSubject", MsgHeadersToolbar.children)[0]
+				MsgHeadersToolbar = next(filter(lambda o: o.role == controlTypes.Role.TOOLBAR and o.IA2Attributes["id"] == "MsgHeadersToolbar", api.getForegroundObject().children))
+				subject = next(filter(lambda o: o.role == controlTypes.Role.EDITABLETEXT and o.IA2Attributes["id"] == "msgSubject", MsgHeadersToolbar.children))
 			if scriptHandler.getLastScriptRepeatCount() == 1:
 				subject.setFocus()
 			else:
@@ -197,7 +196,9 @@ class AppModule(thunderbird.AppModule):
 						("id","expandedsubjectBox")))
 						ui.message(obj.name)
 				elif int(self.productVersion.split(".")[0]) <= 68:
-					obj = filter(lambda o: o.role == controlTypes.Role.UNKNOWN, self.getPropertyPage().children)[1]
+					g = filter(lambda o: o.role == controlTypes.Role.UNKNOWN, self.getPropertyPage().children)
+					next(g)
+					obj = next(g)
 					ui.message(obj.firstChild.name)
 				else:
 					obj = shared.searchObject((
@@ -231,7 +232,7 @@ class AppModule(thunderbird.AppModule):
 			return
 		if self.isDocument():
 			try:
-				obj = filter(lambda o: o.role == controlTypes.Role.EDITABLETEXT and controlTypes.State.READONLY in o.states, self.getPropertyPage().children)[0]
+				obj = next(filter(lambda o: o.role == controlTypes.Role.EDITABLETEXT and controlTypes.State.READONLY in o.states, self.getPropertyPage().children))
 				ui.message(obj.value)
 			except (IndexError, AttributeError):
 				#TRANSLATORS: cannot find date
@@ -244,10 +245,10 @@ class AppModule(thunderbird.AppModule):
 
 	def script_manageColumns(self, gesture):
 		try:
-			columnHeaders = filter(lambda o: o.role == controlTypes.Role.TABLE, self.getPropertyPage().children)[0].firstChild.children
-		except IndexError:
+			columnHeaders = next(filter(lambda o: o.role == controlTypes.Role.TABLE, self.getPropertyPage().children)).firstChild.children
+		except StopIteration:
 			try:
-				columnHeaders = filter(lambda o: o.role == controlTypes.Role.TREEVIEW, self.getPropertyPage().children)[-1].firstChild.children
+				columnHeaders = list(filter(lambda o: o.role == controlTypes.Role.TREEVIEW, self.getPropertyPage().children))[-1].firstChild.children
 			except IndexError:
 				#TRANSLATORS: message spoken if you want to manage columns out of messages list
 				ui.message(_("You are not in a list of messages"))
@@ -271,8 +272,8 @@ class AppModule(thunderbird.AppModule):
 		doc = self.isDocument()
 		if doc and controlTypes.State.READONLY in doc.states:
 			try:
-				attachmentToggleButton = filter(lambda o: "id" in o.IA2Attributes and o.IA2Attributes["id"] == "attachmentToggle", self.getPropertyPage().children)[0]
-			except IndexError:
+				attachmentToggleButton = next(filter(lambda o: "id" in o.IA2Attributes and o.IA2Attributes["id"] == "attachmentToggle", self.getPropertyPage().children))
+			except StopIteration:
 				#TRANSLATORS: there are no attachments in this message
 				ui.message(_("There are No attachments"))
 				return
@@ -362,8 +363,8 @@ class AppModule(thunderbird.AppModule):
 						# messageHeader = shared.searchObject((
 						# ('id', 'messageHeader')))
 						try:
-							messageHeader = filter(lambda o: 'id' in o.IA2Attributes and o.IA2Attributes['id'] == 'messageHeader', api.getForegroundObject().children)[0]
-						except IndexError:
+							messageHeader = next(filter(lambda o: 'id' in o.IA2Attributes and o.IA2Attributes['id'] == 'messageHeader', api.getForegroundObject().children))
+						except StopIteration:
 							ui.message(_("Not found"))
 							return
 						sender = shared.searchObject((
@@ -407,7 +408,7 @@ class AppModule(thunderbird.AppModule):
 			if int(self.productVersion.split(".")[0]) > 68:
 				for table in filter(lambda o: o.role == controlTypes.Role.TABLE, self.getPropertyPage().children):
 					try:
-						fields = fields + filter(lambda o: o.role == controlTypes.Role.LABEL and o.firstChild.role == controlTypes.Role.UNKNOWN, table.recursiveDescendants)
+						fields = fields + list(filter(lambda o: o.role == controlTypes.Role.LABEL and o.firstChild.role == controlTypes.Role.UNKNOWN, table.recursiveDescendants))
 					except IndexError:
 						pass
 			else:
@@ -493,10 +494,10 @@ class AppModule(thunderbird.AppModule):
 			("id","MsgHeadersToolbar"),
 			("id","addressingWidget")))
 			if addressingWidget:
-				recipients = filter(lambda o: o.role == controlTypes.Role.COMBOBOX and o.firstChild.role == controlTypes.Role.EDITABLETEXT, addressingWidget.recursiveDescendants)
+				recipients = list(filter(lambda o: o.role == controlTypes.Role.COMBOBOX and o.firstChild.role == controlTypes.Role.EDITABLETEXT, addressingWidget.recursiveDescendants))
 			else:
-				addressingWidget = filter(lambda o: o.role == controlTypes.Role.TOOLBAR and o.IA2Attributes["id"] == "MsgHeadersToolbar", api.getForegroundObject().children)[0]
-				recipients = filter(lambda o: o.role == controlTypes.Role.UNKNOWN, addressingWidget.children)
+				addressingWidget = next(filter(lambda o: o.role == controlTypes.Role.TOOLBAR and o.IA2Attributes["id"] == "MsgHeadersToolbar", api.getForegroundObject().children))
+				recipients = list(filter(lambda o: o.role == controlTypes.Role.UNKNOWN, addressingWidget.children))
 			if index > len(recipients):
 				return
 			if focus and controlTypes.State.FOCUSED not in recipients[index-1].firstChild.states:
@@ -526,8 +527,8 @@ class AppModule(thunderbird.AppModule):
 		doc = None
 		for frame in filter(lambda o: o.role == controlTypes.Role.INTERNALFRAME, self.getPropertyPage().children):
 			try:
-				doc = filter(lambda o: o.role == controlTypes.Role.DOCUMENT, frame.children)[0]
-			except IndexError:
+				doc = next(filter(lambda o: o.role == controlTypes.Role.DOCUMENT, frame.children))
+			except StopIteration:
 				pass
 		return doc
 
@@ -545,7 +546,7 @@ class AppModule(thunderbird.AppModule):
 		fg = api.getForegroundObject()
 		if int(self.productVersion.split(".")[0]) <= 68:
 			# Thunderbird 68 and earlier
-			propertyPages = filter(lambda o: o.role == controlTypes.Role.PROPERTYPAGE, filter(lambda o: o.role == controlTypes.Role.GROUPING, fg.children)[0].children)
+			propertyPages = next(filter(lambda o: o.role == controlTypes.Role.PROPERTYPAGE, filter(lambda o: o.role == controlTypes.Role.GROUPING, fg.children)).children)
 			return propertyPages[0]
 		else:
 			# Thunderbird 78
