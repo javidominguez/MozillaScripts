@@ -1,7 +1,7 @@
 # Mozilla Apps Enhancements add-on for NVDA
-#This file is covered by the GNU General Public License.
-#See the file COPYING.txt for more details.
-#~ #Copyright (C) 2017-2019 Javi Dominguez <fjavids@gmail.com>
+# This file is covered by the GNU General Public License.
+# See the file COPYING.txt for more details.
+# Copyright (C) 2017-2019 Javi Dominguez <fjavids@gmail.com>
 
 from logHandler import log
 import addonHandler
