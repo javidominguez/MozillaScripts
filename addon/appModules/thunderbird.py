@@ -49,13 +49,14 @@ class AppModule(thunderbird.AppModule):
 		self.messageHeadersCache = dict()
 		self.docCache = None
 		NVDASettingsDialog.categoryClasses.append(ThunderbirdPanel)
-		if int(self.productVersion.split(".")[0]) >= 115:
-			raise RuntimeError(_("The addon Mozilla Apps Enhancements is not compatible with this version of Thunderbird. The application module will be temporarily disabled."))
+		#@ if int(self.productVersion.split(".")[0]) >= 115:
+			#@ raise RuntimeError(_("The addon Mozilla Apps Enhancements is not compatible with this version of Thunderbird. The application module will be temporarily disabled."))
 
 	def terminate(self):
 		NVDASettingsDialog.categoryClasses.remove(ThunderbirdPanel)
 
 	def chooseNVDAObjectOverlayClasses(self, obj, clsList):
+		#@@ fixed
 		# Overlay search box in fast filtering bar
 		if obj.role == controlTypes.Role.EDITABLETEXT:
 			try:
@@ -80,7 +81,7 @@ class AppModule(thunderbird.AppModule):
 		if obj.role == controlTypes.Role.TREEVIEWITEM or obj.role == controlTypes.Role.TABLEROW:
 			try:
 				if obj.parent:
-					if obj.parent.IA2Attributes["id"] == "threadTree":
+					if obj.parent.IA2Attributes["xml-roles"] == "treegrid":
 						setattr(obj, "getDocument", self.isDocument)
 						clsList.insert(0, ThreadTree)
 			except KeyError:
@@ -433,96 +434,53 @@ class AppModule(thunderbird.AppModule):
 			ui.message(_("you are not in a message window"))
 
 	def addressFieldOnComposing(self, index, focus):
-		if int(self.productVersion.split(".")[0]) >= 102:
-			# Thunderbird versions 102.0 and above
-			headers = shared.searchObject((
-			('id', 'composeContentBox'),
-			('id', 'MsgHeadersToolbar')))
-			if not headers:
-				ui.message(_("Not found"))
-				return
-			addresses = []
-			obj = headers.firstChild
-			while obj:
-				try:
-					if obj.labeledBy: addresses.append(obj)
-					if obj.labeledBy.IA2Attributes['id'] == 'subjectLabel': addresses.pop(-1)
-				except:
-					pass
-				try:
-					if obj.IA2Attributes['id'] == 'extraAddressRowsArea': addresses.extend(obj.children)
-				except:
-					pass
-				obj = obj.next
-			if index >= len(addresses):
-				ui.message(_("There are no more recipients"))
-				return
-			if focus:
-				obj = addresses[index]
-				try:
-					if addresses[index].previous.IA2Attributes['tag'] == 'mail-address-pill':
-						obj = addresses[index].previous
-				except:
-					pass
-				api.moveMouseToNVDAObject(obj)
-				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,0,None,None)
-				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
-			else:
-				speech.speakObject(addresses[index]) # , reason=controlTypes.REASON_FOCUS  if hasattr(controlTypes, "REASON_FOCUS") else controlTypes.OutputReason.FOCUS)
+		#@@ fixed
+		headers = shared.searchObject((
+		('id', 'composeContentBox'),
+		('id', 'MsgHeadersToolbar')))
+		if not headers:
+			ui.message(_("Not found"))
 			return
-		# Thunderbird versions prior to 102.0
-		sender = shared.searchObject((
-		("id","MsgHeadersToolbar"),
-		("id","msgIdentity")))
-		if index == 0:
-			if focus:
-				api.moveMouseToNVDAObject(sender)
-				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,0,None,None)
-				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
-			else:
-				ui.message("%s %s, %s" % (sender.name, sender.value, sender.keyboardShortcut))
+		addresses = []
+		obj = headers.firstChild
+		while obj:
+			try:
+				if obj.labeledBy: addresses.append(obj)
+				if obj.labeledBy.IA2Attributes['id'] == 'subjectLabel': addresses.pop(-1)
+			except:
+				pass
+			try:
+				if obj.IA2Attributes['id'] == 'extraAddressRowsArea': addresses.extend(obj.children)
+			except:
+				pass
+			obj = obj.next
+		if index >= len(addresses):
+			ui.message(_("There are no more recipients"))
+			return
+		if focus:
+			obj = addresses[index]
+			try:
+				if addresses[index].previous.IA2Attributes['tag'] == 'mail-address-pill':
+					obj = addresses[index].previous
+			except:
+				pass
+			api.moveMouseToNVDAObject(obj)
+			winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,0,None,None)
+			winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
 		else:
-			addressingWidget = shared.searchObject((
-			("id","MsgHeadersToolbar"),
-			("id","addressingWidget")))
-			if addressingWidget:
-				recipients = list(filter(lambda o: o.role == controlTypes.Role.COMBOBOX and o.firstChild.role == controlTypes.Role.EDITABLETEXT, addressingWidget.recursiveDescendants))
-			else:
-				addressingWidget = next(filter(lambda o: o.role == controlTypes.Role.TOOLBAR and o.IA2Attributes["id"] == "MsgHeadersToolbar", api.getForegroundObject().children))
-				recipients = list(filter(lambda o: o.role == controlTypes.Role.UNKNOWN, addressingWidget.children))
-			if index > len(recipients):
-				return
-			if focus and controlTypes.State.FOCUSED not in recipients[index-1].firstChild.states:
-				if controlTypes.State.EXPANDED in sender.states:
-				# When the list of senders is expanded it cover the recipient widget. It must be collapsed before click in recipients.
-					api.moveMouseToNVDAObject(sender)
-					winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,0,None,None)
-					winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
-				api.moveMouseToNVDAObject(recipients[index-1])
-				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,0,None,None)
-				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
-			else:
-				if int(self.productVersion.split(".")[0]) <= 68:
-					ui.message("%s %s" % (recipients[index-1].name, recipients[index-1].firstChild.value if recipients[index-1].firstChild.value else _("empty")))
-				else:
-					ui.message(recipients[index-1].firstChild.name)
+			speech.speakObject(addresses[index]) # , reason=controlTypes.REASON_FOCUS  if hasattr(controlTypes, "REASON_FOCUS") else controlTypes.OutputReason.FOCUS)
+		return
 
 	def isDocument(self):
-		if int(self.productVersion.split(".")[0]) >= 102:
-			obj = shared.searchObject((
-			('id', 'tabpanelcontainer'),
-			('id', 'mailContent'),
-			('id', 'messagepane')))
-			if obj and obj.firstChild and obj.firstChild.role == controlTypes.Role.DOCUMENT:
-				# When message is in a tab
-				return obj.firstChild
-		doc = None
-		for frame in filter(lambda o: o.role == controlTypes.Role.INTERNALFRAME, self.getPropertyPage().children):
+		#|| fixed
+		import globalVars
+		for ancestor in filter(lambda o: o.role == 56, globalVars.focusAncestors):
 			try:
-				doc = next(filter(lambda o: o.role == controlTypes.Role.DOCUMENT, frame.children))
+				frame = next(filter(lambda o: o.role == 115 and o.firstChild.role == 52, ancestor.children))
+				return frame.firstChild
 			except StopIteration:
 				pass
-		return doc
+		return None
 
 	def isComposing(self):
 		if int(self.productVersion.split(".")[0]) >= 102:
