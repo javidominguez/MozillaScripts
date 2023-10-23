@@ -270,21 +270,25 @@ class AppModule(thunderbird.AppModule):
 	script_messageDate.__doc__ = _("Reads date of the message.")
 
 	def script_attachments (self, gesture):
+		#@@ fixed
 		doc = self.isDocument()
 		if doc and controlTypes.State.READONLY in doc.states:
 			try:
-				attachmentToggleButton = next(filter(lambda o: "id" in o.IA2Attributes and o.IA2Attributes["id"] == "attachmentToggle", self.getPropertyPage().children))
+				attachmentToggleButton = next(filter(lambda o: o.role == controlTypes.Role.TOGGLEBUTTON, doc.parent.parent.children))
 			except StopIteration:
 				#TRANSLATORS: there are no attachments in this message
 				ui.message(_("There are No attachments"))
 				return
 			ui.message(attachmentToggleButton.next.name)
 			if controlTypes.State.PRESSED not in attachmentToggleButton.states:
-				api.moveMouseToNVDAObject(attachmentToggleButton)
-				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,0,None,None)
-				winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
+				attachmentToggleButton.doAction()
 			else:
-				self.getPropertyPage().children[-1].firstChild.setFocus()
+				obj = attachmentToggleButton.next
+				while obj:
+					if obj.role == controlTypes.Role.LIST:
+						obj.firstChild.doAction()
+						return
+					obj = obj.next
 			return
 		gesture.send()
 	#TRANSLATORS: message shown in Input gestures dialog for this script
