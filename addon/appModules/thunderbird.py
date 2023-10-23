@@ -30,6 +30,7 @@ import config
 from . import shared
 import treeInterceptorHandler
 import globalVars
+import eventHandler
 
 confspec = {
 	"automaticMessageReading": "boolean(default=True)"
@@ -94,6 +95,18 @@ class AppModule(thunderbird.AppModule):
 
 	def _get_statusBar(self):
 		return shared.searchObject((("container-live-role","status"),))
+
+	def event_nameChange(self, obj, nextHandler):
+		if obj.role == controlTypes.Role.TABLECELL:
+			focus = api.getFocusObject()
+			if not eventHandler.isPendingEvents("nameChange") and focus.role == controlTypes.Role.BUTTON and focus.parent.role == controlTypes.Role.TABLECOLUMNHEADER:
+				try:
+					ui.message(_("Column moved to possition {pos}".format(
+						pos = int(focus.parent.IA2Attributes["table-cell-index"])+1
+					)))
+				except:
+					pass
+		nextHandler()
 
 	def event_focusEntered(self, obj, nextHandler):
 		if obj.role == controlTypes.Role.TOOLBAR and obj.firstChild.role == controlTypes.Role.TABCONTROL:
