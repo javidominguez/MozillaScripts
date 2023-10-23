@@ -29,6 +29,7 @@ import globalCommands
 import config
 from . import shared
 import treeInterceptorHandler
+import globalVars
 
 confspec = {
 	"automaticMessageReading": "boolean(default=True)"
@@ -93,6 +94,20 @@ class AppModule(thunderbird.AppModule):
 		return shared.searchObject((("container-live-role","status"),))
 
 	def event_focusEntered(self, obj, nextHandler):
+		# Presentation of the table header where the columns are managed
+		if obj.role == controlTypes.Role.GROUPING:
+			obj.isPresentableFocusAncestor = False
+		if obj.role == controlTypes.Role.TABLE:
+			if hasattr(obj, "IA2Attributes") and "class" in obj.IA2Attributes and obj.IA2Attributes["class"] == "tree-table some-selected":
+				obj.isPresentableFocusAncestor = False
+		if obj.role == controlTypes.Role.TABLECOLUMNHEADER and obj.firstChild.role == controlTypes.Role.BUTTON:
+			obj.isPresentableFocusAncestor = False
+		if obj.role == controlTypes.Role.TABLEROW:
+			focus = api.getFocusObject()
+			if focus.role == controlTypes.Role.BUTTON and focus.parent.role == controlTypes.Role.TABLECOLUMNHEADER:
+				obj.role = controlTypes.Role.TABLEHEADER
+				obj.isPresentableFocusAncestor = True
+		# End of table header presentation
 		try:
 			if set(["containingDocument","containingApplication"]) < set([r.relationType for r in obj._IA2Relations]):
 				if obj.objectWithFocus().role == controlTypes.Role.DOCUMENT:
@@ -473,7 +488,6 @@ class AppModule(thunderbird.AppModule):
 
 	def isDocument(self):
 		#|| fixed
-		import globalVars
 		for ancestor in filter(lambda o: o.role == 56, globalVars.focusAncestors):
 			try:
 				frame = next(filter(lambda o: o.role == 115 and o.firstChild.role == 52, ancestor.children))
