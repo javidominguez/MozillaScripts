@@ -329,117 +329,51 @@ class AppModule(thunderbird.AppModule):
 		else:
 			doc = self.isDocument()
 			self.docCache = doc
-		if doc: 
-			if int(self.productVersion.split(".")[0]) >= 102:
-				url = doc.IAccessibleObject.QueryInterface(ISimpleDOMDocument).url
-				if (url, doc.IA2UniqueID) in self.messageHeadersCache:
-					addresses = self.messageHeadersCache[(url, doc.IA2UniqueID)]
-				else:
-					messageHeader = shared.searchObject((
-					('id', 'tabpanelcontainer'),
-					('id', 'mailContent'),
-					('id', 'messageHeader')))
-					if messageHeader:
-					# The message is in a tab
-						sender = shared.searchObject((
-						('id', 'headerSenderToolbarContainer'),
-						('id', 'expandedfromRow'),
-						('class', 'multi-recipient-row'),
-						('class', 'recipients-list'),
-						('id', 'fromRecipient0')),
-						messageHeader)
-						toRecipients = shared.searchObject((
-						('id', 'expandedtoRow'),
-						('id', 'expandedtoBox'),
-						('class', 'recipients-list')),
-						messageHeader)
-						addresses = [sender]+toRecipients.children if toRecipients else [sender]
-						ccRecipients = shared.searchObject((
-						('id', 'expandedccRow'),
-						('id', 'expandedccBox'),
-						('class', 'recipients-list')),
-						messageHeader)
-						addresses = addresses+ccRecipients.children if ccRecipients else addresses
-					else: # The message is in a separate window
-						# messageHeader = shared.searchObject((
-						# ('id', 'messageHeader')))
-						try:
-							messageHeader = next(filter(lambda o: 'id' in o.IA2Attributes and o.IA2Attributes['id'] == 'messageHeader', api.getForegroundObject().children))
-						except StopIteration:
-							ui.message(_("Not found"))
-							return
-						sender = shared.searchObject((
-						('id', 'headerSenderToolbarContainer'),
-						('id', 'expandedfromRow'),
-						('id', 'expandedfromBox'),
-						('class', 'recipients-list'),
-						('id', 'fromRecipient0')),
-						messageHeader)
-						toRecipients = shared.searchObject((
-						('id', 'expandedtoRow'),
-						('id', 'expandedtoBox'),
-						('class', 'recipients-list')),
-						messageHeader)
-						addresses = [sender]+toRecipients.children if toRecipients else [sender]
-						ccRecipients = shared.searchObject((
-						('id', 'expandedccRow'),
-						('id', 'expandedccBox'),
-						('class', 'recipients-list')),
-						messageHeader)
-						addresses = addresses+ccRecipients.children if ccRecipients else addresses
-					if addresses[0]: self.messageHeadersCache[(url, doc.IA2UniqueID)] = addresses
-				try:
-					o = addresses[index]
-				except IndexError:
-					ui.message(_("There are no more recipients"))
-					return
-				if o:
-					ui.message ("{} {}".format(o.parent.name, o.simpleFirstChild.name))
-				else:
-					ui.message(_("Not found"))
-				if rightClick:
-					api.moveMouseToNVDAObject(o)
-					api.setMouseObject(o)
-					winUser.mouse_event(winUser.MOUSEEVENTF_RIGHTDOWN,0,0,None,None)
-					winUser.mouse_event(winUser.MOUSEEVENTF_RIGHTUP,0,0,None,None)
-					speech.pauseSpeech(True)
-				return
-			# Thunderbird versions prior to 102.0
-			fields = []
-			if int(self.productVersion.split(".")[0]) > 68:
-				for table in filter(lambda o: o.role == controlTypes.Role.TABLE, self.getPropertyPage().children):
-					try:
-						fields = fields + list(filter(lambda o: o.role == controlTypes.Role.LABEL and o.firstChild.role == controlTypes.Role.UNKNOWN, table.recursiveDescendants))
-					except IndexError:
-						pass
+		if doc:
+			url = doc.IAccessibleObject.QueryInterface(ISimpleDOMDocument).url
+			if (url, doc.IA2UniqueID) in self.messageHeadersCache:
+				addresses = self.messageHeadersCache[(url, doc.IA2UniqueID)]
 			else:
-				for item in filter(lambda o: o.role == controlTypes.Role.UNKNOWN, self.getPropertyPage().children):
-					try:
-						fields.append(item.children[0].children[0])
-					except IndexError:
-						pass
-			if index >= len(fields):
-				return
+				try:
+					messageHeader = next(filter(lambda o: o.role == controlTypes.Role.LANDMARK, doc.parent.parent.children))
+				except StopIteration:
+					ui.message(_("Not found"))
+					return
+				sender = shared.searchObject((
+				('id', 'headerSenderToolbarContainer'),
+				('id', 'expandedfromRow'),
+				('class', 'multi-recipient-row'),
+				('class', 'recipients-list'),
+				('id', 'fromRecipient0')),
+				messageHeader)
+				toRecipients = shared.searchObject((
+				('id', 'expandedtoRow'),
+				('id', 'expandedtoBox'),
+				('class', 'recipients-list')),
+				messageHeader)
+				addresses = [sender]+toRecipients.children if toRecipients else [sender]
+				ccRecipients = shared.searchObject((
+				('id', 'expandedccRow'),
+				('id', 'expandedccBox'),
+				('class', 'recipients-list')),
+				messageHeader)
+				addresses = addresses+ccRecipients.children if ccRecipients else addresses
+				if addresses[0]: self.messageHeadersCache[(url, doc.IA2UniqueID)] = addresses
 			try:
-				if int(self.productVersion.split(".")[0]) >= 68:
-					ui.message(fields[index].parent.parent.name)
-				ui.message(",".join([o.name for o in fields[index].parent.children]))
-			except (IndexError, AttributeError):
-				#TRANSLATORS: cannot find sender address
+				o = addresses[index]
+			except IndexError:
+				ui.message(_("There are no more recipients"))
+				return
+			if o:
+				ui.message ("{} {}".format(o.parent.name, o.simpleFirstChild.name))
+			else:
 				ui.message(_("Not found"))
 			if rightClick:
-				if int(self.productVersion.split(".")[0]) < 68:
-					obj = fields[index].firstChild.firstChild.next
-				else:
-					obj = fields[index].firstChild.firstChild
-				api.moveMouseToNVDAObject(obj)
-				api.setMouseObject(obj)
+				api.moveMouseToNVDAObject(o)
+				api.setMouseObject(o)
 				winUser.mouse_event(winUser.MOUSEEVENTF_RIGHTDOWN,0,0,None,None)
 				winUser.mouse_event(winUser.MOUSEEVENTF_RIGHTUP,0,0,None,None)
 				speech.pauseSpeech(True)
-		else:
-			#TRANSLATORS: message spoken if you try to read the sender address out of a message window
-			ui.message(_("you are not in a message window"))
 
 	def addressFieldOnComposing(self, index, focus):
 		#@@ fixed
