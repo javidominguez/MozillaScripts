@@ -89,11 +89,15 @@ class AppModule(thunderbird.AppModule):
 				pass
 			except AttributeError:
 				pass
+		if obj.role == controlTypes.Role.TAB and obj.parent.role == controlTypes.Role.TABCONTROL and hasattr(obj.parent, "IA2Attributes") and "id" in obj.parent.IA2Attributes and obj.parent.IA2Attributes["id"] == "tabmail-tabs":
+			clsList.insert(0, Tab)
 
 	def _get_statusBar(self):
 		return shared.searchObject((("container-live-role","status"),))
 
 	def event_focusEntered(self, obj, nextHandler):
+		if obj.role == controlTypes.Role.TOOLBAR and obj.firstChild.role == controlTypes.Role.TABCONTROL:
+			obj.isPresentableFocusAncestor = False
 		# Presentation of the table header where the columns are managed
 		if obj.role == controlTypes.Role.GROUPING:
 			obj.isPresentableFocusAncestor = False
@@ -717,6 +721,20 @@ class ThreadTree(IAccessible):
 		"kb:NVDA+Control+8": "moveToColumn",
 		"kb:NVDA+Control+9": "moveToColumn"
 	}
+
+class Tab(IAccessible):
+
+	@script(gesture="kb:rightArrow")
+	def script_nextTab(self, gesture):
+		obj = self.next
+		if not obj: obj = self.parent.firstChild
+		obj.doAction()
+
+	@script(gesture="kb:leftArrow")
+	def script_previousTab(self, gesture):
+		obj = self.previous
+		if not obj: obj = self.parent.lastChild
+		obj.doAction()
 
 class manageColumnsDialog(wx.Dialog):
 	def __init__(self, parent):
