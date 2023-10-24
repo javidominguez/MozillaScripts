@@ -97,20 +97,19 @@ class AppModule(thunderbird.AppModule):
 		return shared.searchObject((("container-live-role","status"),))
 
 	def event_nameChange(self, obj, nextHandler):
-		#@@ Remove. It works badly.
-		focus = api.getFocusObject()
-		if obj.role == controlTypes.Role.TABLECELL:
-			if not eventHandler.isPendingEvents("nameChange") and focus.role == controlTypes.Role.BUTTON and focus.parent.role == controlTypes.Role.TABLECOLUMNHEADER:
-				try:
-					#TRANSLATORS: Message when moving a column in the message table
-					ui.message(_("Column moved to possition {pos}".format(
-						pos = int(focus.parent.IA2Attributes["table-cell-index"])+1
-					)))
-				except:
-					pass
-		# End of remove. Lets overlay the button and processes it in the class.
 		if obj.role == controlTypes.Role.DOCUMENT:
 			self.previewPane = obj
+		nextHandler()
+
+	def event_gainFocus(self, obj, nextHandler):
+		if obj.role == controlTypes.Role.BUTTON and obj.parent.role == controlTypes.Role.TABLECOLUMNHEADER:
+				try:
+					if "id" in obj.IA2Attributes:
+						obj.description = _("Column {pos}".format(
+							pos = int(obj.parent.IA2Attributes["table-cell-index"])+1
+						))
+				except:
+					pass
 		nextHandler()
 
 	def event_focusEntered(self, obj, nextHandler):
