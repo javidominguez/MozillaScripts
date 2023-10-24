@@ -181,77 +181,6 @@ class AppModule(thunderbird.AppModule):
 			self.addressField(index, twice)
 		self.lastIndex = index
 
-	def script_messageSubject (self, gesture):
-		if self.isComposing():
-			if int(self.productVersion.split(".")[0]) >= 102:
-				subject = shared.searchObject((
-				("id","composeContentBox"),
-				("id","MsgHeadersToolbar"),
-				("id","msgSubject")))
-			else:
-				subject = shared.searchObject((
-				("id","MsgHeadersToolbar"),
-				("id","msgSubject"),
-				("class","textbox-input")))
-			if not subject:
-				# Thunderbird versions higher than 68
-				MsgHeadersToolbar = next(filter(lambda o: o.role == controlTypes.Role.TOOLBAR and o.IA2Attributes["id"] == "MsgHeadersToolbar", api.getForegroundObject().children))
-				subject = next(filter(lambda o: o.role == controlTypes.Role.EDITABLETEXT and o.IA2Attributes["id"] == "msgSubject", MsgHeadersToolbar.children))
-			if scriptHandler.getLastScriptRepeatCount() == 1:
-				subject.setFocus()
-			else:
-				ui.message("%s %s" % (subject.name, subject.value if subject.value else _("empty")))
-			return
-		if self.isDocument():
-			try:
-				if int(self.productVersion.split(".")[0]) >= 102:
-					obj = shared.searchObject((
-					("id","tabpanelcontainer"),
-					("id","mailContent"),
-					("id","messageHeader"),
-					("id","headerSubjectSecurityContainer"),
-					("id","expandedsubjectRow"),
-					("id","expandedsubjectBox")))
-					if obj:
-						ui.message(obj.name)
-					else:
-						obj = shared.searchObject((
-						("id","messageHeader"),
-						("id","headerSubjectSecurityContainer"),
-						("id","expandedsubjectRow"),
-						("id","expandedsubjectBox")))
-						ui.message(obj.name)
-				elif int(self.productVersion.split(".")[0]) <= 68:
-					g = filter(lambda o: o.role == controlTypes.Role.UNKNOWN, self.getPropertyPage().children)
-					next(g)
-					obj = next(g)
-					ui.message(obj.firstChild.name)
-				else:
-					obj = shared.searchObject((
-					("id","tabpanelcontainer"), # Group
-					("id","mailContent"), # PropertyPage
-					("id","expandedHeaders2"), # Table
-					("id","expandedsubjectRow"), # Row
-					("display","table-cell"))) # Cell
-					if obj:
-						ui.message(obj.simpleNext.name)
-					else:
-						# Maybe message in a new window
-						obj = shared.searchObject((
-						("id","expandedHeaders2"), # Table
-						("id","expandedsubjectRow"), # Row
-						("display","table-cell"))) # Cell
-					if obj:
-						ui.message(obj.simpleNext.name)
-			except (IndexError, AttributeError):
-				#TRANSLATORS: cannot find subject
-				ui.message(_("Not found"))
-		else:
-			#TRANSLATORS: message spoken if you try to read the subject out of a message window
-			ui.message(_("you are not in a message window"))
-	#TRANSLATORS: message shown in Input gestures dialog for this script
-	script_messageSubject.__doc__ = _("Reads the subject of the message.")
-
 	@script(gesture=KeyboardInputGesture({(17, False), (16, False)}, 219, 12, True).identifiers[-1])
 	def script_messageDate (self, gesture):
 		if self.isComposing() or int(self.productVersion.split(".")[0]) >= 102:
@@ -462,7 +391,6 @@ class AppModule(thunderbird.AppModule):
 		"kb:Control+Shift+7": "readAddressField",
 		"kb:Control+Shift+8": "readAddressField",
 		"kb:Control+Shift+9": "readAddressField",
-		"kb:Control+Shift+0": "messageSubject",
 		"kb:Alt+Control+Shift+1": "readAddressField",
 		"kb:Alt+Control+Shift+2": "readAddressField",
 		"kb:Alt+Control+Shift+3": "readAddressField",
