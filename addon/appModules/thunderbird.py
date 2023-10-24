@@ -181,23 +181,6 @@ class AppModule(thunderbird.AppModule):
 			self.addressField(index, twice)
 		self.lastIndex = index
 
-	@script(gesture=KeyboardInputGesture({(17, False), (16, False)}, 219, 12, True).identifiers[-1])
-	def script_messageDate (self, gesture):
-		if self.isComposing() or int(self.productVersion.split(".")[0]) >= 102:
-			return
-		if self.isDocument():
-			try:
-				obj = next(filter(lambda o: o.role == controlTypes.Role.EDITABLETEXT and controlTypes.State.READONLY in o.states, self.getPropertyPage().children))
-				ui.message(obj.value)
-			except (IndexError, AttributeError):
-				#TRANSLATORS: cannot find date
-				ui.message(_("Not found"))
-		else:
-			#TRANSLATORS: message spoken if you try to read the date out of a message window
-			ui.message(_("you are not in a message window"))
-	#TRANSLATORS: message shown in Input gestures dialog for this script
-	script_messageDate.__doc__ = _("Reads date of the message.")
-
 	def script_attachments (self, gesture):
 		#@@ fixed
 		doc = self.isDocument()
