@@ -50,6 +50,7 @@ class AppModule(thunderbird.AppModule):
 		self.Dialog = None
 		self.messageHeadersCache = dict()
 		self.docCache = None
+		self.previewPane = None
 		NVDASettingsDialog.categoryClasses.append(ThunderbirdPanel)
 		if int(self.productVersion.split(".")[0]) < 115:
 			 raise RuntimeError(_("The addon Mozilla Apps Enhancements is not compatible with this version of Thunderbird. The application module will be temporarily disabled."))
@@ -84,7 +85,6 @@ class AppModule(thunderbird.AppModule):
 			try:
 				if obj.parent:
 					if obj.parent.IA2Attributes["xml-roles"] == "treegrid":
-						setattr(obj, "getDocument", self.isDocument)
 						clsList.insert(0, ThreadTree)
 			except KeyError:
 				pass
@@ -97,8 +97,9 @@ class AppModule(thunderbird.AppModule):
 		return shared.searchObject((("container-live-role","status"),))
 
 	def event_nameChange(self, obj, nextHandler):
+		#@@ Remove. It works badly.
+		focus = api.getFocusObject()
 		if obj.role == controlTypes.Role.TABLECELL:
-			focus = api.getFocusObject()
 			if not eventHandler.isPendingEvents("nameChange") and focus.role == controlTypes.Role.BUTTON and focus.parent.role == controlTypes.Role.TABLECOLUMNHEADER:
 				try:
 					#TRANSLATORS: Message when moving a column in the message table
@@ -107,6 +108,9 @@ class AppModule(thunderbird.AppModule):
 					)))
 				except:
 					pass
+		# End of remove. Lets overlay the button and processes it in the class.
+		if obj.role == controlTypes.Role.DOCUMENT:
+			self.previewPane = obj
 		nextHandler()
 
 	def event_focusEntered(self, obj, nextHandler):
@@ -210,7 +214,11 @@ class AppModule(thunderbird.AppModule):
 		try:
 			self.isDocument().setFocus()
 		except:
-			pass
+			try:
+				if self.previewPane and self.previewPane.role == controlTypes.Role.DOCUMENT:
+					self.previewPane.setFocus()
+			except:
+				pass
 	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_focusDocument.__doc__ = _("Brings the focus to the text of the open message.")
 
@@ -333,7 +341,7 @@ class AppModule(thunderbird.AppModule):
 		#|| fixed
 		for ancestor in filter(lambda o: o.role == 56, globalVars.focusAncestors):
 			try:
-				frame = next(filter(lambda o: o.role == 115 and o.firstChild.role == 52, ancestor.children))
+				frame = next(filter(lambda o: o.role == 115 and o.firstChild.role == controlTypes.Role.DOCUMENT, ancestor.children))
 				return frame.firstChild
 			except StopIteration:
 				pass
@@ -502,7 +510,16 @@ class ThreadTree(IAccessible):
 	#TRANSLATORS: category for Thunderbird input gestures
 	scriptCategory = _("mozilla Thunderbird")
 
+	@property
+	def document(self):
+		doc = self.appModule.previewPane
+		if not doc or not doc.role:
+			return None
+		else:
+			return doc
+
 	def script_moveToColumn(self, gesture):
+		#@@ fixed
 		try:
 			index = int(gesture.keyName[-1])-1
 		except AttributeError:
@@ -512,16 +529,15 @@ class ThreadTree(IAccessible):
 			ui.message(_("There are not more columns"))
 			return
 		obj = self.getChild(index)
-		if not obj.name:
-			#TRANSLATORS: empty object name
-			obj.name = _("empty")
-		obj.states = None
 		api.setNavigatorObject(obj)
+		if obj.firstChild:
+			obj.value = obj.firstChild.name
+		obj.states = set()
 		REASON = controlTypes.REASON_FOCUS  if hasattr(controlTypes, "REASON_FOCUS") else controlTypes.OutputReason.FOCUS
 		speech.speakObject(obj, reason=REASON)
 
 	def script_readPreviewPane(self, gesture):
-		doc = self.getDocument()
+		doc = self.document
 		if doc:
 			self.readPreviewPane(doc)
 		else:
