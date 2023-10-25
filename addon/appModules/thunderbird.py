@@ -60,26 +60,6 @@ class AppModule(thunderbird.AppModule):
 
 	def chooseNVDAObjectOverlayClasses(self, obj, clsList):
 		#@@ fixed
-		# Overlay search box in fast filtering bar
-		if obj.role == controlTypes.Role.EDITABLETEXT:
-			try:
-				qfb = False
-				if ("xml-roles" in obj.IA2Attributes and obj.IA2Attributes["xml-roles"] == "searchbox") or ("class" in obj.parent.IA2Attributes  and obj.parent.IA2Attributes["class"] == "searchBox"):
-					qfb = True
-				else:
-					o = obj.previous
-					while o:
-						if ("id" in o.IA2Attributes and "qfb" in o.IA2Attributes["id"]):
-							qfb = True
-							break
-						o = o.previous
-				if qfb:
-					setattr(obj, "pointedObj", None)
-					#TRANSLATORS: additional description for the search field
-					obj.description = _("(Press down arrow to display more options)")
-					clsList.insert(0, SearchBox)
-			except AttributeError:
-				pass
 		# Overlay list of messages
 		if obj.role == controlTypes.Role.TREEVIEWITEM or obj.role == controlTypes.Role.TABLEROW:
 			try:
@@ -135,6 +115,11 @@ class AppModule(thunderbird.AppModule):
 					speech.cancelSpeech()
 		except NotImplementedError:
 			pass
+		if obj.role == 86 and obj.IA2Attributes["id"] == "quickFilterBarContainer":
+			obj.role = 39
+			obj.isPresentableFocusAncestor = True
+		if obj.role == 14 and obj.IA2Attributes["id"] == "unifiedToolbarContent":
+			obj.isPresentableFocusAncestor = False
 		nextHandler()
 
 	def event_documentLoadComplete(self, obj, nextHandler):
@@ -393,116 +378,6 @@ class AppModule(thunderbird.AppModule):
 		"kb:Control+Shift+A": "attachments",
 		"kb:NVDA+F6": "focusDocument",
 		"kb:NVDA+Control+N": "notifications"
-	}
-
-class SearchBox(IAccessible):
-
-	def script_nextOption(self, gesture):
-		if not self.pointedObj:
-			if int(self.appModule.productVersion.split(".")[0]) <= 68:
-				self.pointedObj = self.parent.parent.firstChild
-			else:
-				self.pointedObj = self.parent.firstChild
-		self.pointedObj = self.pointedObj.simpleNext
-		isToolBarButton = False
-		try:
-			if self.pointedObj.IA2Attributes["tag"] == "toolbarbutton":
-				isToolBarButton = True
-				if "qfb-qs-" in self.pointedObj.IA2Attributes["id"]:
-					self.pointedObj.name = _("Search in ")+self.pointedObj.name
-		except (KeyError, AttributeError):
-			pass
-		while not isToolBarButton :
-			try:
-				self.pointedObj = self.pointedObj.simpleNext
-				if self.pointedObj.IA2Attributes["tag"] == "toolbarbutton":
-					isToolBarButton = True
-					if "qfb-qs-" in self.pointedObj.IA2Attributes["id"]:
-						self.pointedObj.name = _("Search in ")+self.pointedObj.name
-			except:
-				pass
-			if not self.pointedObj or self.pointedObj.role == controlTypes.Role.TREEVIEW:
-				#TRANSLATORS: message spoken when leaving the search box in Thunderbird
-				ui.message(_('Leaving search box'))
-				self.pointedObj = self.parent.parent.firstChild
-				gesture.send()
-				return
-		self.readCheckButton()
-
-	def script_previousOption(self, gesture):
-		if not self.pointedObj:
-			api.setNavigatorObject(self)
-			ui.message(controlTypes.role._roleLabels[self.role])
-			if self.value:
-				ui.message(self.value)
-			return
-		self.pointedObj = self.pointedObj.simplePrevious
-		isToolBarButton = False
-		try:
-			if self.pointedObj.IA2Attributes["tag"] == "toolbarbutton":
-				isToolBarButton = True
-				if "qfb-qs-" in self.pointedObj.IA2Attributes["id"]:
-					self.pointedObj.name = _("Search in ")+self.pointedObj.name
-		except (KeyError, AttributeError):
-			pass
-		while not isToolBarButton :
-			try:
-				self.pointedObj = self.pointedObj.simplePrevious
-				if self.pointedObj.IA2Attributes["tag"] == "toolbarbutton":
-					isToolBarButton = True
-					if "qfb-qs-" in self.pointedObj.IA2Attributes["id"]:
-						#TRANSLATORS: Thunderbird search box name
-						self.pointedObj.name = _("Search in ")+self.pointedObj.name
-			except KeyError:
-				pass
-			except AttributeError:
-				pass
-			try:
-				if not self.pointedObj or self.pointedObj == self.parent.parent.firstChild or "titlebar" in self.pointedObj.IA2Attributes["id"]:
-					self.pointedObj = self.parent.parent.firstChild
-					gesture.send()
-					return
-			except KeyError:
-				pass
-		self.readCheckButton()
-
-	def script_pressButton(self, gesture):
-		if self.pointedObj:
-			if controlTypes.State.PRESSED in self.pointedObj.states:
-				#TRANSLATORS: a button has been unchecked
-				ui.message(_("uncheck"))
-			else:
-				#TRANSLATORS: a button has been checked
-				ui.message(_("check"))
-			ui.message(self.pointedObj.name)
-			api.moveMouseToNVDAObject(self.pointedObj)
-			api.setMouseObject(self.pointedObj)
-			winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,0,None,None)
-			winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
-
-	def readCheckButton(self):
-		if controlTypes.State.PRESSED in self.pointedObj.states:
-			#TRANSLATORS: a button is checked
-			state = _("checked")
-		else:
-			#TRANSLATORS: a button is not checked
-			state = _("not checked")
-		if self.pointedObj.description:
-			ui.message("%s, %s, %s" % (self.pointedObj.name, state, self.pointedObj.description))
-		else:
-			ui.message("%s, %s" % (self.pointedObj.name, state))
-		api.setNavigatorObject(self.pointedObj)
-
-	def event_caret(self):
-		if self.pointedObj:
-			api.setNavigatorObject(self)
-			self.pointedObj = None
-			ui.message(controlTypes.role._roleLabels[self.role])
-
-	__gestures = {
-	"kb:downArrow": "nextOption",
-	"kb:upArrow": "previousOption",
-	"kb:Enter": "pressButton"
 	}
 
 class ThreadTree(IAccessible):
