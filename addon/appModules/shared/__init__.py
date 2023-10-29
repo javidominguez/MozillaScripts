@@ -4,23 +4,16 @@
 #Copyright (C) 2017 Javi Dominguez <fjavids@gmail.com>
 
 from datetime import datetime, timedelta
-from threading import Timer
-import speech
-import controlTypes
-# controlTypes module compatibility with old versions of NVDA
-if not hasattr(controlTypes, "Role"):
-	setattr(controlTypes, Role, type('Enum', (), dict(
-	[(x.split("ROLE_")[1], getattr(controlTypes, x)) for x in dir(controlTypes) if x.startswith("ROLE_")])))
-if not hasattr(controlTypes, "State"):
-	setattr(controlTypes, State, type('Enum', (), dict(
-	[(x.split("STATE_")[1], getattr(controlTypes, x)) for x in dir(controlTypes) if x.startswith("STATE_")])))
-# End of compatibility fixes
-import api
-import re
-import wx
-import gui
 from gui import guiHelper
+from NVDAObjects.IAccessible import IAccessible
+from threading import Timer
 import addonHandler
+import api
+import controlTypes
+import gui
+import re
+import speech
+import wx
 
 addonHandler.initTranslation()
 

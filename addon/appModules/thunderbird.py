@@ -1,7 +1,7 @@
 # Mozilla Apps Enhancements add-on for NVDA
 #This file is covered by the GNU General Public License.
 #See the file COPYING.txt for more details.
-#Copyright (C) 2017 Javi Dominguez <fjavids@gmail.com>
+#Copyright (C) 2017 - 2023 Javi Dominguez <fjavids@gmail.com>
 
 from nvdaBuiltin.appModules import thunderbird
 from scriptHandler import script
@@ -11,26 +11,28 @@ from datetime import datetime
 from keyboardHandler import KeyboardInputGesture
 from gui import NVDASettingsDialog
 from gui.settingsDialogs import SettingsPanel
+from tones import beep
+
 try:
 	from NVDAObjects.IAccessible.mozilla import BrokenFocusedState as IAccessible
 except ImportError:
 	from NVDAObjects.IAccessible import IAccessible
-from tones import beep
+
 import addonHandler
-import controlTypes
 import api
-import ui
-import scriptHandler
-import winUser
-import speech
-import gui
-import wx
-import globalCommands
 import config
-from . import shared
-import treeInterceptorHandler
+import controlTypes
+import globalCommands
 import globalVars
-import eventHandler
+import gui
+import scriptHandler
+import speech
+import treeInterceptorHandler
+import ui
+import winUser
+import wx
+
+from . import shared
 
 confspec = {
 	"automaticMessageReading": "boolean(default=True)"
@@ -52,14 +54,14 @@ class AppModule(thunderbird.AppModule):
 		self.docCache = None
 		self.previewPane = None
 		NVDASettingsDialog.categoryClasses.append(ThunderbirdPanel)
+
 		if int(self.productVersion.split(".")[0]) < 115:
-			 raise RuntimeError(_("The addon Mozilla Apps Enhancements is not compatible with this version of Thunderbird. The application module will be temporarily disabled."))
+			raise RuntimeError(_("The addon Mozilla Apps Enhancements is not compatible with this version of Thunderbird. The application module will be temporarily disabled."))
 
 	def terminate(self):
 		NVDASettingsDialog.categoryClasses.remove(ThunderbirdPanel)
 
 	def chooseNVDAObjectOverlayClasses(self, obj, clsList):
-		#@@ fixed
 		# Overlay list of messages
 		if obj.role == controlTypes.Role.TREEVIEWITEM or obj.role == controlTypes.Role.TABLEROW:
 			try:
@@ -70,8 +72,18 @@ class AppModule(thunderbird.AppModule):
 				pass
 			except AttributeError:
 				pass
-		if obj.role == controlTypes.Role.TAB and obj.parent.role == controlTypes.Role.TABCONTROL and hasattr(obj.parent, "IA2Attributes") and "id" in obj.parent.IA2Attributes and obj.parent.IA2Attributes["id"] == "tabmail-tabs":
-			clsList.insert(0, Tab)
+		elif  obj.role == controlTypes.Role.LISTITEM:
+			try:
+				if obj.IA2Attributes["id"].startswith("threadTree-row"):
+					clsList.insert(0, ThreadTree)
+			except (KeyError, AttributeError):
+				pass
+		# Tabs
+		elif obj.role == controlTypes.Role.TAB:
+			if obj.parent.role == controlTypes.Role.TABCONTROL:
+				if hasattr(obj.parent, "IA2Attributes") and "id" in obj.parent.IA2Attributes:
+					if obj.parent.IA2Attributes["id"] == "tabmail-tabs":
+						clsList.insert(0, Tab)
 
 	def _get_statusBar(self):
 		return shared.searchObject((("container-live-role","status"),))
@@ -85,9 +97,10 @@ class AppModule(thunderbird.AppModule):
 		if obj.role == controlTypes.Role.BUTTON and obj.parent.role == controlTypes.Role.TABLECOLUMNHEADER:
 				try:
 					if "id" in obj.IA2Attributes:
-						obj.description = _("Column {pos}".format(
+						#TRANSLATORS: Indicates the table column in which the focused control is located
+						obj.description = _("Column {pos}").format(
 							pos = int(obj.parent.IA2Attributes["table-cell-index"])+1
-						))
+						)
 				except:
 					pass
 		nextHandler()
@@ -115,10 +128,10 @@ class AppModule(thunderbird.AppModule):
 					speech.cancelSpeech()
 		except NotImplementedError:
 			pass
-		if obj.role == 86 and obj.IA2Attributes["id"] == "quickFilterBarContainer":
-			obj.role = 39
+		if obj.role == controlTypes.Role.SECTION and hasattr(obj, "IA2Attributes") and "id" in obj.IA2Attributes and obj.IA2Attributes["id"] == "quickFilterBarContainer":
+			obj.role = controlTypes.Role.FORM
 			obj.isPresentableFocusAncestor = True
-		if obj.role == 14 and obj.IA2Attributes["id"] == "unifiedToolbarContent":
+		if obj.role == controlTypes.Role.LIST and hasattr(obj, "IA2Attributes") and "id" in obj.IA2Attributes and obj.IA2Attributes["id"] == "unifiedToolbarContent":
 			obj.isPresentableFocusAncestor = False
 		nextHandler()
 
@@ -170,7 +183,6 @@ class AppModule(thunderbird.AppModule):
 		self.lastIndex = index
 
 	def script_attachments (self, gesture):
-		#@@ fixed
 		doc = self.isDocument()
 		if doc and controlTypes.State.READONLY in doc.states:
 			try:
@@ -284,7 +296,6 @@ class AppModule(thunderbird.AppModule):
 				speech.pauseSpeech(True)
 
 	def addressFieldOnComposing(self, index, focus):
-		#@@ fixed
 		headers = shared.searchObject((
 		('id', 'composeContentBox'),
 		('id', 'MsgHeadersToolbar')))
@@ -322,7 +333,6 @@ class AppModule(thunderbird.AppModule):
 		return
 
 	def isDocument(self):
-		#|| fixed
 		for ancestor in filter(lambda o: o.role == 56, globalVars.focusAncestors):
 			try:
 				frame = next(filter(lambda o: o.role == 115 and o.firstChild.role == controlTypes.Role.DOCUMENT, ancestor.children))
@@ -332,29 +342,20 @@ class AppModule(thunderbird.AppModule):
 		return None
 
 	def isComposing(self):
-		if int(self.productVersion.split(".")[0]) >= 102:
-			# Thunderbird versions 102.0 and above
-			identity = shared.searchObject((
-			('id', 'composeContentBox'),
-			('id', 'MsgHeadersToolbar'),
-			('id', 'msgIdentity')))
-			return True if identity else False
-		return True if shared.searchAmongTheChildren(("id",".*compose.*"), api.getForegroundObject()) else False
+		identity = shared.searchObject((
+		('id', 'composeContentBox'),
+		('id', 'MsgHeadersToolbar'),
+		('id', 'msgIdentity')))
+		return True if identity else False
 
 	def getPropertyPage(self):
 		fg = api.getForegroundObject()
-		if int(self.productVersion.split(".")[0]) <= 68:
-			# Thunderbird 68 and earlier
-			propertyPages = next(filter(lambda o: o.role == controlTypes.Role.PROPERTYPAGE, filter(lambda o: o.role == controlTypes.Role.GROUPING, fg.children)).children)
-			return propertyPages[0]
-		else:
-			# Thunderbird 78
-			propertyPage = shared.searchObject((
-			("id","tabpanelcontainer"),
-			("id","mailContent")))
-			if propertyPage : 				return propertyPage 
-			# When message is opened in a new window there are not a property page. Address fields hang directly from foreground.
-			return fg
+		propertyPage = shared.searchObject((
+		("id","tabpanelcontainer"),
+		("id","mailContent")))
+		if propertyPage : 				return propertyPage 
+		# When message is opened in a new window there are not a property page. Address fields hang directly from foreground.
+		return fg
 
 	__gestures = {
 		"kb:Control+Shift+1": "readAddressField",
@@ -392,8 +393,26 @@ class ThreadTree(IAccessible):
 		else:
 			return doc
 
+	def initOverlayClass(self):
+		self.setConversation()
+
+	def setConversation(self):
+		if controlTypes.State.COLLAPSED in self.states:
+			state = _("Collapsed conversation")
+		elif controlTypes.State.EXPANDED in self.states:
+			state = _("Expanded conversation")
+		else:
+			state = None
+		if state:
+			self.name = "{}, {}".format(
+				state,
+				super(ThreadTree, self).name)
+
+	def event_stateChange(self):
+		self.setConversation()
+		super(ThreadTree, self).event_stateChange()
+
 	def script_moveToColumn(self, gesture):
-		#@@ fixed
 		try:
 			index = int(gesture.keyName[-1])-1
 		except AttributeError:
@@ -419,7 +438,6 @@ class ThreadTree(IAccessible):
 			ui.message(_("Preview pane is not active or message has not been loaded yet"))
 	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_readPreviewPane.__doc__ = _("In message list, reads the selected message without leaving the list.")
-
 
 	def readPreviewPane(self, obj):
 		api.setFocusObject(obj)
