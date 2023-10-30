@@ -82,8 +82,11 @@ class AppModule(thunderbird.AppModule):
 		elif obj.role == controlTypes.Role.TAB:
 			if obj.parent.role == controlTypes.Role.TABCONTROL:
 				if hasattr(obj.parent, "IA2Attributes") and "id" in obj.parent.IA2Attributes:
-					if obj.parent.IA2Attributes["id"] == "tabmail-tabs":
+					if obj.parent.IA2Attributes["id"] in ("tabmail-tabs","event-grid-tabs"):
 						clsList.insert(0, Tab)
+		elif obj.role == 8:
+			if obj.parent and hasattr(obj.parent, "IA2Attributes") and "id" in obj.parent.IA2Attributes and obj.parent.IA2Attributes["id"] == "quickFilterBarContainer":
+				clsList.insert(0, QuickFilter)
 
 	def _get_statusBar(self):
 		return shared.searchObject((("container-live-role","status"),))
@@ -329,7 +332,7 @@ class AppModule(thunderbird.AppModule):
 			winUser.mouse_event(winUser.MOUSEEVENTF_LEFTDOWN,0,0,None,None)
 			winUser.mouse_event(winUser.MOUSEEVENTF_LEFTUP,0,0,None,None)
 		else:
-			speech.speakObject(addresses[index]) # , reason=controlTypes.REASON_FOCUS  if hasattr(controlTypes, "REASON_FOCUS") else controlTypes.OutputReason.FOCUS)
+			speech.speakObject(addresses[index], reason=controlTypes.OutputReason.FOCUS)
 		return
 
 	def isDocument(self):
@@ -412,6 +415,10 @@ class ThreadTree(IAccessible):
 		self.setConversation()
 		super(ThreadTree, self).event_stateChange()
 
+	def event_nameChange(self):
+		self.setConversation()
+		super(ThreadTree, self).event_nameChange()
+
 	def script_moveToColumn(self, gesture):
 		try:
 			index = int(gesture.keyName[-1])-1
@@ -426,16 +433,19 @@ class ThreadTree(IAccessible):
 		if obj.firstChild:
 			obj.value = obj.firstChild.name
 		obj.states = set()
-		REASON = controlTypes.REASON_FOCUS  if hasattr(controlTypes, "REASON_FOCUS") else controlTypes.OutputReason.FOCUS
-		speech.speakObject(obj, reason=REASON)
+		speech.speakObject(obj, reason=controlTypes.OutputReason.FOCUS)
 
 	def script_readPreviewPane(self, gesture):
 		doc = self.document
 		if doc:
 			self.readPreviewPane(doc)
 		else:
-			#TRANSLATORS: the preview pane is not available yet
-			ui.message(_("Preview pane is not active or message has not been loaded yet"))
+			if controlTypes.State.COLLAPSED in self.states:
+				#TRANSLATORS: The conversation is collapsed, the user is prompted to expand it to read the messages
+				ui.message(_("Expand the conversation to read the messages"))
+			else:
+				#TRANSLATORS: the preview pane is not available yet
+				ui.message(_("Preview pane is not active or message has not been loaded yet"))
 	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_readPreviewPane.__doc__ = _("In message list, reads the selected message without leaving the list.")
 
@@ -480,6 +490,12 @@ class Tab(IAccessible):
 		obj = self.previous
 		if not obj: obj = self.parent.lastChild
 		obj.doAction()
+
+class QuickFilter(IAccessible):
+
+	@script(gesture="kb:Enter")
+	def script_enterKey(self, gesture):
+		KeyboardInputGesture.fromName("F6").send()
 
 class ThunderbirdPanel(SettingsPanel):
 	#TRANSLATORS: Settings panel title

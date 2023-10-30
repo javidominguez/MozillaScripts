@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: nvda-translations@groups.io\n"
-"POT-Creation-Date: 2023-10-29 23:53+0100\n"
-"PO-Revision-Date: 2023-10-29 23:56+0100\n"
+"POT-Creation-Date: 2023-10-30 18:51+0100\n"
+"PO-Revision-Date: 2023-10-30 18:52+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -202,28 +202,33 @@ msgid "Expanded conversation"
 msgstr "Conversación expandida"
 
 #. TRANSLATORS: message spoken when there aren't more columns in the tree
-#: addon\appModules\thunderbird.py:422
+#: addon\appModules\thunderbird.py:426
 msgid "There are not more columns"
 msgstr "No hay más columnas"
 
+#. TRANSLATORS: The conversation is collapsed, the user is prompted to expand it to read the messages
+#: addon\appModules\thunderbird.py:442
+msgid "Expand the conversation to read the messages"
+msgstr "Expanda la conversación para leer los mensajes"
+
 #. TRANSLATORS: the preview pane is not available yet
-#: addon\appModules\thunderbird.py:438
+#: addon\appModules\thunderbird.py:445
 msgid "Preview pane is not active or message has not been loaded yet"
 msgstr ""
 "El panel de vista previa no está activo o el mensaje no se ha cargado aún"
 
 #. TRANSLATORS: message shown in Input gestures dialog for this script
-#: addon\appModules\thunderbird.py:440
+#: addon\appModules\thunderbird.py:447
 msgid "In message list, reads the selected message without leaving the list."
 msgstr ""
 "En la lista de mensajes, lee el mensaje seleccionado sin salir de la lista."
 
 #. TRANSLATORS: Settings panel title
-#: addon\appModules\thunderbird.py:486
+#: addon\appModules\thunderbird.py:493
 msgid "Mozilla Thunderbird"
 msgstr "Mozilla Thunderbird"
 
-#: addon\appModules\thunderbird.py:488
+#: addon\appModules\thunderbird.py:495
 msgid "Automatically read message preview pane"
 msgstr "Leer automáticamente el mensaje en el panel de vista previa"
 
