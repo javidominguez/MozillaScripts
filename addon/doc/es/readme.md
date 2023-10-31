@@ -8,6 +8,7 @@
 * También puede asignar, en las preferencias de NVDA, un gesto alternativo que le resulte más cómodo que la doble pulsación para mostrar los botones de la barra de herramientas.
 * NVDA+Control+N Lee la última notificación y lleva el foco del sistema a ella si es posible. Pulsando dos veces rápidamente muestra el historial de notificaciones.
 * NVDA+F6 Lleva el foco al documento.
+* Punto (.) Con el modo de exploración activado, si el cursor está sobre un enlace, lee la URL a la que apunta. Esta tecla no se puede personalizar.
  
 ## Thunderbird  
  
@@ -15,10 +16,12 @@
 	* Control+Shift+(1-9) Lee el remitente y los destinatarios del mensaje. Si se pulsa dos veces rápidamente, abre el menú de opciones. 
 	* Alt + Control + Shift + 1-9 también abre el menú de opciones; Úselo si la doble pulsación no funciona bien.
 	* Control+Shift+A Lleva el foco a la lista de adjuntos si los hay.
-	* NVDA+F6 Lleva el foco al texto del mensaje.
+	* NVDA+F6 Lleva el foco al cuerpo del mensaje.
  
  (Estos scripts también están disponibles en la lista de mensajes con el panel de vista previa activo.)
  
+* En el cuerpo del mensaje con el modo de exploración activado, si el cursor está sobre un enlace, la tecla punto (.) lee la URL a la que apunta. Esta tecla no se puede personalizar.
+
 * En la lista de mensajes:
 	* Si el panel de vista previa está activado, pulsa NVDA + flecha abajo (sobremesa) o NVDA+A (portátil) para leer el mensaje  sin salir de la lista.
 	* Control+NVDA+(1-9) Lee la información de la columna correspondiente.

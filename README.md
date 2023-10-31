@@ -10,18 +10,25 @@
 * Also, you can assign, in NVDA preferences, an alternative gesture to display the toolbar buttons which is more comfortable for you than twice pressing. 
 * NVDA+Control+N Reads the last notification and it takes the system focus to it if it is possible. By pressing two times quickly shows the history of notifications. 
 * NVDA+F6 Brings the focus to the document. 
+* Dot (.) With browse mode enabled, if the cursor is over a link, reads the URL it points to (This key cannot be customized).
  
 ## Thunderbird 
  
 * In a message window: 
 	* Control+Shift+(1-9) Reads the sender and recipients of the message. If pressed twice quickly, opens the options menu. 
 	* Alt+Control+Shift+1-9 opens the options menu too; Use it if twice pressing does not work well. 
-	* Control+Shift+A Brings the focus to the list of attachments, if any. 
+	* NVDA+F6 Brings the focus to the body of the message 
+		* Control+Shift+A Brings the focus to the list of attachments, if any. 
+
 (These scripts are also available in the list of messages if you activate the preview pane.) 
+
+* In message body with browse mode enabled, if the cursor is over a link, dot key reads the URL it points to (This key cannot be customized).
+
 * In messages list: 
 	* If the preview pane is active, press NVDA+downArrow (desktop) or NVDA+A (laptop) to read the message without leaving the list. 
 		* Control+NVDA+(1-9) Read the information in the corresponding column.
 
-Keystrokes can be customized in  Preferences  of NVDA > Input gestures when Firefox or Thunderbird are open. 
+Gestures can be customized in  Preferences  of NVDA > Input gestures when Firefox or Thunderbird are open. 
  
 In NVDA Preferences > Options > Mozilla Thunderbird you can enable/disable automatic message reading in the preview pane. 
+c

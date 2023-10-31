@@ -41,16 +41,21 @@ from datetime import datetime
 from threading import Timer
 from urllib.parse  import urlparse
 import re
+import treeInterceptorHandler
+import browseMode
 from . import shared
 
 addonHandler.initTranslation()
 
 class AppModule(AppModule):
 
-	tbDialog = None
-
 	#TRANSLATORS: category for Firefox input gestures
 	scriptCategory = _("mozilla Firefox")
+
+	def __init__(self, *args, **kwargs):
+		super(AppModule, self).__init__(*args, **kwargs)
+		self.tbDialog = None
+		setattr(browseMode.BrowseModeTreeInterceptor, "script_linkURL", shared.linkURL)
 
 	def event_alert(self, obj, nextHandler):
 		try:
@@ -82,6 +87,12 @@ class AppModule(AppModule):
 			shared.notificationsDialog.registerFirefoxNotification((datetime.now(), alertText))
 		nextHandler()
 
+	def event_gainFocus(self, obj, nextHandler):
+		if obj.role == controlTypes.Role.DOCUMENT:
+			if hasattr(obj, "treeInterceptor") and isinstance(obj.treeInterceptor, treeInterceptorHandler.TreeInterceptor):
+				obj.treeInterceptor.bindGesture("kb:.", "linkURL")
+		nextHandler()
+
 	def script_status(self, gesture):
 		if not self.inMainWindow():
 			#TRANSLATORS: message spoken by NVDA when the focus is not in the main Firefox window
@@ -96,7 +107,7 @@ class AppModule(AppModule):
 				except StopIteration:
 					pass
 			try:
-				ui.message(obj.name)
+				ui.message(obj.firstChild.name)
 			except NameError:
 				#TRANSLATORS: message spoken when there is no status bar in Firefox
 				ui.message (_("Status bar not found"))
@@ -110,6 +121,11 @@ class AppModule(AppModule):
 		ui.message (_("Status bar not found"))
 	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_status.__doc__ = _("Reads the status bar. If pressed twice quickly, copies it to clipboard.")
+
+	@scriptHandler.script(gesture="kb:nvda+numpadPlus")
+	def script_linkURL(self, gesture):
+		if not shared.linkURL():
+			gesture.send()
 
 	def script_url(self, gesture):
 		if not self.inMainWindow():
@@ -229,7 +245,7 @@ class AppModule(AppModule):
 		if group:
 			for propertyPage in filter(lambda o: o.role == controlTypes.Role.PROPERTYPAGE, group.children):
 				try:
-					doc = filter(lambda o: o.role == controlTypes.Role.INTERNALFRAME and controlTypes.State.FOCUSABLE in o.states, propertyPage.children)[0].children[0]
+					doc = next(filter(lambda o: o.role == controlTypes.Role.INTERNALFRAME and controlTypes.State.FOCUSABLE in o.states, propertyPage.children)).children[0]
 					break
 				except IndexError:
 					pass

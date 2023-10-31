@@ -12,7 +12,9 @@ import api
 import controlTypes
 import gui
 import re
+import scriptHandler
 import speech
+import ui
 import wx
 
 addonHandler.initTranslation()
@@ -99,6 +101,19 @@ def searchAmongTheChildren(id, into):
 		obj = obj.next
 	return(obj)
 
+def linkURL(obj=None, gesture=None):
+	obj = api.getReviewPosition().focusableNVDAObjectAtStart
+	if obj.role == controlTypes.Role.LINK and obj.value:
+		if scriptHandler.getLastScriptRepeatCount() == 1:
+			if api.copyToClip(obj.value):
+				#TRANSLATORS: message spoken when an item hast just been copied to the clipboard
+				ui.message(_("Copied to clipboard"))
+		ui.message(obj.value)
+		return True
+	ui.message(_("The cursor must be over a link to read its URL."))
+	return False
+linkURL.__doc__ = _("Reads the URL of the link under the cursor, pressing twice quickly copies it to the clipboard.")
+
 class TabPanel(wx.Panel):
 
 	def __init__(self, parent, lbLabel):
@@ -137,10 +152,11 @@ class TabPanel(wx.Panel):
 			menu = wx.Menu()
 			item = menu.Append(wx.ID_ANY, _("Refresh	F5"))
 			self.Bind(wx.EVT_MENU, self.onMenuRefresh, item)
-			item = menu.Append(wx.ID_ANY, _("Delete item	Supr"))
-			self.Bind(wx.EVT_MENU, self.onMenuDelete, item)
-			item = menu.Append(wx.ID_ANY, _("Clear all"))
-			self.Bind(wx.EVT_MENU, self.onMenuClear, item)
+			if self.TopLevelParent.history[self.Parent.GetPageText(self.Parent.Selection)]:
+				item = menu.Append(wx.ID_ANY, _("Delete item	Supr"))
+				self.Bind(wx.EVT_MENU, self.onMenuDelete, item)
+				item = menu.Append(wx.ID_ANY, _("Clear all"))
+				self.Bind(wx.EVT_MENU, self.onMenuClear, item)
 			self.listBox.PopupMenu(menu, self.listBox.ScreenPosition)
 		# Delete list item
 		elif event.GetKeyCode() == wx.WXK_DELETE and event.EventObject == self.listBox:
@@ -166,7 +182,7 @@ class TabPanel(wx.Panel):
 		else:
 			self.listBox.SetItems(["%s, %s" % (elapsedFromTimestamp(i[0]), i[1].split("\n")[0]) for i in self.TopLevelParent.history[self.Parent.GetPageText(self.Parent.Selection)]])
 			self.text.Enabled = True
-		self.text.SetValue(self.TopLevelParent.history[self.Parent.GetPageText(self.Parent.Selection)][0][1])
+			self.text.SetValue(self.TopLevelParent.history[self.Parent.GetPageText(self.Parent.Selection)][0][1])
 		self.listBox.SetSelection(0)
 		self.listBox.SetFocus()
 
