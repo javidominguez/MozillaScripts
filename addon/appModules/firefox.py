@@ -41,8 +41,6 @@ from datetime import datetime
 from threading import Timer
 from urllib.parse  import urlparse
 import re
-import treeInterceptorHandler
-import browseMode
 from . import shared
 
 addonHandler.initTranslation()
@@ -55,7 +53,6 @@ class AppModule(AppModule):
 	def __init__(self, *args, **kwargs):
 		super(AppModule, self).__init__(*args, **kwargs)
 		self.tbDialog = None
-		setattr(browseMode.BrowseModeTreeInterceptor, "script_linkURL", shared.linkURL)
 
 	def event_alert(self, obj, nextHandler):
 		try:
@@ -85,12 +82,6 @@ class AppModule(AppModule):
 				domain = urlparse(url).hostname if url else ""
 				if domain and domain not in alertText: alertText = "%s\n\n%s" % (alertText, domain)
 			shared.notificationsDialog.registerFirefoxNotification((datetime.now(), alertText))
-		nextHandler()
-
-	def event_gainFocus(self, obj, nextHandler):
-		if obj.role == controlTypes.Role.DOCUMENT:
-			if hasattr(obj, "treeInterceptor") and isinstance(obj.treeInterceptor, treeInterceptorHandler.TreeInterceptor):
-				obj.treeInterceptor.bindGesture("kb:.", "linkURL")
 		nextHandler()
 
 	def script_status(self, gesture):

@@ -101,19 +101,6 @@ def searchAmongTheChildren(id, into):
 		obj = obj.next
 	return(obj)
 
-def linkURL(obj=None, gesture=None):
-	obj = api.getReviewPosition().focusableNVDAObjectAtStart
-	if obj.role == controlTypes.Role.LINK and obj.value:
-		if scriptHandler.getLastScriptRepeatCount() == 1:
-			if api.copyToClip(obj.value):
-				#TRANSLATORS: message spoken when an item hast just been copied to the clipboard
-				ui.message(_("Copied to clipboard"))
-		ui.message(obj.value)
-		return True
-	ui.message(_("The cursor must be over a link to read its URL."))
-	return False
-linkURL.__doc__ = _("Reads the URL of the link under the cursor, pressing twice quickly copies it to the clipboard.")
-
 class TabPanel(wx.Panel):
 
 	def __init__(self, parent, lbLabel):

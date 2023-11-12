@@ -20,7 +20,6 @@ except ImportError:
 
 import addonHandler
 import api
-import browseMode
 import config
 import controlTypes
 import globalCommands
@@ -55,8 +54,6 @@ class AppModule(thunderbird.AppModule):
 		self.docCache = None
 		self.previewPane = None
 		NVDASettingsDialog.categoryClasses.append(ThunderbirdPanel)
-		setattr(browseMode.BrowseModeTreeInterceptor, "script_linkURL", shared.linkURL)
-		setattr(browseMode.BrowseModeTreeInterceptor, "script_linkURL", shared.linkURL)
 
 		if int(self.productVersion.split(".")[0]) < 115:
 			raise RuntimeError(_("The addon Mozilla Apps Enhancements is not compatible with this version of Thunderbird. The application module will be temporarily disabled."))
@@ -109,9 +106,6 @@ class AppModule(thunderbird.AppModule):
 						)
 				except:
 					pass
-		if obj.role == controlTypes.Role.DOCUMENT:
-			if hasattr(obj, "treeInterceptor") and isinstance(obj.treeInterceptor, treeInterceptorHandler.TreeInterceptor):
-				obj.treeInterceptor.bindGesture("kb:.", "linkURL")
 		nextHandler()
 
 	def event_focusEntered(self, obj, nextHandler):
