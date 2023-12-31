@@ -60,6 +60,7 @@ import os
 pythonSources = [
 	os.path.join("addon", "appModules", "*.py"),
 	os.path.join("addon", "appModules", "shared", "*.py"),
+	os.path.join("addon", "GlobalPlugins","MozillaAppsEnhancements.py")
 ]
 
 # Files that contain strings for translation. Usually your python sources

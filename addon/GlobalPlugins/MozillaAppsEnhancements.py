@@ -7,6 +7,7 @@ from gui import guiHelper, NVDASettingsDialog
 from gui.settingsDialogs import SettingsPanel
 from core import restart
 import globalPluginHandler
+import addonHandler
 import config
 import wx
 import os
@@ -77,6 +78,8 @@ class MozillaPanel(SettingsPanel):
 		self.Hide()
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
+	addonHandler.initTranslation()
+
 	def __init__(self, *args, **kwargs):
 		super(GlobalPlugin, self).__init__(*args, **kwargs)
 		NVDASettingsDialog.categoryClasses.append(MozillaPanel)
