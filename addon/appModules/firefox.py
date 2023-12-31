@@ -50,6 +50,8 @@ class AppModule(AppModule):
 	#TRANSLATORS: category for Firefox input gestures
 	scriptCategory = _("mozilla Firefox")
 
+	speechOnDemand = {"speakOnDemand": True} if hasattr(speech.speech.SpeechMode, "onDemand") else {}
+
 	def __init__(self, *args, **kwargs):
 		super(AppModule, self).__init__(*args, **kwargs)
 		self.tbDialog = None
@@ -84,6 +86,7 @@ class AppModule(AppModule):
 			shared.notificationsDialog.registerFirefoxNotification((datetime.now(), alertText))
 		nextHandler()
 
+	@scriptHandler.script(**speechOnDemand)
 	def script_status(self, gesture):
 		if not self.inMainWindow():
 			#TRANSLATORS: message spoken by NVDA when the focus is not in the main Firefox window
@@ -113,11 +116,7 @@ class AppModule(AppModule):
 	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_status.__doc__ = _("Reads the status bar. If pressed twice quickly, copies it to clipboard.")
 
-	@scriptHandler.script(gesture="kb:nvda+numpadPlus")
-	def script_linkURL(self, gesture):
-		if not shared.linkURL():
-			gesture.send()
-
+	@scriptHandler.script(**speechOnDemand)
 	def script_url(self, gesture):
 		if not self.inMainWindow():
 			#TRANSLATORS: message spoken by NVDA when the focus is not in the main Firefox window
@@ -201,6 +200,7 @@ class AppModule(AppModule):
 		#TRANSLATORS: message spoken when Firefox toolbar is not found
 		ui.message (_("Tool bar not found"))
 
+	@scriptHandler.script(**speechOnDemand)
 	def script_notifications(self, gesture):
 		obj = api.getForegroundObject().simpleFirstChild
 		if obj.role == controlTypes.Role.ALERT:

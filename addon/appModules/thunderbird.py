@@ -46,6 +46,8 @@ class AppModule(thunderbird.AppModule):
 	#TRANSLATORS: category for Thunderbird input gestures
 	scriptCategory = _("mozilla Thunderbird")
 
+	speechOnDemand = {"speakOnDemand": True} if hasattr(speech.speech.SpeechMode, "onDemand") else {}
+
 	def __init__(self, *args, **kwargs):
 		super(thunderbird.AppModule, self).__init__(*args, **kwargs)
 		self.lastIndex = 0
@@ -166,6 +168,7 @@ class AppModule(thunderbird.AppModule):
 				shared.notificationsDialog.registerThunderbirdNotification(notificationLog )
 		nextHandler()
 
+	@script(**speechOnDemand)
 	def script_toggleAutomaticMessageReading(self, gesture):
 		config.conf["thunderbird"]["automaticMessageReading"] = not config.conf["thunderbird"]["automaticMessageReading"]
 		ui.message(_("Automatic reading of the message is {state}").format(
@@ -173,6 +176,7 @@ class AppModule(thunderbird.AppModule):
 	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_toggleAutomaticMessageReading.__doc__ = _("On/off automatic reading of the message preview panel.")
 
+	@script(**speechOnDemand)
 	def script_readAddressField(self, gesture):
 		try:
 			index = int(gesture.keyName[-1])-1
@@ -221,6 +225,7 @@ class AppModule(thunderbird.AppModule):
 	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_focusDocument.__doc__ = _("Brings the focus to the text of the open message.")
 
+	@script(**speechOnDemand)
 	def script_notifications(self, gesture):
 		obj = self.getPropertyPage().simpleLastChild.simplePrevious
 		if obj.role == controlTypes.Role.ALERT:
@@ -388,6 +393,8 @@ class ThreadTree(IAccessible):
 	#TRANSLATORS: category for Thunderbird input gestures
 	scriptCategory = _("mozilla Thunderbird")
 
+	speechOnDemand = {"speakOnDemand": True} if hasattr(speech.speech.SpeechMode, "onDemand") else {}
+
 	@property
 	def document(self):
 		doc = self.appModule.previewPane
@@ -419,6 +426,7 @@ class ThreadTree(IAccessible):
 		self.setConversation()
 		super(ThreadTree, self).event_nameChange()
 
+	@script(**speechOnDemand)
 	def script_moveToColumn(self, gesture):
 		try:
 			index = int(gesture.keyName[-1])-1
@@ -435,6 +443,7 @@ class ThreadTree(IAccessible):
 		obj.states = set()
 		speech.speakObject(obj, reason=controlTypes.OutputReason.FOCUS)
 
+	@script(**speechOnDemand)
 	def script_readPreviewPane(self, gesture):
 		doc = self.document
 		if doc:
