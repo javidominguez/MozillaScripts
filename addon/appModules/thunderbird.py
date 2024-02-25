@@ -58,6 +58,7 @@ class AppModule(thunderbird.AppModule):
 		NVDASettingsDialog.categoryClasses.append(ThunderbirdPanel)
 
 		if int(self.productVersion.split(".")[0]) < 115:
+			self.terminate()
 			raise RuntimeError(_("The addon Mozilla Apps Enhancements is not compatible with this version of Thunderbird. The application module will be temporarily disabled."))
 
 	def terminate(self):
