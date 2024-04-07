@@ -1,3 +1,5 @@
+Fixed: For some reason the English readme file was not included in the previous build.
+
 Compatibility with newest versions of Thunderbird (115 and above)
 
 - Collapsed/expanded conversation report.
