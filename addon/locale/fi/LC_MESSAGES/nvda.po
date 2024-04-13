@@ -1,0 +1,424 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 'Mozilla' '1.18'\n"
+"Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
+"POT-Creation-Date: 2024-04-13 17:35+0300\n"
+"PO-Revision-Date: 2024-04-13 17:56+0300\n"
+"Last-Translator: Jani Kinnunen <janikinnunen340@gmail.com>\n"
+"Language-Team: fi_FI <janikinnunen340@gmail.com>\n"
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#. TRANSLATORS: category for Firefox input gestures
+#: addon\appModules\firefox.py:51
+msgid "mozilla Firefox"
+msgstr "mozilla Firefox"
+
+#. TRANSLATORS: message spoken by NVDA when the focus is not in the main Firefox window
+#: addon\appModules\firefox.py:93 addon\appModules\firefox.py:123
+#: addon\appModules\firefox.py:184 addon\appModules\firefox.py:233
+msgid "Not available here"
+msgstr "Ei käytettävissä tässä"
+
+#. TRANSLATORS: message spoken when there is no status bar in Firefox
+#. TRANSLATORS: Firefox status bar not found
+#: addon\appModules\firefox.py:107 addon\appModules\firefox.py:115
+msgid "Status bar not found"
+msgstr "Tilapalkkia ei löydy"
+
+#. TRANSLATORS: message spoken when an item hast just been copied to the clipboard
+#: addon\appModules\firefox.py:112 addon\appModules\firefox.py:161
+msgid "Copied to clipboard"
+msgstr "Kopioitu leikepöydälle"
+
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\firefox.py:117
+msgid "Reads the status bar. If pressed twice quickly, copies it to clipboard."
+msgstr ""
+"Lukee kerran painettaessa tilapalkin ja kopioi kahdesti painettaessa sen "
+"sisällön leikepöydälle."
+
+#. TRANSLATORS: this connection is using http, not https
+#: addon\appModules\firefox.py:148
+msgid "Insecure connection"
+msgstr "Yhteys ei ole turvallinen"
+
+#. TRANSLATORS: message spoken when addres bar could not be found
+#: addon\appModules\firefox.py:164
+msgid "Address not found"
+msgstr "Osoitetta ei löydy"
+
+#. TRANSLATORS: description shown in input gestures dialog for this script
+#: addon\appModules\firefox.py:166
+msgid ""
+"Reads the page address. If pressed twice quickly, copies it to clipboard."
+msgstr ""
+"Lukee kerran painettaessa sivun osoitteen ja kopioi kahdesti painettaessa "
+"sen leikepöydälle."
+
+#. TRANSLATORS: documentation shown in the input gestures dialog for this script
+#: addon\appModules\firefox.py:174
+msgid ""
+"Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool "
+"bar."
+msgstr ""
+"Näyttää kerran painettaessa luettelon avoimista välilehdistä ja kahdesti "
+"painettaessa työkalupalkin painikkeet."
+
+#. TRANSLATORS: documentation shown in the input gestures dialog for this script
+#: addon\appModules\firefox.py:179
+msgid "Shows buttons of tool bar."
+msgstr "Näyttää työkalupalkin painikkeet."
+
+#. TRANSLATORS: message spoken when Firefox toolbar is not found
+#: addon\appModules\firefox.py:201
+msgid "Tool bar not found"
+msgstr "Työkalupalkkia ei löydy"
+
+#. There is no notification in Firefox or Thunderbird
+#: addon\appModules\firefox.py:226 addon\appModules\thunderbird.py:251
+#: addon\appModules\shared\__init__.py:166
+msgid "There is no notification"
+msgstr "Ilmoitusta ei ole"
+
+#. TRANSLATORS: documentation shown in the input gestures dialog for this script
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\firefox.py:228 addon\appModules\thunderbird.py:253
+msgid ""
+"Reads the last notification and it takes the system focus to it if it is "
+"possible. By pressing two times quickly shows the history of notifications."
+msgstr ""
+"Lukee kerran painettaessa viimeisimmän ilmoituksen ja siirtää kohdistuksen "
+"siihen, mikäli mahdollista, ja näyttää kahdesti painettaessa "
+"ilmoitushistorian."
+
+#. TRANSLATORS: documentation shown in the input gestures dialog for this script
+#: addon\appModules\firefox.py:253
+msgid "Brings the focus to the document"
+msgstr "Siirtää kohdistuksen dokumenttiin"
+
+#. TRANSLATORS: opened tabs in tabs dialog
+#: addon\appModules\firefox.py:266
+msgid "Opened tabs"
+msgstr "Avoimet välilehdet"
+
+#. TRANSLATORS: Toolbar buttons dialog
+#: addon\appModules\firefox.py:274
+msgid "Tool Bar Buttons"
+msgstr "Työkalupalkin painikkeet"
+
+#. TRANSLATORS: go button in toolbar buttons dialog
+#: addon\appModules\firefox.py:311
+msgid "&Go"
+msgstr "S&iirry"
+
+#. TRANSLATORS: options button in toolbar buttons dialog
+#: addon\appModules\firefox.py:316
+msgid "&Options"
+msgstr "&Valinnat"
+
+#. TRANSLATORS: close button in toolbar buttons dialog
+#: addon\appModules\firefox.py:320
+msgid "Close"
+msgstr "Sulje"
+
+#. TRANSLATORS: category for Thunderbird input gestures
+#: addon\appModules\thunderbird.py:47 addon\appModules\thunderbird.py:395
+msgid "mozilla Thunderbird"
+msgstr "mozilla Thunderbird"
+
+#: addon\appModules\thunderbird.py:62
+msgid ""
+"The addon Mozilla Apps Enhancements is not compatible with this version of "
+"Thunderbird. The application module will be temporarily disabled."
+msgstr ""
+"Mozilla-sovellusten laajennukset -lisäosa ei ole yhteensopiva tämän "
+"Thunderbird-version kanssa. Sovellusmoduuli poistetaan väliaikaisesti "
+"käytöstä."
+
+#. TRANSLATORS: Indicates the table column in which the focused control is located
+#: addon\appModules\thunderbird.py:107
+msgid "Column {pos}"
+msgstr "Sarake {pos}"
+
+#: addon\appModules\thunderbird.py:175
+msgid "Automatic reading of the message is {state}"
+msgstr "Viestin automaattinen lukeminen on {state}"
+
+#: addon\appModules\thunderbird.py:176
+msgid "on"
+msgstr "käytössä"
+
+#: addon\appModules\thunderbird.py:176
+msgid "off"
+msgstr "pois käytöstä"
+
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\thunderbird.py:178
+msgid "On/off automatic reading of the message preview panel."
+msgstr ""
+"Ottaa käyttöön tai poistaa käytöstä automaattisen viestin esikatseluruudun "
+"lukemisen."
+
+#. TRANSLATORS: there are no attachments in this message
+#: addon\appModules\thunderbird.py:200
+msgid "There are No attachments"
+msgstr "Liitteitä ei ole"
+
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\thunderbird.py:215
+msgid "Brings the focus to the list of attachments, if any."
+msgstr "Siirtää kohdistuksen liitteiden luetteloon, mikäli niitä on."
+
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\thunderbird.py:227
+msgid "Brings the focus to the text of the open message."
+msgstr "Siirtää kohdistuksen avoimen viestin tekstiin."
+
+#: addon\appModules\thunderbird.py:269 addon\appModules\thunderbird.py:299
+#: addon\appModules\thunderbird.py:312
+msgid "Not found"
+msgstr "Ei löydy"
+
+#: addon\appModules\thunderbird.py:294 addon\appModules\thunderbird.py:328
+msgid "There are no more recipients"
+msgstr "Ei enempää vastaanottajia"
+
+#: addon\appModules\thunderbird.py:412
+msgid "Collapsed conversation"
+msgstr "Kutistettu keskustelu"
+
+#: addon\appModules\thunderbird.py:414
+msgid "Expanded conversation"
+msgstr "Laajennettu keskustelu"
+
+#. TRANSLATORS: message spoken when there aren't more columns in the tree
+#: addon\appModules\thunderbird.py:438
+msgid "There are not more columns"
+msgstr "Ei enempää sarakkeita"
+
+#. TRANSLATORS: The conversation is collapsed, the user is prompted to expand it to read the messages
+#: addon\appModules\thunderbird.py:455
+msgid "Expand the conversation to read the messages"
+msgstr "Laajenna keskustelu lukeaksesi sen viestit"
+
+#. TRANSLATORS: the preview pane is not available yet
+#: addon\appModules\thunderbird.py:458
+msgid "Preview pane is not active or message has not been loaded yet"
+msgstr "Esikatseluruutu ei ole aktiivisena tai viestiä ei ole vielä ladattu"
+
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\thunderbird.py:460
+msgid "In message list, reads the selected message without leaving the list."
+msgstr "Lukee valitun viestin viestiluettelossa poistumatta siitä."
+
+#. TRANSLATORS: Settings panel title
+#: addon\appModules\thunderbird.py:512
+msgid "Mozilla Thunderbird"
+msgstr "Mozilla Thunderbird"
+
+#: addon\appModules\thunderbird.py:514
+msgid "Automatically read message preview pane"
+msgstr "Lue viestin esikatseluruutu automaattisesti"
+
+#. TRANSLATORS: an event happened yesterday
+#: addon\appModules\shared\__init__.py:45
+msgid "Yesterday"
+msgstr "Eilen"
+
+#. TRANSLATORS: an event happened %d days ago
+#: addon\appModules\shared\__init__.py:48
+#, python-format
+msgid "%d days ago"
+msgstr "%d päivää sitten"
+
+#. TRANSLATORS: an event happened an hour ago
+#: addon\appModules\shared\__init__.py:53
+msgid "About an hour ago"
+msgstr "Noin tunti sitten"
+
+#. TRANSLATORS: an event happened %d hours ago
+#: addon\appModules\shared\__init__.py:56
+#, python-format
+msgid "About %d hours ago"
+msgstr "Noin %d tuntia sitten"
+
+#. TRANSLATORS: an event happened a minute ago
+#: addon\appModules\shared\__init__.py:59
+msgid "About a minute ago"
+msgstr "Noin minuutti sitten"
+
+#. TRANSLATORS: an event happened %d minutes ago
+#: addon\appModules\shared\__init__.py:62
+#, python-format
+msgid "About %d minutes ago"
+msgstr "Noin %d minuuttia sitten"
+
+#. TRANSLATORS: an event happened a second ago
+#: addon\appModules\shared\__init__.py:65
+msgid "a second ago"
+msgstr "Sekunti sitten"
+
+#. TRANSLATORS: an event happened %d seconds ago
+#: addon\appModules\shared\__init__.py:68
+#, python-format
+msgid "%d seconds ago"
+msgstr "%d sekuntia sitten"
+
+#. TRANSLATORS: the notification text could not be read
+#: addon\appModules\shared\__init__.py:79
+msgid "Couldn't capture the text of this notification"
+msgstr "Tämän ilmoituksen tekstiä ei voitu kaapata"
+
+#: addon\appModules\shared\__init__.py:140
+msgid "Refresh\tF5"
+msgstr "Päivitä\tF5"
+
+#: addon\appModules\shared\__init__.py:143
+msgid "Delete item\tSupr"
+msgstr "Poista kohde\tSupr"
+
+#: addon\appModules\shared\__init__.py:145
+msgid "Clear all"
+msgstr "Poista kaikki"
+
+#: addon\appModules\shared\__init__.py:197
+msgid "Mozilla notifications"
+msgstr "Mozillan ilmoitukset"
+
+#: addon\appModules\shared\__init__.py:200
+msgid "Firefox notifications"
+msgstr "Firefoxin ilmoitukset"
+
+#: addon\appModules\shared\__init__.py:202
+msgid "Thunderbird notifications"
+msgstr "Thunderbirdin ilmoitukset"
+
+#. TRANSLATORS: title for the Mozilla Apps Enhancements settings category
+#. Add-on summary, usually the user visible name of the addon.
+#. Translators: Summary for this add-on
+#. to be shown on installation and add-on information found in Add-ons Manager.
+#: addon\GlobalPlugins\MozillaAppsEnhancements.py:17 buildVars.py:23
+msgid "Mozilla Apps Enhancements"
+msgstr "Mozilla-sovellusten laajennukset"
+
+#. TRANSLATORS: Selecting appModules
+#: addon\GlobalPlugins\MozillaAppsEnhancements.py:24
+msgid "Select the application modules you want to load."
+msgstr "Valitse ladattavat sovellusmoduulit."
+
+#. TRANSLATORS: Checkbox to select Firefox appModule
+#: addon\GlobalPlugins\MozillaAppsEnhancements.py:30
+#| msgid "mozilla Firefox"
+msgid "Firefox"
+msgstr "Firefox"
+
+#. TRANSLATORS: Checkbox to select Thunderbird appModule
+#: addon\GlobalPlugins\MozillaAppsEnhancements.py:35
+#| msgid "mozilla Thunderbird"
+msgid "Thunderbird"
+msgstr "Thunderbird"
+
+#: addon\GlobalPlugins\MozillaAppsEnhancements.py:64
+msgid ""
+"Changes will not be applied until restart NVDA. Do you want to restart it "
+"now?"
+msgstr ""
+"Muutokset otetaan käyttöön vasta NVDA:n uudelleenkäynnistyksen jälkeen. "
+"Haluatko käynnistää sen uudelleen nyt?"
+
+#: addon\GlobalPlugins\MozillaAppsEnhancements.py:64
+msgid "Restart NVDA"
+msgstr "Käynnistä NVDA uudelleen"
+
+#. Add-on description
+#. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
+#: buildVars.py:26
+#| msgid "Provides accessibility features for Mozilla Firefox and Thunderbird"
+msgid "Provides accessibility features for Mozilla Firefox and Thunderbird."
+msgstr "Lisää Mozilla Firefoxiin ja Thunderbirdiin saavutettavuusominaisuuksia"
+
+#~ msgid "(Press down arrow to display more options)"
+#~ msgstr "(Paina alanuolinäppäintä nähdäksesi lisää vaihtoehtoja)"
+
+#~ msgid "empty"
+#~ msgstr "tyhjä"
+
+#~ msgid "you are not in a message window"
+#~ msgstr "Viesti-ikkuna ei ole aktiivisena"
+
+#~ msgid "Reads the subject of the message."
+#~ msgstr "Lukee viestin aiheen."
+
+#~ msgid "Reads date of the message."
+#~ msgstr "Lukee viestin päivämäärän."
+
+#~ msgid "You are not in a list of messages"
+#~ msgstr "Viestiluettelo ei ole aktiivisena"
+
+#~ msgid "Column headers not found"
+#~ msgstr "Sarakeotsikoita ei löydy"
+
+#~ msgid "Allows you to change the order of the columns in the messages list"
+#~ msgstr "Mahdollistaa viestiluettelon sarakkeiden järjestyksen vaihtamisen"
+
+#~ msgid "Search in "
+#~ msgstr "Hae kohteesta "
+
+#~ msgid "Leaving search box"
+#~ msgstr "Poistutaan hakukentästä"
+
+#~ msgid "uncheck"
+#~ msgstr "poista valinta"
+
+#~ msgid "check"
+#~ msgstr "valitse"
+
+#~ msgid "checked"
+#~ msgstr "valittu"
+
+#~ msgid "not checked"
+#~ msgstr "ei valittu"
+
+#~ msgid "Manage columns"
+#~ msgstr "Sarakkeiden hallinta"
+
+#~ msgid "&up"
+#~ msgstr "&Ylös"
+
+#~ msgid "&down"
+#~ msgstr "&Alas"
+
+#~ msgid "&options"
+#~ msgstr "Aset&ukset"
+
+#, python-format
+#~ msgid "Can't move %s, it is already the first column."
+#~ msgstr "Saraketta %s ei voi siirtää, koska se on jo ensimmäisenä."
+
+#~ msgid "{col1} before {col2}"
+#~ msgstr "sarake {col1} ennen saraketta {col2}"
+
+#, python-format
+#~ msgid "Can't move %s, it is already the last column."
+#~ msgstr "Saraketta %s ei voi siirtää, koska se on jo viimeisenä."
+
+#~ msgid "{col1} after {col2}"
+#~ msgstr "sarake {col1} sarakkeen {col2} jälkeen"
+
+#, python-format
+#~ msgid ""
+#~ "Folder has changed, return to %s to manage columns or restart this dialog"
+#~ msgstr ""
+#~ "Kansion sisältö on muuttunut. Hallitse sarakkeita palaamalla kansioon %s "
+#~ "tai sulje ja avaa tämä valintaikkuna uudelleen."
