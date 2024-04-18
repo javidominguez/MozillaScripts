@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 'Mozilla' '1.18'\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
 "POT-Creation-Date: 2024-04-13 17:35+0300\n"
-"PO-Revision-Date: 2024-04-13 17:56+0300\n"
+"PO-Revision-Date: 2024-04-18 18:11+0300\n"
 "Last-Translator: Jani Kinnunen <janikinnunen340@gmail.com>\n"
 "Language-Team: fi_FI <janikinnunen340@gmail.com>\n"
 "Language: fi\n"
@@ -125,7 +125,7 @@ msgstr "S&iirry"
 #. TRANSLATORS: options button in toolbar buttons dialog
 #: addon\appModules\firefox.py:316
 msgid "&Options"
-msgstr "&Valinnat"
+msgstr "V&alinnat"
 
 #. TRANSLATORS: close button in toolbar buttons dialog
 #: addon\appModules\firefox.py:320
