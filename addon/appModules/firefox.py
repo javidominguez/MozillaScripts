@@ -129,8 +129,10 @@ class AppModule(AppModule):
 			path = (("id", "nav-bar"), ("id", "identity-box"), ("id", "identity-icon"))
 		elif ffVersion < 87:
 			path = (("id", "nav-bar"), ("id", "identity-box"))
+		elif ffVersion < 133:
+			path = (("id", "nav-bar"), ("class"	,"urlbar-input-box"), ("id","urlbar-input"))
 		else:
-			path = (("id", "nav-bar"), ("class","urlbar-input-box"), ("id","urlbar-input"))
+			path = (("id","nav-bar"),("id","urlbar"),("class","urlbar-input-box"))
 		secInfoButton = shared.searchObject(path)
 		if secInfoButton:
 			securInfo = secInfoButton.description # This has changed in FF 57. Keeping this line for compatibility with earlier versions.
