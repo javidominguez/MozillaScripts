@@ -69,7 +69,7 @@ class AppModule(thunderbird.AppModule):
 		if obj.role == controlTypes.Role.TREEVIEWITEM or obj.role == controlTypes.Role.TABLEROW:
 			try:
 				if obj.parent:
-					if obj.parent.IA2Attributes["xml-roles"] == "treegrid":
+					if obj.IA2Attributes["xml-roles"] == "treeitem" or obj.parent.IA2Attributes["xml-roles"].startswith("tree") or obj.parent.IA2Attributes["tree"] == "true":
 						clsList.insert(0, ThreadTree)
 			except KeyError:
 				pass

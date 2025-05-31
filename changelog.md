@@ -1,1 +1,2 @@
-* Finnish translation by Jani Kinnunen @jkinnunen
+Fixed a bug in Thunderbird app module by which the Addon stopped recognizing when the focus is on the messages list which caused some features of to stop working.
+In some update of Thunderbird the value of the XML-Roles attribute was changed from Treegrid to Tree. The Beta channel versions maintains the old value. Other attributes, such as tree:true, have been used to depend less on these changes.

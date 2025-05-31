@@ -1,0 +1,1 @@
+Se corrigió un error en el módulo de aplicación Thunderbird por el cual el complemento dejó de reconocer cuándo el foco estaba en la lista de mensajes, lo  que provocó que algunas características dejaran de funcionar.
