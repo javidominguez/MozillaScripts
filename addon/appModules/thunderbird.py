@@ -405,7 +405,8 @@ class ThreadTree(IAccessible):
 			return doc
 
 	def initOverlayClass(self):
-		self.setConversation()
+		if not self.IA2Attributes["id"].startswith("all-"):
+			self.setConversation()
 
 	def setConversation(self):
 		if controlTypes.State.COLLAPSED in self.states:

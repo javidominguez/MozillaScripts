@@ -1,1 +1,1 @@
-* Tested in NVDA 2025.1 and works OK.
+* Fixed a bug because of which it confused folders with conversations.  
