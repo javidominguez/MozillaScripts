@@ -12,6 +12,7 @@ from keyboardHandler import KeyboardInputGesture
 from gui import NVDASettingsDialog
 from gui.settingsDialogs import SettingsPanel
 from tones import beep
+from _ctypes import COMError
 
 try:
 	from NVDAObjects.IAccessible.mozilla import BrokenFocusedState as IAccessible
@@ -27,6 +28,7 @@ import globalVars
 import gui
 import scriptHandler
 import speech
+import textInfos
 import treeInterceptorHandler
 import ui
 import winUser
@@ -55,107 +57,196 @@ class AppModule(thunderbird.AppModule):
 		self.messageHeadersCache = dict()
 		self.docCache = None
 		self.previewPane = None
+		self._startupFocusDone = False
 		NVDASettingsDialog.categoryClasses.append(ThunderbirdPanel)
 
 		if int(self.productVersion.split(".")[0]) < 115:
 			self.terminate()
 			raise RuntimeError(_("The addon Mozilla Apps Enhancements is not compatible with this version of Thunderbird. The application module will be temporarily disabled."))
 
+		# Thunderbird starts with a Home tab before the Inbox loads (~3-4s).
+		# Schedule a delayed focus attempt after the Inbox has had time to load.
+		wx.CallLater(4000, self._delayedStartupFocus)
+
 	def terminate(self):
 		NVDASettingsDialog.categoryClasses.remove(ThunderbirdPanel)
 
 	def chooseNVDAObjectOverlayClasses(self, obj, clsList):
+		try:
+			role = obj.role
+		except COMError:
+			return
 		# Overlay list of messages
-		if obj.role == controlTypes.Role.TREEVIEWITEM or obj.role == controlTypes.Role.TABLEROW:
+		if role == controlTypes.Role.TREEVIEWITEM or role == controlTypes.Role.TABLEROW:
 			try:
-				if obj.parent:
-					if obj.IA2Attributes["xml-roles"] == "treeitem" or obj.parent.IA2Attributes["xml-roles"].startswith("tree") or obj.parent.IA2Attributes["tree"] == "true":
+				parent = obj.parent
+				if parent:
+					# Check obj attributes first to avoid extra parent COM call
+					if obj.IA2Attributes.get("xml-roles") == "treeitem":
 						clsList.insert(0, ThreadTree)
-			except KeyError:
+					elif hasattr(parent, "IA2Attributes"):
+						parentAttrs = parent.IA2Attributes
+						if parentAttrs.get("xml-roles", "").startswith("tree") or parentAttrs.get("tree") == "true":
+							clsList.insert(0, ThreadTree)
+			except (KeyError, AttributeError, COMError):
 				pass
-			except AttributeError:
-				pass
-		elif  obj.role == controlTypes.Role.LISTITEM:
+		elif role == controlTypes.Role.LISTITEM:
 			try:
-				if obj.IA2Attributes["id"].startswith("threadTree-row"):
+				if obj.IA2Attributes.get("id", "").startswith("threadTree-row"):
 					clsList.insert(0, ThreadTree)
-			except (KeyError, AttributeError):
+			except (KeyError, AttributeError, COMError):
 				pass
 		# Tabs
-		elif obj.role == controlTypes.Role.TAB:
-			if obj.parent.role == controlTypes.Role.TABCONTROL:
-				if hasattr(obj.parent, "IA2Attributes") and "id" in obj.parent.IA2Attributes:
-					if obj.parent.IA2Attributes["id"] in ("tabmail-tabs","event-grid-tabs"):
+		elif role == controlTypes.Role.TAB:
+			try:
+				if obj.parent.role == controlTypes.Role.TABCONTROL:
+					if hasattr(obj.parent, "IA2Attributes") and obj.parent.IA2Attributes.get("id") in ("tabmail-tabs","event-grid-tabs"):
 						clsList.insert(0, Tab)
-		elif obj.role == 8:
-			if obj.parent and hasattr(obj.parent, "IA2Attributes") and "id" in obj.parent.IA2Attributes and obj.parent.IA2Attributes["id"] == "quickFilterBarContainer":
-				clsList.insert(0, QuickFilter)
+			except (AttributeError, COMError):
+				pass
+		elif role == 8:
+			try:
+				if obj.parent and hasattr(obj.parent, "IA2Attributes") and obj.parent.IA2Attributes.get("id") == "quickFilterBarContainer":
+					clsList.insert(0, QuickFilter)
+			except (AttributeError, COMError):
+				pass
 
 	def _get_statusBar(self):
 		return shared.searchObject((("container-live-role","status"),))
 
 	def event_nameChange(self, obj, nextHandler):
-		if obj.role == controlTypes.Role.DOCUMENT:
-			self.previewPane = obj
+		try:
+			if obj.role == controlTypes.Role.DOCUMENT:
+				self.previewPane = obj
+		except COMError:
+			pass
 		nextHandler()
 
+	def _threadTreeExists(self):
+		"""Check if the thread tree is present in the accessibility tree."""
+		try:
+			return shared.searchObject((
+				("id", "tabpanelcontainer"),
+				("id", "mail3PaneTab"),
+				("id", "mail3PaneTabBrowser"),
+				("id", "paneLayout"),
+				("id", "threadPane"),
+				("id", "threadTree"),
+			)) is not None
+		except (COMError, AttributeError):
+			return False
+
+	def _delayedStartupFocus(self):
+		"""Called ~4s after init, once Thunderbird's Inbox tab has had time to load."""
+		if self._startupFocusDone:
+			return
+		self._startupFocusDone = True
+		# Don't interrupt if user already navigated to the message list
+		focus = api.getFocusObject()
+		try:
+			if hasattr(focus, "IA2Attributes") and focus.IA2Attributes.get("id", "").startswith("threadTree-row"):
+				return
+		except (COMError, AttributeError):
+			pass
+		# Only proceed if the inbox is actually loaded
+		if not self._threadTreeExists():
+			return
+		# Use F6 (Thunderbird's pane cycling) to properly engage keyboard focus
+		self._f6RetryCount = 0
+		self._cycleToThreadPane()
+
+	def _cycleToThreadPane(self):
+		"""Send F6 and verify focus landed on the thread tree. Retry up to 4 times."""
+		if self._f6RetryCount >= 4:
+			return
+		self._f6RetryCount += 1
+		KeyboardInputGesture.fromName("F6").send()
+		wx.CallLater(300, self._checkThreadPaneFocus)
+
+	def _checkThreadPaneFocus(self):
+		"""Check if F6 landed on the message list (not the folder tree). If not, try again."""
+		focus = api.getFocusObject()
+		try:
+			if hasattr(focus, "IA2Attributes") and focus.IA2Attributes.get("id", "").startswith("threadTree-row"):
+				return
+		except (COMError, AttributeError):
+			pass
+		self._cycleToThreadPane()
+
 	def event_gainFocus(self, obj, nextHandler):
-		if obj.role == controlTypes.Role.BUTTON and obj.parent.role == controlTypes.Role.TABLECOLUMNHEADER:
-				try:
-					if "id" in obj.IA2Attributes:
-						#TRANSLATORS: Indicates the table column in which the focused control is located
-						obj.description = _("Column {pos}").format(
-							pos = int(obj.parent.IA2Attributes["table-cell-index"])+1
-						)
-				except:
-					pass
+		try:
+			if obj.role == controlTypes.Role.BUTTON and obj.parent.role == controlTypes.Role.TABLECOLUMNHEADER:
+				if "id" in obj.IA2Attributes:
+					#TRANSLATORS: Indicates the table column in which the focused control is located
+					obj.description = _("Column {pos}").format(
+						pos = int(obj.parent.IA2Attributes["table-cell-index"])+1
+					)
+		except (COMError, KeyError, AttributeError):
+			pass
 		nextHandler()
 
 	def event_focusEntered(self, obj, nextHandler):
-		if obj.role == controlTypes.Role.TOOLBAR and obj.firstChild.role == controlTypes.Role.TABCONTROL:
-			obj.isPresentableFocusAncestor = False
-		# Presentation of the table header where the columns are managed
-		if obj.role == controlTypes.Role.GROUPING:
-			obj.isPresentableFocusAncestor = False
-		if obj.role == controlTypes.Role.TABLE:
-			if hasattr(obj, "IA2Attributes") and "class" in obj.IA2Attributes and obj.IA2Attributes["class"] == "tree-table some-selected":
-				obj.isPresentableFocusAncestor = False
-		if obj.role == controlTypes.Role.TABLECOLUMNHEADER and obj.firstChild.role == controlTypes.Role.BUTTON:
-			obj.isPresentableFocusAncestor = False
-		if obj.role == controlTypes.Role.TABLEROW:
-			focus = api.getFocusObject()
-			if focus.role == controlTypes.Role.BUTTON and focus.parent.role == controlTypes.Role.TABLECOLUMNHEADER:
-				obj.role = controlTypes.Role.TABLEHEADER
-				obj.isPresentableFocusAncestor = True
-		# End of table header presentation
 		try:
-			if set(["containingDocument","containingApplication"]) < set([r.relationType for r in obj._IA2Relations]):
-				if obj.objectWithFocus().role == controlTypes.Role.DOCUMENT:
-					speech.cancelSpeech()
-		except NotImplementedError:
+			role = obj.role
+		except COMError:
+			nextHandler()
+			return
+		try:
+			if role == controlTypes.Role.TOOLBAR:
+				if obj.firstChild.role == controlTypes.Role.TABCONTROL:
+					obj.isPresentableFocusAncestor = False
+			# Presentation of the table header where the columns are managed
+			elif role == controlTypes.Role.GROUPING:
+				obj.isPresentableFocusAncestor = False
+			elif role == controlTypes.Role.TABLE:
+				if hasattr(obj, "IA2Attributes") and obj.IA2Attributes.get("class") == "tree-table some-selected":
+					obj.isPresentableFocusAncestor = False
+			elif role == controlTypes.Role.TABLECOLUMNHEADER:
+				if obj.firstChild.role == controlTypes.Role.BUTTON:
+					obj.isPresentableFocusAncestor = False
+			elif role == controlTypes.Role.TABLEROW:
+				focus = api.getFocusObject()
+				if focus.role == controlTypes.Role.BUTTON and focus.parent.role == controlTypes.Role.TABLECOLUMNHEADER:
+					obj.role = controlTypes.Role.TABLEHEADER
+					obj.isPresentableFocusAncestor = True
+			# End of table header presentation
+			elif role == controlTypes.Role.INTERNALFRAME:
+				try:
+					relTypes = {r.relationType for r in obj._IA2Relations}
+				except (COMError, AttributeError):
+					relTypes = set()
+				if {"containingDocument", "containingApplication"} < relTypes:
+					focusedObj = obj.objectWithFocus()
+					if focusedObj and focusedObj.role == controlTypes.Role.DOCUMENT:
+						speech.cancelSpeech()
+			elif role == controlTypes.Role.SECTION:
+				if hasattr(obj, "IA2Attributes") and obj.IA2Attributes.get("id") == "quickFilterBarContainer":
+					obj.role = controlTypes.Role.FORM
+					obj.isPresentableFocusAncestor = True
+			elif role == controlTypes.Role.LIST:
+				if hasattr(obj, "IA2Attributes") and obj.IA2Attributes.get("id") == "unifiedToolbarContent":
+					obj.isPresentableFocusAncestor = False
+		except (COMError, NotImplementedError, AttributeError):
 			pass
-		if obj.role == controlTypes.Role.SECTION and hasattr(obj, "IA2Attributes") and "id" in obj.IA2Attributes and obj.IA2Attributes["id"] == "quickFilterBarContainer":
-			obj.role = controlTypes.Role.FORM
-			obj.isPresentableFocusAncestor = True
-		if obj.role == controlTypes.Role.LIST and hasattr(obj, "IA2Attributes") and "id" in obj.IA2Attributes and obj.IA2Attributes["id"] == "unifiedToolbarContent":
-			obj.isPresentableFocusAncestor = False
 		nextHandler()
 
 	def event_documentLoadComplete(self, obj, nextHandler):
 		focus = api.getFocusObject()
 		if isinstance(focus, ThreadTree) and controlTypes.State.COLLAPSED not in focus.states and config.conf["thunderbird"]["automaticMessageReading"]:
-			api.setFocusObject(obj)
 			treeInterceptor = treeInterceptorHandler.getTreeInterceptor(obj)
-			api.setFocusObject(focus)
 			if treeInterceptor:
 				try:
 					info = treeInterceptor.makeTextInfo("all")
+					# Limit the range before extracting text to avoid processing entire large messages
+					info.collapse()
+					info.move(textInfos.UNIT_CHARACTER, 4000, endPoint="end")
+					text = info.text
 				except:
-					pass
-				else:
+					text = None
+				if text:
 					ui.message(
-					text=info.text,
-					brailleText="\n".join((api.getFocusObject().name, info.text)))
+					text=text,
+					brailleText="\n".join((focus.name, text)))
 		nextHandler()
 
 	def event_alert(self, obj, nextHandler):
@@ -399,26 +490,36 @@ class ThreadTree(IAccessible):
 	@property
 	def document(self):
 		doc = self.appModule.previewPane
-		if not doc or not doc.role:
+		try:
+			if not doc or not doc.role:
+				return None
+		except COMError:
 			return None
-		else:
-			return doc
+		return doc
 
 	def initOverlayClass(self):
-		if not self.IA2Attributes["id"].startswith("all-"):
-			self.setConversation()
+		try:
+			attrId = self.IA2Attributes.get("id", "")
+			if not attrId.startswith("all-"):
+				self.setConversation()
+		except COMError:
+			pass
 
 	def setConversation(self):
-		if controlTypes.State.COLLAPSED in self.states:
-			state = _("Collapsed conversation")
-		elif controlTypes.State.EXPANDED in self.states:
-			state = _("Expanded conversation")
-		else:
-			state = None
-		if state:
-			self.name = "{}, {}".format(
-				state,
-				super(ThreadTree, self).name)
+		try:
+			states = self.states
+			if controlTypes.State.COLLAPSED in states:
+				state = _("Collapsed conversation")
+			elif controlTypes.State.EXPANDED in states:
+				state = _("Expanded conversation")
+			else:
+				state = None
+			if state:
+				self.name = "{}, {}".format(
+					state,
+					super(ThreadTree, self).name)
+		except COMError:
+			pass
 
 	def event_stateChange(self):
 		self.setConversation()
@@ -461,14 +562,19 @@ class ThreadTree(IAccessible):
 	script_readPreviewPane.__doc__ = _("In message list, reads the selected message without leaving the list.")
 
 	def readPreviewPane(self, obj):
-		api.setFocusObject(obj)
-		api.setFocusObject(self)
+		treeInterceptor = obj.treeInterceptor or treeInterceptorHandler.getTreeInterceptor(obj)
+		if not treeInterceptor:
+			# Tree interceptor may need focus to initialize; swap focus only as a fallback
+			api.setFocusObject(obj)
+			api.setFocusObject(self)
+			treeInterceptor = obj.treeInterceptor
+		if not treeInterceptor:
+			return
 		try:
-			info= obj.treeInterceptor.makeTextInfo("all")
+			info = treeInterceptor.makeTextInfo("all")
 		except:
-			pass
-		else:
-			ui.message("{title}{body}".format(
+			return
+		ui.message("{title}{body}".format(
 			title = obj.name+"\n" if controlTypes.State.COLLAPSED in self.states else "",
 			body=info.text))
 
