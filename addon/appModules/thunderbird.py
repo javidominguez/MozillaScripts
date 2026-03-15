@@ -28,6 +28,7 @@ import globalVars
 import gui
 import scriptHandler
 import speech
+import textInfos
 import treeInterceptorHandler
 import ui
 import winUser
@@ -63,6 +64,10 @@ class AppModule(thunderbird.AppModule):
 			self.terminate()
 			raise RuntimeError(_("The addon Mozilla Apps Enhancements is not compatible with this version of Thunderbird. The application module will be temporarily disabled."))
 
+		# Thunderbird starts with a Home tab before the Inbox loads (~3-4s).
+		# Schedule a delayed focus attempt after the Inbox has had time to load.
+		wx.CallLater(4000, self._delayedStartupFocus)
+
 	def terminate(self):
 		NVDASettingsDialog.categoryClasses.remove(ThunderbirdPanel)
 
@@ -74,9 +79,15 @@ class AppModule(thunderbird.AppModule):
 		# Overlay list of messages
 		if role == controlTypes.Role.TREEVIEWITEM or role == controlTypes.Role.TABLEROW:
 			try:
-				if obj.parent:
-					if obj.IA2Attributes.get("xml-roles") == "treeitem" or obj.parent.IA2Attributes.get("xml-roles", "").startswith("tree") or obj.parent.IA2Attributes.get("tree") == "true":
+				parent = obj.parent
+				if parent:
+					# Check obj attributes first to avoid extra parent COM call
+					if obj.IA2Attributes.get("xml-roles") == "treeitem":
 						clsList.insert(0, ThreadTree)
+					elif hasattr(parent, "IA2Attributes"):
+						parentAttrs = parent.IA2Attributes
+						if parentAttrs.get("xml-roles", "").startswith("tree") or parentAttrs.get("tree") == "true":
+							clsList.insert(0, ThreadTree)
 			except (KeyError, AttributeError, COMError):
 				pass
 		elif role == controlTypes.Role.LISTITEM:
@@ -111,17 +122,58 @@ class AppModule(thunderbird.AppModule):
 			pass
 		nextHandler()
 
+	def _threadTreeExists(self):
+		"""Check if the thread tree is present in the accessibility tree."""
+		try:
+			return shared.searchObject((
+				("id", "tabpanelcontainer"),
+				("id", "mail3PaneTab"),
+				("id", "mail3PaneTabBrowser"),
+				("id", "paneLayout"),
+				("id", "threadPane"),
+				("id", "threadTree"),
+			)) is not None
+		except (COMError, AttributeError):
+			return False
+
+	def _delayedStartupFocus(self):
+		"""Called ~4s after init, once Thunderbird's Inbox tab has had time to load."""
+		if self._startupFocusDone:
+			return
+		self._startupFocusDone = True
+		# Don't interrupt if user already navigated to the message list
+		focus = api.getFocusObject()
+		try:
+			if hasattr(focus, "IA2Attributes") and focus.IA2Attributes.get("id", "").startswith("threadTree-row"):
+				return
+		except (COMError, AttributeError):
+			pass
+		# Only proceed if the inbox is actually loaded
+		if not self._threadTreeExists():
+			return
+		# Use F6 (Thunderbird's pane cycling) to properly engage keyboard focus
+		self._f6RetryCount = 0
+		self._cycleToThreadPane()
+
+	def _cycleToThreadPane(self):
+		"""Send F6 and verify focus landed on the thread tree. Retry up to 4 times."""
+		if self._f6RetryCount >= 4:
+			return
+		self._f6RetryCount += 1
+		KeyboardInputGesture.fromName("F6").send()
+		wx.CallLater(300, self._checkThreadPaneFocus)
+
+	def _checkThreadPaneFocus(self):
+		"""Check if F6 landed on the message list (not the folder tree). If not, try again."""
+		focus = api.getFocusObject()
+		try:
+			if hasattr(focus, "IA2Attributes") and focus.IA2Attributes.get("id", "").startswith("threadTree-row"):
+				return
+		except (COMError, AttributeError):
+			pass
+		self._cycleToThreadPane()
+
 	def event_gainFocus(self, obj, nextHandler):
-		if not self._startupFocusDone:
-			self._startupFocusDone = True
-			try:
-				role = obj.role
-				# If focus lands on the document (preview pane) on startup, shift-tab to message list
-				if role == controlTypes.Role.DOCUMENT or role == controlTypes.Role.EDITABLETEXT:
-					KeyboardInputGesture.fromName("shift+tab").send()
-					return
-			except COMError:
-				pass
 		try:
 			if obj.role == controlTypes.Role.BUTTON and obj.parent.role == controlTypes.Role.TABLECOLUMNHEADER:
 				if "id" in obj.IA2Attributes:
@@ -159,9 +211,13 @@ class AppModule(thunderbird.AppModule):
 					obj.isPresentableFocusAncestor = True
 			# End of table header presentation
 			elif role == controlTypes.Role.INTERNALFRAME:
-				relTypes = {r.relationType for r in obj._IA2Relations}
+				try:
+					relTypes = {r.relationType for r in obj._IA2Relations}
+				except (COMError, AttributeError):
+					relTypes = set()
 				if {"containingDocument", "containingApplication"} < relTypes:
-					if obj.objectWithFocus().role == controlTypes.Role.DOCUMENT:
+					focusedObj = obj.objectWithFocus()
+					if focusedObj and focusedObj.role == controlTypes.Role.DOCUMENT:
 						speech.cancelSpeech()
 			elif role == controlTypes.Role.SECTION:
 				if hasattr(obj, "IA2Attributes") and obj.IA2Attributes.get("id") == "quickFilterBarContainer":
@@ -181,9 +237,10 @@ class AppModule(thunderbird.AppModule):
 			if treeInterceptor:
 				try:
 					info = treeInterceptor.makeTextInfo("all")
+					# Limit the range before extracting text to avoid processing entire large messages
+					info.collapse()
+					info.move(textInfos.UNIT_CHARACTER, 4000, endPoint="end")
 					text = info.text
-					if len(text) > 4000:
-						text = text[:4000]
 				except:
 					text = None
 				if text:
@@ -505,14 +562,19 @@ class ThreadTree(IAccessible):
 	script_readPreviewPane.__doc__ = _("In message list, reads the selected message without leaving the list.")
 
 	def readPreviewPane(self, obj):
-		api.setFocusObject(obj)
-		api.setFocusObject(self)
+		treeInterceptor = obj.treeInterceptor or treeInterceptorHandler.getTreeInterceptor(obj)
+		if not treeInterceptor:
+			# Tree interceptor may need focus to initialize; swap focus only as a fallback
+			api.setFocusObject(obj)
+			api.setFocusObject(self)
+			treeInterceptor = obj.treeInterceptor
+		if not treeInterceptor:
+			return
 		try:
-			info= obj.treeInterceptor.makeTextInfo("all")
+			info = treeInterceptor.makeTextInfo("all")
 		except:
-			pass
-		else:
-			ui.message("{title}{body}".format(
+			return
+		ui.message("{title}{body}".format(
 			title = obj.name+"\n" if controlTypes.State.COLLAPSED in self.states else "",
 			body=info.text))
 
