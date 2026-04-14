@@ -7,6 +7,7 @@ from nvdaBuiltin.appModules import thunderbird
 from scriptHandler import script
 from time import time, sleep
 from comtypes.gen.ISimpleDOM import ISimpleDOMDocument
+from comtypes import COMError
 from datetime import datetime
 from keyboardHandler import KeyboardInputGesture
 from gui import NVDASettingsDialog
@@ -259,7 +260,10 @@ class AppModule(thunderbird.AppModule):
 			doc = self.isDocument()
 			self.docCache = doc
 		if doc:
-			url = doc.IAccessibleObject.QueryInterface(ISimpleDOMDocument).url
+			try:
+				url = doc.IAccessibleObject.QueryInterface(ISimpleDOMDocument).url
+			except COMError:
+				url = None
 			if (url, doc.IA2UniqueID) in self.messageHeadersCache:
 				addresses = self.messageHeadersCache[(url, doc.IA2UniqueID)]
 			else:
@@ -300,8 +304,8 @@ class AppModule(thunderbird.AppModule):
 			if rightClick:
 				api.moveMouseToNVDAObject(o)
 				api.setMouseObject(o)
-				winUser.mouse_event(winUser.MOUSEEVENTF_RIGHTDOWN,0,0,None,None)
-				winUser.mouse_event(winUser.MOUSEEVENTF_RIGHTUP,0,0,None,None)
+				winUser.mouse_event(winUser.MOUSEEVENTF_RIGHTDOWN,0,0,0,0)
+				winUser.mouse_event(winUser.MOUSEEVENTF_RIGHTUP,0,0,0,0)
 				speech.pauseSpeech(True)
 
 	def addressFieldOnComposing(self, index, focus):
@@ -405,7 +409,7 @@ class ThreadTree(IAccessible):
 			return doc
 
 	def initOverlayClass(self):
-		if not self.IA2Attributes["id"].startswith("all-"):
+		if not "id" in self.IA2Attributes or not self.IA2Attributes["id"].startswith("all-"):
 			self.setConversation()
 
 	def setConversation(self):

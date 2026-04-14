@@ -1,1 +1,1 @@
-* Fixed a bug because of which it confused folders with conversations.  
+* Some fixes
