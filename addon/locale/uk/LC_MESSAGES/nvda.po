@@ -1,0 +1,341 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: nvda-translations@groups.io\n"
+"POT-Creation-Date: 2025-08-13 04:34+0000\n"
+"PO-Revision-Date: 2025-08-13 17:28+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: uk_UA\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.6\n"
+"X-Poedit-Basepath: .\n"
+
+#. TRANSLATORS: category for Firefox input gestures
+#: addon/appModules/firefox.py:51
+msgid "mozilla Firefox"
+msgstr ""
+
+#. TRANSLATORS: message spoken by NVDA when the focus is not in the main Firefox window
+#: addon/appModules/firefox.py:93 addon/appModules/firefox.py:123
+#: addon/appModules/firefox.py:186 addon/appModules/firefox.py:235
+msgid "Not available here"
+msgstr "Тут не доступно"
+
+#. TRANSLATORS: message spoken when there is no status bar in Firefox
+#. TRANSLATORS: Firefox status bar not found
+#: addon/appModules/firefox.py:107 addon/appModules/firefox.py:115
+msgid "Status bar not found"
+msgstr "Немає панелі статусу"
+
+#. TRANSLATORS: message spoken when an item hast just been copied to the clipboard
+#: addon/appModules/firefox.py:112 addon/appModules/firefox.py:163
+msgid "Copied to clipboard"
+msgstr "Скопійовано до буфера обміну"
+
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon/appModules/firefox.py:117
+msgid "Reads the status bar. If pressed twice quickly, copies it to clipboard."
+msgstr ""
+"Прочитати панель статусу. Якщо швидко натиснути двічі копіюється в буфер "
+"обміну."
+
+#. TRANSLATORS: this connection is using http, not https
+#: addon/appModules/firefox.py:150
+msgid "Insecure connection"
+msgstr "Небезпечне з'єднання"
+
+#. TRANSLATORS: message spoken when addres bar could not be found
+#: addon/appModules/firefox.py:166
+msgid "Address not found"
+msgstr "Адресу не знайдено"
+
+#. TRANSLATORS: description shown in input gestures dialog for this script
+#: addon/appModules/firefox.py:168
+msgid ""
+"Reads the page address. If pressed twice quickly, copies it to clipboard."
+msgstr ""
+"Прочитати адресу сторінки, якщо натиснути швидко двічі, скопіюється в буфер "
+"обміну."
+
+#. TRANSLATORS: documentation shown in the input gestures dialog for this script
+#: addon/appModules/firefox.py:176
+msgid ""
+"Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool "
+"bar."
+msgstr ""
+"Показати список відкритих вкладок, , якщо натиснути швидко двічі, показати "
+"кнопки панелі інструментів."
+
+#. TRANSLATORS: documentation shown in the input gestures dialog for this script
+#: addon/appModules/firefox.py:181
+msgid "Shows buttons of tool bar."
+msgstr "Показати кнопки панелі інструментів."
+
+#. TRANSLATORS: message spoken when Firefox toolbar is not found
+#: addon/appModules/firefox.py:203
+msgid "Tool bar not found"
+msgstr "Панелі інструментів не знайдено"
+
+#. There is no notification in Firefox or Thunderbird
+#: addon/appModules/firefox.py:228 addon/appModules/thunderbird.py:251
+#: addon/appModules/shared/__init__.py:166
+msgid "There is no notification"
+msgstr "Немає повідомлення"
+
+#. TRANSLATORS: documentation shown in the input gestures dialog for this script
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon/appModules/firefox.py:230 addon/appModules/thunderbird.py:253
+msgid ""
+"Reads the last notification and it takes the system focus to it if it is "
+"possible. By pressing two times quickly shows the history of notifications."
+msgstr ""
+"Прочитати  останнє сповіщення і, якщо це можливо, перевести фокус системи на "
+"нього. Натиснувши швидко двічі, переглянути історію сповіщень."
+
+#. TRANSLATORS: documentation shown in the input gestures dialog for this script
+#: addon/appModules/firefox.py:255
+msgid "Brings the focus to the document"
+msgstr "Перемістити фокус на документ"
+
+#. TRANSLATORS: opened tabs in tabs dialog
+#: addon/appModules/firefox.py:268
+msgid "Opened tabs"
+msgstr "Відкриті вкладки"
+
+#. TRANSLATORS: Toolbar buttons dialog
+#: addon/appModules/firefox.py:276
+msgid "Tool Bar Buttons"
+msgstr "Кнопки панелі інструментів"
+
+#. TRANSLATORS: go button in toolbar buttons dialog
+#: addon/appModules/firefox.py:313
+msgid "&Go"
+msgstr "&Перейти"
+
+#. TRANSLATORS: options button in toolbar buttons dialog
+#: addon/appModules/firefox.py:318
+msgid "&Options"
+msgstr "&Дії"
+
+#. TRANSLATORS: close button in toolbar buttons dialog
+#: addon/appModules/firefox.py:322
+msgid "Close"
+msgstr "&Закрити"
+
+#. TRANSLATORS: category for Thunderbird input gestures
+#: addon/appModules/thunderbird.py:47 addon/appModules/thunderbird.py:395
+msgid "mozilla Thunderbird"
+msgstr ""
+
+#: addon/appModules/thunderbird.py:62
+msgid ""
+"The addon Mozilla Apps Enhancements is not compatible with this version of "
+"Thunderbird. The application module will be temporarily disabled."
+msgstr ""
+"Розширення \"Покращення додатків Mozilla\" не сумісне з цьою версією "
+"Thunderbird. Модуль програми буде тимчасово вимкнено."
+
+#. TRANSLATORS: Indicates the table column in which the focused control is located
+#: addon/appModules/thunderbird.py:107
+#, python-brace-format
+msgid "Column {pos}"
+msgstr "Стовпчик {pos}"
+
+#: addon/appModules/thunderbird.py:175
+#, python-brace-format
+msgid "Automatic reading of the message is {state}"
+msgstr "Автоматичне читання повідомлення {state}"
+
+#: addon/appModules/thunderbird.py:176
+msgid "on"
+msgstr "увімкнено"
+
+#: addon/appModules/thunderbird.py:176
+msgid "off"
+msgstr "вимкнено"
+
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon/appModules/thunderbird.py:178
+msgid "On/off automatic reading of the message preview panel."
+msgstr ""
+"Увімкнення/вимкнення автоматичного читання панелі попереднього перегляду "
+"повідомлень."
+
+#. TRANSLATORS: there are no attachments in this message
+#: addon/appModules/thunderbird.py:200
+msgid "There are No attachments"
+msgstr "Немає вкладень"
+
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon/appModules/thunderbird.py:215
+msgid "Brings the focus to the list of attachments, if any."
+msgstr "Перемістити фокус на список вкладень, якщо такі є."
+
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon/appModules/thunderbird.py:227
+msgid "Brings the focus to the text of the open message."
+msgstr "Перемістити фокус на текст відкритого повідомлення."
+
+#: addon/appModules/thunderbird.py:269 addon/appModules/thunderbird.py:299
+#: addon/appModules/thunderbird.py:312
+msgid "Not found"
+msgstr "Не знайдено"
+
+#: addon/appModules/thunderbird.py:294 addon/appModules/thunderbird.py:328
+msgid "There are no more recipients"
+msgstr "Більше немає одержувачів"
+
+#: addon/appModules/thunderbird.py:413
+msgid "Collapsed conversation"
+msgstr "Згорнута розмова"
+
+#: addon/appModules/thunderbird.py:415
+msgid "Expanded conversation"
+msgstr "Розгорнута розмова"
+
+#. TRANSLATORS: message spoken when there aren't more columns in the tree
+#: addon/appModules/thunderbird.py:439
+msgid "There are not more columns"
+msgstr "Більше немає стовпців"
+
+#. TRANSLATORS: The conversation is collapsed, the user is prompted to expand it to read the messages
+#: addon/appModules/thunderbird.py:456
+msgid "Expand the conversation to read the messages"
+msgstr "Розгорніть діалог, щоб прочитати повідомлення"
+
+#. TRANSLATORS: the preview pane is not available yet
+#: addon/appModules/thunderbird.py:459
+msgid "Preview pane is not active or message has not been loaded yet"
+msgstr ""
+"Панель попереднього перегляду неактивна або повідомлення ще не завантажено"
+
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon/appModules/thunderbird.py:461
+msgid "In message list, reads the selected message without leaving the list."
+msgstr "Читає вибране повідомлення у списку повідомлень, не виходячи з нього."
+
+#. TRANSLATORS: Settings panel title
+#: addon/appModules/thunderbird.py:513
+msgid "Mozilla Thunderbird"
+msgstr ""
+
+#: addon/appModules/thunderbird.py:515
+msgid "Automatically read message preview pane"
+msgstr "Автоматично читати панель попереднього перегляду повідомлень"
+
+#. TRANSLATORS: an event happened yesterday
+#: addon/appModules/shared/__init__.py:45
+msgid "Yesterday"
+msgstr "Учора"
+
+#. TRANSLATORS: an event happened %d days ago
+#: addon/appModules/shared/__init__.py:48
+#, python-format
+msgid "%d days ago"
+msgstr "%d днів тому"
+
+#. TRANSLATORS: an event happened an hour ago
+#: addon/appModules/shared/__init__.py:53
+msgid "About an hour ago"
+msgstr "Приблизно годину тому"
+
+#. TRANSLATORS: an event happened %d hours ago
+#: addon/appModules/shared/__init__.py:56
+#, python-format
+msgid "About %d hours ago"
+msgstr "Приблизно %d годин тому"
+
+#. TRANSLATORS: an event happened a minute ago
+#: addon/appModules/shared/__init__.py:59
+msgid "About a minute ago"
+msgstr "Приблизно хвилину тому"
+
+#. TRANSLATORS: an event happened %d minutes ago
+#: addon/appModules/shared/__init__.py:62
+#, python-format
+msgid "About %d minutes ago"
+msgstr "Приблизно %d хвилин тому"
+
+#. TRANSLATORS: an event happened a second ago
+#: addon/appModules/shared/__init__.py:65
+msgid "a second ago"
+msgstr "секунду тому"
+
+#. TRANSLATORS: an event happened %d seconds ago
+#: addon/appModules/shared/__init__.py:68
+#, python-format
+msgid "%d seconds ago"
+msgstr "%d секунд тому"
+
+#. TRANSLATORS: the notification text could not be read
+#: addon/appModules/shared/__init__.py:79
+msgid "Couldn't capture the text of this notification"
+msgstr "Не вдалося отримати текст цього сповіщення"
+
+#: addon/appModules/shared/__init__.py:140
+msgid "Refresh\tF5"
+msgstr "Оновити\tF5"
+
+#: addon/appModules/shared/__init__.py:143
+msgid "Delete item\tSupr"
+msgstr "Вилучити елемент\tSupr"
+
+#: addon/appModules/shared/__init__.py:145
+msgid "Clear all"
+msgstr "Очистити все"
+
+#: addon/appModules/shared/__init__.py:197
+msgid "Mozilla notifications"
+msgstr "Сповіщення Mozilla"
+
+#: addon/appModules/shared/__init__.py:200
+msgid "Firefox notifications"
+msgstr "Сповіщення Firefox"
+
+#: addon/appModules/shared/__init__.py:202
+msgid "Thunderbird notifications"
+msgstr "Сповіщення Thunderbird"
+
+#. TRANSLATORS: title for the Mozilla Apps Enhancements settings category
+#. Add-on summary, usually the user visible name of the addon.
+#. Translators: Summary for this add-on
+#. to be shown on installation and add-on information found in Add-ons Manager.
+#: addon/GlobalPlugins/MozillaAppsEnhancements.py:17 buildVars.py:23
+msgid "Mozilla Apps Enhancements"
+msgstr "Покращення додатків Mozilla"
+
+#. TRANSLATORS: Selecting appModules
+#: addon/GlobalPlugins/MozillaAppsEnhancements.py:24
+msgid "Select the application modules you want to load."
+msgstr "Виберіть модулі програми, які ви хочете завантажити."
+
+#. TRANSLATORS: Checkbox to select Firefox appModule
+#: addon/GlobalPlugins/MozillaAppsEnhancements.py:30
+msgid "Firefox"
+msgstr ""
+
+#. TRANSLATORS: Checkbox to select Thunderbird appModule
+#: addon/GlobalPlugins/MozillaAppsEnhancements.py:35
+msgid "Thunderbird"
+msgstr ""
+
+#: addon/GlobalPlugins/MozillaAppsEnhancements.py:64
+msgid ""
+"Changes will not be applied until restart NVDA. Do you want to restart it "
+"now?"
+msgstr ""
+"Зміни не будуть застосовані до перезапуску NVDA. Чи хочете ви перезапустити "
+"зараз?"
+
+#: addon/GlobalPlugins/MozillaAppsEnhancements.py:64
+msgid "Restart NVDA"
+msgstr "Перезапустити NVDA"
+
+#. Add-on description
+#. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
+#: buildVars.py:26
+msgid "Provides accessibility features for Mozilla Firefox and Thunderbird."
+msgstr "Надає функції доступності для Mozilla Firefox та Thunderbird."
