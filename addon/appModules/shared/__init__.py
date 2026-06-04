@@ -5,6 +5,7 @@
 
 from datetime import datetime, timedelta
 from gui import guiHelper
+from logHandler import log
 from NVDAObjects.IAccessible import IAccessible
 from threading import Timer
 import addonHandler
@@ -81,10 +82,31 @@ def getAlertText(alertPopup):
 def searchObject(path, startAtObject=None):
 	obj = startAtObject if startAtObject else api.getForegroundObject()
 	for milestone in path:
-		obj = searchAmongTheChildren(milestone, obj)
+		parent = obj
+		obj = searchAmongTheChildren(milestone, parent)
 		if not obj:
+			# Mozilla restructures these a11y trees between releases; when a
+			# milestone goes missing the only previous signal was a generic
+			# "not found" spoken to the user. Record which milestone missed and
+			# what was actually there, so the next restructure self-reports from
+			# a user's NVDA log instead of needing a hand-injected probe.
+			_logSearchMiss(milestone, parent)
 			return
 	return obj
+
+def _logSearchMiss(milestone, parent):
+	key, value = milestone
+	present = []
+	obj = parent.firstChild if parent else None
+	while obj:
+		attributes = getattr(obj, "IA2Attributes", None)
+		if attributes:
+			identifier = attributes.get("id") or attributes.get("class") or attributes.get("tag")
+			if identifier:
+				present.append(identifier)
+		obj = obj.next
+	log.info("searchObject: milestone %s=%r not found; present at this level: %s" % (
+		key, value, ", ".join(present) if present else "(none)"))
 
 def searchAmongTheChildren(id, into):
 	if not into:
@@ -100,6 +122,40 @@ def searchAmongTheChildren(id, into):
 				break
 		obj = obj.next
 	return(obj)
+
+def byIA2Attribute(key, value):
+	"""Build a predicate for findInSubtree that matches an object whose
+	IA2Attribute `key` equals `value` exactly. Tolerates objects with no
+	IA2Attributes. Exact (not prefix) match -- so searching for id
+	"urlbar-input" never accidentally matches "urlbar-input-container"."""
+	def predicate(obj):
+		attributes = getattr(obj, "IA2Attributes", None)
+		if not attributes or key not in attributes:
+			return False
+		return attributes[key] == value
+	return predicate
+
+def findInSubtree(anchor, predicate):
+	"""Anchored descendant search: starting from a stable `anchor` object,
+	return the first descendant (depth-first, pre-order) for which `predicate`
+	is true, or None. Unlike searchObject's direct-child milestone walk, this
+	tolerates any number of wrapper elements between the anchor and the target
+	-- the resilience the rigid path lacks (an inserted wrapper kills the
+	rigid path; here it is simply traversed)."""
+	if not anchor:
+		return None
+	obj = anchor.firstChild
+	while obj:
+		try:
+			if predicate(obj):
+				return obj
+		except (AttributeError, KeyError):
+			pass
+		found = findInSubtree(obj, predicate)
+		if found:
+			return found
+		obj = obj.next
+	return None
 
 class TabPanel(wx.Panel):
 
