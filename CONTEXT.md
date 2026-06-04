@@ -33,4 +33,19 @@ depth — tolerating wrapper elements inserted between anchor and target. Contra
 with `searchObject(path)`, the rigid sibling primitive that matches a fixed
 sequence of **direct-child** milestones and fails the moment a wrapper appears.
 Build predicates with `byIA2Attribute(key, value)` (exact match — so searching
-for id `urlbar-input` never matches `urlbar-input-container`).
+for id `urlbar-input` never matches `urlbar-input-container`) or
+`byIA2Class(value)` (CSS class-token membership, since an IA2 `class` attribute
+can hold several space-separated tokens).
+
+Two adapters use this primitive: the Firefox **address field** above, and the
+Thunderbird **message header recipients** below.
+
+### message header recipients
+The sender, To and CC address fields in a Thunderbird message header, located by
+`messageHeaderRecipients(messageHeader)` in `addon/appModules/thunderbird.py`.
+The message header (a LANDMARK) is the stable anchor; the sender's
+`#fromRecipient0` is found at any depth, and each recipient row (`#expandedtoRow`
+/ `#expandedccRow`) then its `.recipients-list` within. This replaced rigid
+direct-child paths up to five levels deep — the same brittleness class as the
+Firefox address field, and the second adapter that proves the
+[anchored descendant search](#anchored-descendant-search) seam.

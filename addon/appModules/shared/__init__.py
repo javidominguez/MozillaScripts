@@ -135,6 +135,19 @@ def byIA2Attribute(key, value):
 		return attributes[key] == value
 	return predicate
 
+def byIA2Class(value):
+	"""Build a predicate for findInSubtree that matches an object whose IA2
+	'class' attribute contains the CSS class token `value`. IA2 class attributes
+	can hold several space-separated tokens (e.g. "urlbar-input textbox-input"),
+	so this matches token membership rather than the whole string. Tolerates
+	objects with no IA2Attributes."""
+	def predicate(obj):
+		attributes = getattr(obj, "IA2Attributes", None)
+		if not attributes:
+			return False
+		return value in attributes.get("class", "").split()
+	return predicate
+
 def findInSubtree(anchor, predicate):
 	"""Anchored descendant search: starting from a stable `anchor` object,
 	return the first descendant (depth-first, pre-order) for which `predicate`

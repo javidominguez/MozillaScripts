@@ -59,6 +59,13 @@ class _Anything:
 	def __rand__(self, other):
 		return _Anything()
 
+	# config.conf.spec['thunderbird'] = confspec (item assignment on a fake).
+	def __getitem__(self, key):
+		return _Anything()
+
+	def __setitem__(self, key, value):
+		pass
+
 
 class _Base:
 	"""A real, subclassable base for runtime classes the add-on inherits from
@@ -115,6 +122,13 @@ def _register(name, **attrs):
 	for key, value in attrs.items():
 		setattr(module, key, value)
 	sys.modules[name] = module
+	# Bind the submodule onto its parent package so `from pkg import sub`
+	# resolves to it instead of the parent's permissive __getattr__ fallback.
+	if "." in name:
+		parent_name, _, child = name.rpartition(".")
+		parent = sys.modules.get(parent_name)
+		if parent is not None:
+			setattr(parent, child, module)
 	return module
 
 
@@ -137,9 +151,36 @@ def _install_fake_runtime():
 	_register("wx", Panel=_Base, Dialog=_Base)
 
 	# NVDAObjects.IAccessible[.mozilla]: nested package of permissive fakes.
+	# IAccessible / Dialog / BrokenFocusedState are real classes because
+	# thunderbird.py subclasses them (ThreadTree, Tab, QuickFilter).
 	_register("NVDAObjects")
-	_register("NVDAObjects.IAccessible")
-	_register("NVDAObjects.IAccessible.mozilla")
+	_register("NVDAObjects.IAccessible", IAccessible=_Base)
+	_register(
+		"NVDAObjects.IAccessible.mozilla",
+		IAccessible=_Base,
+		Dialog=_Base,
+		BrokenFocusedState=_Base,
+	)
+
+	# Thunderbird's extra runtime surface.
+	_register("config")
+	_register("globalVars")
+	_register("treeInterceptorHandler")
+	_register("keyboardHandler")
+	_register("tones")
+	_register("comtypes", COMError=type("COMError", (Exception,), {}))
+	_register("comtypes.gen")
+	_register("comtypes.gen.ISimpleDOM")
+	_register("gui.settingsDialogs", SettingsPanel=_Base)
+
+	# nvdaBuiltin app-module bases: thunderbird.py subclasses
+	# thunderbird.AppModule (a hard import, no fallback). Registering firefox
+	# here too just means firefox.py takes its nvdaBuiltin branch instead of the
+	# appModuleHandler fallback -- harmless for the tests.
+	_register("nvdaBuiltin")
+	_register("nvdaBuiltin.appModules")
+	_register("nvdaBuiltin.appModules.firefox", AppModule=_Base)
+	_register("nvdaBuiltin.appModules.thunderbird", AppModule=_Base)
 
 	# addonHandler: initTranslation is a no-op; no DeveloperToolkit running, so
 	# firefox.py falls through to the core AppModule import.

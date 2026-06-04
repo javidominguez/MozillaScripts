@@ -141,3 +141,62 @@ def firefox_pre133_tree():
 	nav_bar = FakeObj(ia2={"id": "nav-bar"}, role="TOOLBAR", children=[input_box])
 	foreground = FakeObj(ia2={"id": "main-window"}, children=[nav_bar])
 	return foreground, input_box, urlbar_input
+
+
+def thunderbird_message_header(include_cc=True, extra_wrappers=False):
+	"""A Thunderbird message-header subtree (a LANDMARK) holding sender, To and
+	CC address fields, mirroring the rigid paths the add-on used to walk:
+
+	    headerSenderToolbarContainer > expandedfromRow > .multi-recipient-row
+	        > .recipients-list > #fromRecipient0
+	    #expandedtoRow > #expandedtoBox > .recipients-list > #toRecipient*
+	    #expandedccRow > #expandedccBox > .recipients-list > #ccRecipient0
+
+	extra_wrappers=True inserts an additional wrapper element on the sender and
+	To branches -- the Thunderbird analogue of the FF151 .urlbar-input-container
+	insertion -- so a test can prove the anchored search survives it.
+
+	Returns (message_header, sender, [to_recipients], cc_recipient_or_None).
+	"""
+	def recipient(rid, address):
+		return FakeObj(ia2={"id": rid}, name=address)
+
+	sender = recipient("fromRecipient0", "alice@example.com")
+	sender_list = FakeObj(ia2={"class": "recipients-list"}, children=[sender])
+	if extra_wrappers:
+		sender_list = FakeObj(ia2={"class": "new-sender-wrapper"}, children=[sender_list])
+	multi = FakeObj(ia2={"class": "multi-recipient-row"}, children=[sender_list])
+	from_row = FakeObj(ia2={"id": "expandedfromRow"}, children=[multi])
+	sender_container = FakeObj(ia2={"id": "headerSenderToolbarContainer"}, children=[from_row])
+
+	to0 = recipient("toRecipient0", "bob@example.com")
+	to1 = recipient("toRecipient1", "carol@example.com")
+	# Multiple class tokens: exact-match would miss this; token-match must hit.
+	to_list = FakeObj(ia2={"class": "recipients-list address-container"}, children=[to0, to1])
+	to_inner = FakeObj(ia2={"id": "expandedtoBox"}, children=[to_list])
+	if extra_wrappers:
+		to_inner = FakeObj(ia2={"class": "to-wrapper"}, children=[to_inner])
+	to_row = FakeObj(ia2={"id": "expandedtoRow"}, children=[to_inner])
+
+	children = [sender_container, to_row]
+	cc0 = None
+	if include_cc:
+		cc0 = recipient("ccRecipient0", "dan@example.com")
+		cc_list = FakeObj(ia2={"class": "recipients-list"}, children=[cc0])
+		cc_inner = FakeObj(ia2={"id": "expandedccBox"}, children=[cc_list])
+		cc_row = FakeObj(ia2={"id": "expandedccRow"}, children=[cc_inner])
+		children.append(cc_row)
+
+	message_header = FakeObj(ia2={"id": "messageHeader"}, role="LANDMARK", children=children)
+	return message_header, sender, [to0, to1], cc0
+
+
+def thunderbird_sender_only_header():
+	"""Message header with neither To nor CC rows (e.g. a draft) -- the locator
+	must still return just the sender."""
+	sender = FakeObj(ia2={"id": "fromRecipient0"}, name="alice@example.com")
+	sender_list = FakeObj(ia2={"class": "recipients-list"}, children=[sender])
+	from_row = FakeObj(ia2={"id": "expandedfromRow"}, children=[sender_list])
+	container = FakeObj(ia2={"id": "headerSenderToolbarContainer"}, children=[from_row])
+	message_header = FakeObj(ia2={"id": "messageHeader"}, role="LANDMARK", children=[container])
+	return message_header, sender
