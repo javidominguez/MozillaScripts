@@ -45,6 +45,42 @@ from . import shared
 
 addonHandler.initTranslation()
 
+def addressField(foreground, ffVersion):
+	"""Locate Firefox's address field -- the object bearing the page URL.
+
+	This is the single home for "how do I find the URL in this Firefox version's
+	a11y tree". Firefox restructures that subtree between releases; rather than
+	spread the knowledge across callers, both script_url and event_alert come
+	here.
+
+	From FF133 on the subtree is navigated resiliently: anchor on the stable
+	#urlbar, then search its descendants for #urlbar-input. That single path
+	survives Mozilla inserting wrapper elements -- the .urlbar-input-box of
+	FF133-150 and the .urlbar-input-container introduced in FF151 are both simply
+	traversed. The genuinely different pre-133 trees keep their explicit paths:
+	those a11y layouts can't be verified now and don't share the #urlbar anchor.
+	"""
+	if ffVersion >= 133:
+		urlbar = shared.searchObject((("id", "nav-bar"), ("id", "urlbar")), foreground)
+		return shared.findInSubtree(urlbar, shared.byIA2Attribute("id", "urlbar-input"))
+	if ffVersion < 70:
+		path = (("id", "nav-bar"), ("id", "urlbar"), ("id", "identity-box"))
+	elif ffVersion < 76:
+		path = (("id", "nav-bar"), ("id", "identity-box"), ("id", "identity-icon"))
+	elif ffVersion < 87:
+		path = (("id", "nav-bar"), ("id", "identity-box"))
+	else:  # FF 87..132
+		path = (("id", "nav-bar"), ("class", "urlbar-input-box"), ("id", "urlbar-input"))
+	return shared.searchObject(path, foreground)
+
+def getURL(foreground, ffVersion):
+	"""Return the page URL string from the address field, or None. A thin reader
+	over addressField for callers that just want the value."""
+	field = addressField(foreground, ffVersion)
+	if not field:
+		return None
+	return field.value if getattr(field, "value", None) else None
+
 class AppModule(AppModule):
 
 	#TRANSLATORS: category for Firefox input gestures
@@ -77,10 +113,10 @@ class AppModule(AppModule):
 					return
 			alertText = shared.getAlertText(obj)
 			# Appends the domain of the page where it was when the alert originated.
-			path = (("id", "nav-bar"), ("id", "urlbar"), ("class", "urlbar-input textbox-input",))
-			url = shared.searchObject(path)
-			if url and url.value:
-				url = url.value if "://" in url.value else "None://"+url.value
+			ffVersion = int(self.productVersion.split(".")[0])
+			url = getURL(api.getForegroundObject(), ffVersion)
+			if url:
+				url = url if "://" in url else "None://"+url
 				domain = urlparse(url).hostname if url else ""
 				if domain and domain not in alertText: alertText = "%s\n\n%s" % (alertText, domain)
 			shared.notificationsDialog.registerFirefoxNotification((datetime.now(), alertText))
@@ -123,17 +159,7 @@ class AppModule(AppModule):
 			ui.message(_("Not available here"))
 			return
 		ffVersion = int(self.productVersion.split(".")[0])
-		if ffVersion < 70:
-			path = (("id", "nav-bar"), ("id", "urlbar"), ("id", "identity-box",))
-		elif ffVersion < 76:
-			path = (("id", "nav-bar"), ("id", "identity-box"), ("id", "identity-icon"))
-		elif ffVersion < 87:
-			path = (("id", "nav-bar"), ("id", "identity-box"))
-		elif ffVersion < 133:
-			path = (("id", "nav-bar"), ("class"	,"urlbar-input-box"), ("id","urlbar-input"))
-		else:
-			path = (("id","nav-bar"),("id","urlbar"),("class","urlbar-input-box"))
-		secInfoButton = shared.searchObject(path)
+		secInfoButton = addressField(api.getForegroundObject(), ffVersion)
 		if secInfoButton:
 			securInfo = secInfoButton.description # This has changed in FF 57. Keeping this line for compatibility with earlier versions.
 			try: # This one is for FF 57 and later.

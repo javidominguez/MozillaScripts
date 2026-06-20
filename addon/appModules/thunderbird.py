@@ -42,6 +42,30 @@ config.conf.spec['thunderbird']=confspec
 
 addonHandler.initTranslation()
 
+def messageHeaderRecipients(messageHeader):
+	"""Locate the address fields in a Thunderbird message header: the sender
+	plus the To and CC recipients, as a flat list of objects (sender first).
+
+	This is the Thunderbird application of the same anchored descendant search
+	that locates Firefox's address field. The message header is the stable
+	anchor; the sender's #fromRecipient0 is found at any depth (collapsing the
+	old headerSenderToolbarContainer -> expandedfromRow -> multi-recipient-row
+	-> recipients-list -> fromRecipient0 path), and each recipient row is found
+	by id, then its .recipients-list within. Wrapper elements Thunderbird may
+	insert between those landmarks are simply traversed rather than breaking a
+	rigid direct-child path."""
+	sender = shared.findInSubtree(messageHeader, shared.byIA2Attribute('id', 'fromRecipient0'))
+	addresses = [sender]
+	toRow = shared.findInSubtree(messageHeader, shared.byIA2Attribute('id', 'expandedtoRow'))
+	toRecipients = shared.findInSubtree(toRow, shared.byIA2Class('recipients-list'))
+	if toRecipients:
+		addresses = addresses + toRecipients.children
+	ccRow = shared.findInSubtree(messageHeader, shared.byIA2Attribute('id', 'expandedccRow'))
+	ccRecipients = shared.findInSubtree(ccRow, shared.byIA2Class('recipients-list'))
+	if ccRecipients:
+		addresses = addresses + ccRecipients.children
+	return addresses
+
 class AppModule(thunderbird.AppModule):
 
 	#TRANSLATORS: category for Thunderbird input gestures
@@ -272,25 +296,7 @@ class AppModule(thunderbird.AppModule):
 				except StopIteration:
 					ui.message(_("Not found"))
 					return
-				sender = shared.searchObject((
-				('id', 'headerSenderToolbarContainer'),
-				('id', 'expandedfromRow'),
-				('class', 'multi-recipient-row'),
-				('class', 'recipients-list'),
-				('id', 'fromRecipient0')),
-				messageHeader)
-				toRecipients = shared.searchObject((
-				('id', 'expandedtoRow'),
-				('id', 'expandedtoBox'),
-				('class', 'recipients-list')),
-				messageHeader)
-				addresses = [sender]+toRecipients.children if toRecipients else [sender]
-				ccRecipients = shared.searchObject((
-				('id', 'expandedccRow'),
-				('id', 'expandedccBox'),
-				('class', 'recipients-list')),
-				messageHeader)
-				addresses = addresses+ccRecipients.children if ccRecipients else addresses
+				addresses = messageHeaderRecipients(messageHeader)
 				if addresses[0]: self.messageHeadersCache[(url, doc.IA2UniqueID)] = addresses
 			try:
 				o = addresses[index]
