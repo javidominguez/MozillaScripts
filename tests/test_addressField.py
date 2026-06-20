@@ -5,7 +5,7 @@
 # URL -- the exact bug that started this work.
 
 import appModules.firefox as firefox
-from fakes import URL, firefox151_tree, firefox_pre151_tree, firefox_pre133_tree
+from fakes import URL, firefox151_tree, firefox152_tree, firefox_pre151_tree, firefox_pre133_tree
 
 
 def test_addressField_resolves_url_on_ff151():
@@ -18,6 +18,16 @@ def test_addressField_resolves_url_on_ff151():
 def test_getURL_returns_the_url_string_on_ff151():
 	foreground, urlbar, urlbar_input = firefox151_tree()
 	assert firefox.getURL(foreground, 151) == URL
+
+
+def test_addressField_resolves_url_on_ff152_with_urlbar_context_menu():
+	# FF152 has a direct #nav-bar child named #urlbarView-context-menu before
+	# the actual #urlbar. id=urlbar must match the real anchor exactly, not the
+	# first id with that prefix.
+	foreground, urlbar, urlbar_input = firefox152_tree()
+	field = firefox.addressField(foreground, 152)
+	assert field is urlbar_input
+	assert field.value == URL
 
 
 def test_addressField_resolves_url_pre151():

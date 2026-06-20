@@ -4,7 +4,7 @@
 
 import appModules.shared as shared
 from conftest import log_recorder
-from fakes import firefox151_tree
+from fakes import firefox151_tree, firefox152_tree
 
 
 def setup_function(_):
@@ -34,3 +34,9 @@ def test_no_log_on_success():
 	result = shared.searchObject(good_path, startAtObject=foreground)
 	assert result is urlbar
 	assert log_recorder.records == []
+
+
+def test_id_milestones_do_not_prefix_match():
+	foreground, urlbar, urlbar_input = firefox152_tree()
+	result = shared.searchObject((("id", "nav-bar"), ("id", "urlbar")), startAtObject=foreground)
+	assert result is urlbar

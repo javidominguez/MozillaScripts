@@ -95,6 +95,17 @@ def firefox151_tree():
 	return foreground, urlbar, urlbar_input
 
 
+def firefox152_tree():
+	"""FF152 keeps #urlbar-input under #urlbar, but adds a direct nav-bar child
+	whose id starts with "urlbar". searchObject must not treat that context menu
+	as the #urlbar anchor."""
+	foreground, urlbar, urlbar_input = firefox151_tree()
+	context_menu = FakeObj(ia2={"id": "urlbarView-context-menu"}, role="POPUPMENU")
+	nav_bar = FakeObj(ia2={"id": "nav-bar"}, role="TOOLBAR", children=[context_menu, urlbar])
+	foreground = FakeObj(ia2={"id": "main-window"}, children=[nav_bar])
+	return foreground, urlbar, urlbar_input
+
+
 def firefox_pre151_tree():
 	"""Pre-FF151 (e.g. FF140) shape: #urlbar-input nested under the old
 	`.urlbar-input-box` wrapper, itself under #urlbar. The anchored descendant

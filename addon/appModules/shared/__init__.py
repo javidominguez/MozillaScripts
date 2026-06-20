@@ -113,15 +113,20 @@ def searchAmongTheChildren(id, into):
 		return(None)
 	key, value = id
 	obj = into.firstChild
-	if hasattr(obj, "IA2Attributes") and key in obj.IA2Attributes.keys():
-		if re.match(value, obj.IA2Attributes[key]):
-			return(obj)
+	if _matchesIA2Attribute(obj, key, value):
+		return(obj)
 	while obj:
-		if hasattr(obj, "IA2Attributes") and key in obj.IA2Attributes.keys():
-			if re.match(value, obj.IA2Attributes[key]):
-				break
+		if _matchesIA2Attribute(obj, key, value):
+			break
 		obj = obj.next
 	return(obj)
+
+def _matchesIA2Attribute(obj, key, value):
+	if not hasattr(obj, "IA2Attributes") or key not in obj.IA2Attributes.keys():
+		return False
+	if key == "id":
+		return obj.IA2Attributes[key] == value
+	return re.match(value, obj.IA2Attributes[key])
 
 def byIA2Attribute(key, value):
 	"""Build a predicate for findInSubtree that matches an object whose
