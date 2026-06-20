@@ -6,71 +6,67 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-26 21:10+0100\n"
-"PO-Revision-Date: 2017-11-27 14:31+0100\n"
-"Last-Translator: Simone Dal Maso <simone.dalmaso@gmail.com>\n"
+"Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
+"POT-Creation-Date: 2025-07-14 18:47+0200\n"
+"PO-Revision-Date: 2025-07-15 15:45+0200\n"
+"Last-Translator: Alessio <lenzone10@gmail.com>\n"
 "Language-Team: simone.dalmaso@gmail.com\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.5\n"
 
-#: source:27
+#. TRANSLATORS: category for Firefox input gestures
+#: addon\appModules\firefox.py:51
 msgid "mozilla Firefox"
 msgstr "Mozilla Firefox"
 
-#: source:40
-msgid "Couldn't capture the text of this notification"
-msgstr "Impossibile catturare il testo di questa notifica"
-
-#: source:50 source:74 source:91 source:113 source:155
+#. TRANSLATORS: message spoken by NVDA when the focus is not in the main Firefox window
+#: addon\appModules\firefox.py:93 addon\appModules\firefox.py:123
+#: addon\appModules\firefox.py:186 addon\appModules\firefox.py:235
 msgid "Not available here"
 msgstr "Non disponibile qui"
 
-#: source:61
-#, python-format
-msgid "Status bar: %s"
-msgstr "Barra di stato: %s "
-
-#: source:63 source:69
+#. TRANSLATORS: message spoken when there is no status bar in Firefox
+#. TRANSLATORS: Firefox status bar not found
+#: addon\appModules\firefox.py:107 addon\appModules\firefox.py:115
 msgid "Status bar not found"
 msgstr "Barra di stato non trovata"
 
-#: source:67 source:84
+#. TRANSLATORS: message spoken when an item hast just been copied to the clipboard
+#: addon\appModules\firefox.py:112 addon\appModules\firefox.py:163
 msgid "Copied to clipboard"
 msgstr "Copiato negli appunti"
 
-#: source:70
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\firefox.py:117
 msgid "Reads the status bar. If pressed twice quickly, copies it to clipboard."
 msgstr ""
 "Legge la barra di stato. Se premuto due volte velocemente, copia il "
 "contenuto negli appunti."
 
-#: source:81
-#, python-format
-msgid "Page address is: %s (%s)"
-msgstr "L'indirizzo della pagina è: %s (%s) "
+#. TRANSLATORS: this connection is using http, not https
+#: addon\appModules\firefox.py:150
+msgid "Insecure connection"
+msgstr "Connessione non sicura"
 
-#: source:86
+#. TRANSLATORS: message spoken when addres bar could not be found
+#: addon\appModules\firefox.py:166
 msgid "Address not found"
-msgstr "Indirizzo non trovatoDirección no encontrada"
+msgstr "Indirizzo non trovato"
 
-#: source:87
+#. TRANSLATORS: description shown in input gestures dialog for this script
+#: addon\appModules\firefox.py:168
 msgid ""
 "Reads the page address. If pressed twice quickly, copies it to clipboard."
 msgstr ""
 "Legge l'indirizzo della pagina. Se premuto due volte velocemente, copia il "
 "contenuto negli appunti."
 
-#: source:107
-msgid "Tool bar not found"
-msgstr ""
-"Barra degli strumenti non trovataNo se encuentra la barra de herramientas"
-
-#: source:108
+#. TRANSLATORS: documentation shown in the input gestures dialog for this script
+#: addon\appModules\firefox.py:176
 msgid ""
 "Shows a list of opened tabs. If pressed twice quickly, shows buttons of tool "
 "bar."
@@ -78,215 +74,376 @@ msgstr ""
 "Visualizza un elenco delle schede aperte. Se premuto due volte velocemente, "
 "mostra i pulsanti della barra degli strumenti."
 
-#: source:134
-msgid "About an hour ago"
-msgstr "Circa un'ora fa"
+#. TRANSLATORS: documentation shown in the input gestures dialog for this script
+#: addon\appModules\firefox.py:181
+msgid "Shows buttons of tool bar."
+msgstr "Mostra i pulsanti della barra degli strumenti."
 
-#: source:136
-#, python-format
-msgid "About %d hours ago"
-msgstr "circa %d ore fa"
+#. TRANSLATORS: message spoken when Firefox toolbar is not found
+#: addon\appModules\firefox.py:203
+msgid "Tool bar not found"
+msgstr "Barra degli strumenti non trovata"
 
-#: source:138
-msgid "About a minute ago"
-msgstr "circa un minuto fa"
-
-#: source:140
-#, python-format
-msgid "About %d minutes ago"
-msgstr "circa %d minuti fa"
-
-#: source:142
-msgid "a second ago"
-msgstr "un secondo fa"
-
-#: source:144
-#, python-format
-msgid "%d seconds ago"
-msgstr "%d secondi fa"
-
-#: source:146
-msgid "Notification History"
-msgstr "Cronologia notifiche"
-
-#: source:148
-#, python-format
-msgid "Last alert, %s: %s"
-msgstr "Ultimo avviso, %s: %s"
-
-#: source:150
+#. There is no notification in Firefox or Thunderbird
+#: addon\appModules\firefox.py:228 addon\appModules\thunderbird.py:251
+#: addon\appModules\shared\__init__.py:166
 msgid "There is no notification"
 msgstr "Non ci sono notifiche"
 
-#: source:151
+#. TRANSLATORS: documentation shown in the input gestures dialog for this script
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\firefox.py:230 addon\appModules\thunderbird.py:253
 msgid ""
 "Reads the last notification and it takes the system focus to it if it is "
 "possible. By pressing two times quickly shows the history of notifications."
 msgstr ""
-"Legge l'ultima notifica e vi posiziona il focus di sistema,, se è possibile. "
+"Legge l'ultima notifica e, se possibile, vi posiziona il focus di sistema. "
 "Premendo due volte velocemente mostra la cronologia delle notifiche. "
 
-#: source:174
+#. TRANSLATORS: documentation shown in the input gestures dialog for this script
+#: addon\appModules\firefox.py:255
 msgid "Brings the focus to the document"
 msgstr "Sposta il focus sul documento"
 
-#: source:198
+#. TRANSLATORS: opened tabs in tabs dialog
+#: addon\appModules\firefox.py:268
 msgid "Opened tabs"
 msgstr "Schede aperte"
 
-#: source:205
+#. TRANSLATORS: Toolbar buttons dialog
+#: addon\appModules\firefox.py:276
 msgid "Tool Bar Buttons"
 msgstr "Pulsanti della barra degli strumenti"
 
-#: source:258
+#. TRANSLATORS: go button in toolbar buttons dialog
+#: addon\appModules\firefox.py:313
 msgid "&Go"
 msgstr "&Vai"
 
-#: source:262
+#. TRANSLATORS: options button in toolbar buttons dialog
+#: addon\appModules\firefox.py:318
 msgid "&Options"
 msgstr "&Opzioni"
 
-#: source:265 source:688
+#. TRANSLATORS: close button in toolbar buttons dialog
+#: addon\appModules\firefox.py:322
 msgid "Close"
 msgstr "Chiudi"
 
-#: source:349 source:617
+#. TRANSLATORS: category for Thunderbird input gestures
+#: addon\appModules\thunderbird.py:47 addon\appModules\thunderbird.py:395
 msgid "mozilla Thunderbird"
 msgstr "Mozilla Thunderbird"
 
-#: source:359
-msgid "(Press down arrow to display more options)"
-msgstr "Premere freccia giù per ulteriori opzioni"
+#: addon\appModules\thunderbird.py:62
+msgid ""
+"The addon Mozilla Apps Enhancements is not compatible with this version of "
+"Thunderbird. The application module will be temporarily disabled."
+msgstr ""
+"Il componente Mozilla Apps Enhancements non è compatibile con questa "
+"versione di Thunderbird. Il modulo per l'applicazione sarà temporaneamente "
+"disabilitato."
 
-#: source:394 source:405 source:471
-msgid "Not found"
-msgstr "Non trovato"
+#. TRANSLATORS: Indicates the table column in which the focused control is located
+#: addon\appModules\thunderbird.py:107
+#, python-brace-format
+msgid "Column {pos}"
+msgstr "Colonna {pos}"
 
-#: source:396 source:407 source:479
-msgid "you are not in a message window"
-msgstr "Non sei in una finestra del messaggio"
+#: addon\appModules\thunderbird.py:175
+#, python-brace-format
+msgid "Automatic reading of the message is {state}"
+msgstr "La lettura automatica del messaggio è {state}"
 
-#: source:397
-msgid "Reads the subject of the message."
-msgstr "Legge l'oggetto del messaggio."
+#: addon\appModules\thunderbird.py:176
+msgid "on"
+msgstr "attiva"
 
-#: source:408
-msgid "Reads date of the message."
-msgstr "Legge la data del messaggio."
+#: addon\appModules\thunderbird.py:176
+msgid "off"
+msgstr "disattiva"
 
-#: source:417
-msgid "You are not in a list of messages"
-msgstr "Non sei in un elenco messaggi"
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\thunderbird.py:178
+msgid "On/off automatic reading of the message preview panel."
+msgstr ""
+"Attiva/disattiva La lettura automatica del riquadro di anteprima del "
+"messaggio."
 
-#: source:420
-msgid "Column headers not found"
-msgstr "Intestazioni colonna non trovate"
-
-#: source:430
-msgid "Allows you to change the order of the columns in the messages list"
-msgstr "Consente di modificare l'ordine delle colonne nell'elenco messaggi"
-
-#: source:438
+#. TRANSLATORS: there are no attachments in this message
+#: addon\appModules\thunderbird.py:200
 msgid "There are No attachments"
 msgstr "Non ci sono allegati"
 
-#: source:449
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\thunderbird.py:215
 msgid "Brings the focus to the list of attachments, if any."
 msgstr "Porta il focus all'elenco allegati, se presenti."
 
-#: source:456
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\thunderbird.py:227
 msgid "Brings the focus to the text of the open message."
 msgstr "Porta il focus sul testo del messaggio aperto."
 
-#: source:522 source:533 source:556 source:567
-msgid "Search in "
-msgstr "Cerca in"
+#: addon\appModules\thunderbird.py:269 addon\appModules\thunderbird.py:299
+#: addon\appModules\thunderbird.py:312
+msgid "Not found"
+msgstr "Non trovato"
 
-#: source:537
-msgid "Leaving search box"
-msgstr "Lascio la barra di ricerca"
+#: addon\appModules\thunderbird.py:294 addon\appModules\thunderbird.py:328
+msgid "There are no more recipients"
+msgstr "Non sono presenti ulteriori destinatari"
 
-#: source:584
-msgid "uncheck"
-msgstr "Attiva"
+#: addon\appModules\thunderbird.py:413
+msgid "Collapsed conversation"
+msgstr "Conversazione contratta"
 
-#: source:586
-msgid "check"
-msgstr "Disattiva"
+#: addon\appModules\thunderbird.py:415
+msgid "Expanded conversation"
+msgstr "Conversazione espansa"
 
-#: source:595
-msgid "checked"
-msgstr "Attivato"
-
-#: source:597
-msgid "not checked"
-msgstr "Non attivato"
-
-#: source:625
+#. TRANSLATORS: message spoken when there aren't more columns in the tree
+#: addon\appModules\thunderbird.py:439
 msgid "There are not more columns"
 msgstr "Non ci sono ulteriori colonne"
 
-#: source:629
-msgid "empty"
-msgstr "Vuota"
+#. TRANSLATORS: The conversation is collapsed, the user is prompted to expand it to read the messages
+#: addon\appModules\thunderbird.py:456
+msgid "Expand the conversation to read the messages"
+msgstr "Espandi la conversazione per leggere i messaggi"
 
-#: source:641
-msgid "Expand the conversation to display messages"
-msgstr "Espandere la conversazione per visualizzare i messaggi"
-
-#: source:643
+#. TRANSLATORS: the preview pane is not available yet
+#: addon\appModules\thunderbird.py:459
 msgid "Preview pane is not active or message has not been loaded yet"
-msgstr "L'anteprima non è attiva o il messaggio non si è ancora caricato"
+msgstr ""
+"Il riquadro di anteprima non è attivo o il messaggio non è stato ancora "
+"caricato"
 
-#: source:644
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\appModules\thunderbird.py:461
 msgid "In message list, reads the selected message without leaving the list."
 msgstr ""
-"Nell'elenco dei messaggi, legge il messaggio selezionato senza abbandonare "
+"Nell'elenco dei messaggi, legge il messaggio selezionato senza lasciare "
 "l'elenco"
 
-#: source:673
-msgid "Manage columns"
-msgstr "Gestione colonne"
+#. TRANSLATORS: Settings panel title
+#: addon\appModules\thunderbird.py:513
+msgid "Mozilla Thunderbird"
+msgstr "Mozilla Thunderbird"
 
-#: source:680
-msgid "&up"
-msgstr "&Su"
+#: addon\appModules\thunderbird.py:515
+msgid "Automatically read message preview pane"
+msgstr "Leggi automaticamente il riquadro di anteprima dei messaggi"
 
-#: source:683
-msgid "&down"
-msgstr "&Giù"
+#. TRANSLATORS: an event happened yesterday
+#: addon\appModules\shared\__init__.py:45
+msgid "Yesterday"
+msgstr "Ieri"
 
-#: source:686
-msgid "&options"
-msgstr "&Opzioni"
-
-#: source:711
+#. TRANSLATORS: an event happened %d days ago
+#: addon\appModules\shared\__init__.py:48
 #, python-format
-msgid "Can't move %s, it is already the first column."
-msgstr "Impossibile spostare %s, è già la prima colonna"
+msgid "%d days ago"
+msgstr "%d giorni fa"
 
-#: source:718
-#, python-format
-msgid "%s before %s"
-msgstr "%s prima di %s"
+#. TRANSLATORS: an event happened an hour ago
+#: addon\appModules\shared\__init__.py:53
+msgid "About an hour ago"
+msgstr "Circa un'ora fa"
 
-#: source:725
+#. TRANSLATORS: an event happened %d hours ago
+#: addon\appModules\shared\__init__.py:56
 #, python-format
-msgid "Can't move %s, it is already the last column."
-msgstr "Impossibile spostare %s, è già l'ultima colonna."
+msgid "About %d hours ago"
+msgstr "circa %d ore fa"
 
-#: source:732
-#, python-format
-msgid "%s after %s"
-msgstr "%s dopo %s"
+#. TRANSLATORS: an event happened a minute ago
+#: addon\appModules\shared\__init__.py:59
+msgid "About a minute ago"
+msgstr "circa un minuto fa"
 
-#: source:747
+#. TRANSLATORS: an event happened %d minutes ago
+#: addon\appModules\shared\__init__.py:62
 #, python-format
+msgid "About %d minutes ago"
+msgstr "circa %d minuti fa"
+
+#. TRANSLATORS: an event happened a second ago
+#: addon\appModules\shared\__init__.py:65
+msgid "a second ago"
+msgstr "un secondo fa"
+
+#. TRANSLATORS: an event happened %d seconds ago
+#: addon\appModules\shared\__init__.py:68
+#, python-format
+msgid "%d seconds ago"
+msgstr "%d secondi fa"
+
+#. TRANSLATORS: the notification text could not be read
+#: addon\appModules\shared\__init__.py:79
+msgid "Couldn't capture the text of this notification"
+msgstr "Impossibile catturare il testo di questa notifica"
+
+#: addon\appModules\shared\__init__.py:140
+msgid "Refresh\tF5"
+msgstr "Aggiorna\tF5"
+
+#: addon\appModules\shared\__init__.py:143
+msgid "Delete item\tSupr"
+msgstr "Cancella elemento\tCanc"
+
+#: addon\appModules\shared\__init__.py:145
+msgid "Clear all"
+msgstr "Cancella tutto"
+
+#: addon\appModules\shared\__init__.py:197
+msgid "Mozilla notifications"
+msgstr "Notifiche di Mozilla"
+
+#: addon\appModules\shared\__init__.py:200
+msgid "Firefox notifications"
+msgstr "Notifiche di Firefox"
+
+#: addon\appModules\shared\__init__.py:202
+msgid "Thunderbird notifications"
+msgstr "Notifiche di Thunderbird"
+
+#. TRANSLATORS: title for the Mozilla Apps Enhancements settings category
+#. Add-on summary, usually the user visible name of the addon.
+#. Translators: Summary for this add-on
+#. to be shown on installation and add-on information found in Add-ons Manager.
+#: addon\GlobalPlugins\MozillaAppsEnhancements.py:17 buildVars.py:23
+msgid "Mozilla Apps Enhancements"
+msgstr "Mozilla Apps Enhancements"
+
+#. TRANSLATORS: Selecting appModules
+#: addon\GlobalPlugins\MozillaAppsEnhancements.py:24
+msgid "Select the application modules you want to load."
+msgstr "Seleziona i moduli dell'applicazione che vuoi caricare."
+
+#. TRANSLATORS: Checkbox to select Firefox appModule
+#: addon\GlobalPlugins\MozillaAppsEnhancements.py:30
+msgid "Firefox"
+msgstr "Firefox"
+
+#. TRANSLATORS: Checkbox to select Thunderbird appModule
+#: addon\GlobalPlugins\MozillaAppsEnhancements.py:35
+msgid "Thunderbird"
+msgstr "Thunderbird"
+
+#: addon\GlobalPlugins\MozillaAppsEnhancements.py:64
 msgid ""
-"Folder has changed, return to %s to manage columns or restart this dialog"
+"Changes will not be applied until restart NVDA. Do you want to restart it "
+"now?"
 msgstr ""
-"La cartella è stata cambiata, ritorna a %s per gestire le colonne o "
-"riavviare questa finestra di dialogo"
+"Le modifiche non verranno applicate fino al riavvio di NVDA. Vuoi riavviare "
+"adesso?"
+
+#: addon\GlobalPlugins\MozillaAppsEnhancements.py:64
+msgid "Restart NVDA"
+msgstr "Riavvia NVDA"
+
+#. Add-on description
+#. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
+#: buildVars.py:26
+msgid "Provides accessibility features for Mozilla Firefox and Thunderbird."
+msgstr ""
+"Fornisce funzionalità di accessibilità per Mozilla Firefox e Thunderbird."
+
+#, python-format
+#~ msgid "Status bar: %s"
+#~ msgstr "Barra di stato: %s "
+
+#, python-format
+#~ msgid "Page address is: %s (%s)"
+#~ msgstr "L'indirizzo della pagina è: %s (%s) "
+
+#~ msgid "Notification History"
+#~ msgstr "Cronologia notifiche"
+
+#, python-format
+#~ msgid "Last alert, %s: %s"
+#~ msgstr "Ultimo avviso, %s: %s"
+
+#~ msgid "(Press down arrow to display more options)"
+#~ msgstr "Premi freccia giù per ulteriori opzioni"
+
+#~ msgid "you are not in a message window"
+#~ msgstr "Non sei in una finestra del messaggio"
+
+#~ msgid "Reads the subject of the message."
+#~ msgstr "Legge l'oggetto del messaggio."
+
+#~ msgid "Reads date of the message."
+#~ msgstr "Legge la data del messaggio."
+
+#~ msgid "You are not in a list of messages"
+#~ msgstr "Non sei in un elenco messaggi"
+
+#~ msgid "Column headers not found"
+#~ msgstr "Intestazioni colonna non trovate"
+
+#~ msgid "Allows you to change the order of the columns in the messages list"
+#~ msgstr "Consente di modificare l'ordine delle colonne nell'elenco messaggi"
+
+#~ msgid "Search in "
+#~ msgstr "Cerca in"
+
+#~ msgid "Leaving search box"
+#~ msgstr "Lascio la barra di ricerca"
+
+#~ msgid "uncheck"
+#~ msgstr "Disattiva"
+
+#~ msgid "check"
+#~ msgstr "Attiva"
+
+#~ msgid "checked"
+#~ msgstr "Attivato"
+
+#~ msgid "not checked"
+#~ msgstr "Non attivato"
+
+#~ msgid "empty"
+#~ msgstr "Vuota"
+
+#~ msgid "Expand the conversation to display messages"
+#~ msgstr "Espandere la conversazione per visualizzare i messaggi"
+
+#~ msgid "Manage columns"
+#~ msgstr "Gestione colonne"
+
+#~ msgid "&up"
+#~ msgstr "&Su"
+
+#~ msgid "&down"
+#~ msgstr "&Giù"
+
+#~ msgid "&options"
+#~ msgstr "&Opzioni"
+
+#, python-format
+#~ msgid "Can't move %s, it is already the first column."
+#~ msgstr "Impossibile spostare %s, è già la prima colonna"
+
+#, python-format
+#~ msgid "%s before %s"
+#~ msgstr "%s prima di %s"
+
+#, python-format
+#~ msgid "Can't move %s, it is already the last column."
+#~ msgstr "Impossibile spostare %s, è già l'ultima colonna."
+
+#, python-format
+#~ msgid "%s after %s"
+#~ msgstr "%s dopo %s"
+
+#, python-format
+#~ msgid ""
+#~ "Folder has changed, return to %s to manage columns or restart this dialog"
+#~ msgstr ""
+#~ "La cartella è stata cambiata, ritorna a %s per gestire le colonne o "
+#~ "riavviare questa finestra di dialogo"
 
 #~ msgid "If there is any notification opens"
 #~ msgstr "Apre la notifica se presente"
