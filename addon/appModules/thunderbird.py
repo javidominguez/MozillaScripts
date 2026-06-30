@@ -516,7 +516,7 @@ class ThunderbirdPanel(SettingsPanel):
 	#TRANSLATORS: Settings panel title
 	title=_("Mozilla Thunderbird")
 	def makeSettings(self, sizer):
-		self.automaticMessageReading =wx.CheckBox(self, wx.NewId(), label=_("Automatically read message preview pane"))
+		self.automaticMessageReading =wx.CheckBox(self, wx.ID_ANY, label=_("Automatically read message preview pane"))
 		self.automaticMessageReading.SetValue(config.conf["thunderbird"]["automaticMessageReading"])
 		sizer.Add(self.automaticMessageReading,border=10,flag=wx.BOTTOM)
 
