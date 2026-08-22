@@ -3,6 +3,7 @@
 #See the file COPYING.txt for more details.
 # Copyright (C) 2017-2019 Javi Dominguez <fjavids@gmail.com>
 
+from .actualizadorRecursos import ActualizadorRecursos
 from gui import guiHelper, NVDASettingsDialog
 from gui.settingsDialogs import SettingsPanel
 from core import restart
@@ -82,9 +83,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	def __init__(self, *args, **kwargs):
 		super(GlobalPlugin, self).__init__(*args, **kwargs)
+		self._actualizador = ActualizadorRecursos("javidominguez", "MozillaScripts", rama="master", intervalo_horas=12)
 		NVDASettingsDialog.categoryClasses.append(MozillaPanel)
 
 	def terminate(self):
+		self._actualizador.detener()
 		try:
 			NVDASettingsDialog.categoryClasses.remove(MozillaPanel)
 		except:
