@@ -13,6 +13,7 @@ from keyboardHandler import KeyboardInputGesture
 from gui import NVDASettingsDialog
 from gui.settingsDialogs import SettingsPanel
 from tones import beep
+from logHandler import log
 
 try:
 	from NVDAObjects.IAccessible.mozilla import BrokenFocusedState as IAccessible
@@ -154,11 +155,15 @@ class AppModule(thunderbird.AppModule):
 				obj.isPresentableFocusAncestor = True
 		# End of table header presentation
 		try:
-			if set(["containingDocument","containingApplication"]) < set([r.relationType for r in (obj._IA2Relations or [])]):
+			try:
+				relations = obj._IA2Relations or []
+			except (AttributeError, COMError):
+				relations = []
+			if set(["containingDocument","containingApplication"]) < set([r.relationType for r in relations]):
 				if obj.objectWithFocus().role == controlTypes.Role.DOCUMENT:
 					speech.cancelSpeech()
 		except NotImplementedError:
-			pass
+			log.debugWarning("", exc_info=True) 
 		if obj.role == controlTypes.Role.SECTION and hasattr(obj, "IA2Attributes") and "id" in obj.IA2Attributes and obj.IA2Attributes["id"] == "quickFilterBarContainer":
 			obj.role = controlTypes.Role.FORM
 			obj.isPresentableFocusAncestor = True
